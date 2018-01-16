@@ -55,11 +55,15 @@
 				return self.unableToLoadStats();
 			}
 
-			if (!json.hashrate || !json.miners || !json.fees || !json.uptime || !json.uptime_exact)
+			if (!json.hashrate || !json.miners || !json.fees || !json.config || !json.uptime || !json.uptime_exact)
 				return self.unableToLoadStats();
 
 			$('.home-view .stats .stat').each(function(index, el) {
 				$(this).removeClass('is-loading').text(json[$(this).data('stat')]);
+			});
+
+			$('.home-view .stats .stat-tooltip').each(function(index, el) {
+				$(this).addClass('tooltip').attr('data-tooltip', json[$(this).data('stat')]);
 			});
 		});
 

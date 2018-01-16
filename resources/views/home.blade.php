@@ -38,13 +38,13 @@
 									<p class="title stat api is-loading" data-stat="miners"></p>
 								</div>
 							</div>
-							<div class="level-item has-text-centered">
+							<div class="level-item has-text-centered stat-tooltip is-tooltip-multiline" data-stat="config">
 								<div>
 									<p class="heading">Fees</p>
-									<p class="title stat api is-loading" title="See pool parameters below" data-stat="fees"></p>
+									<p class="title stat api is-loading" data-stat="fees"></p>
 								</div>
 							</div>
-							<div class="level-item has-text-centered">
+							<div class="level-item has-text-centered stat-tooltip is-tooltip-multiline" data-stat="uptime_exact">
 								<div>
 									<p class="heading">Uptime</p>
 									<p class="title stat api is-loading" data-stat="uptime"></p>

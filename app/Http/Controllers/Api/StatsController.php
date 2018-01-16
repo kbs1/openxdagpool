@@ -12,6 +12,7 @@ class StatsController extends Controller
 			'hashrate' => $this->getHashrate(),
 			'miners' => $this->getMinersCount(),
 			'fees' => $this->getFees(),
+			'config' => $this->getPoolConfig(),
 			'uptime' => $this->getReadableUptime(),
 			'uptime_exact' => $this->getExactUptime(),
 		]);
@@ -37,6 +38,11 @@ class StatsController extends Controller
 	protected function getFees()
 	{
 		return env('FEES_PERCENT', 0.5) . '%';
+	}
+
+	protected function getPoolConfig()
+	{
+		return env('FEES_PERCENT', 0.5) . '% pool fee, ' . env('REWARD_PERCENT', 12) . '% reward for block, ' . env('DIRECT_PERCENT', 7) . '% reward for contribution, ' . env('FUND_PERCENT', 0.5) . '% donation to community fund';
 	}
 
 	protected function getReadableUptime()
