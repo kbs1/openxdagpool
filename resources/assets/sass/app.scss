@@ -21,3 +21,16 @@ p.offset {
 	font-size: small;
 	margin-bottom: 25px;
 }
+
+.api.is-loading {
+	position: relative;
+	pointer-events: none;
+	opacity: 0.5;
+	&:after {
+		@include loader;
+		position: relative;
+		border-width: 0.25em;
+		top: calc(50% - 0.5em);
+		left: calc(50% - 0.5em);
+	}
+}

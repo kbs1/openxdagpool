@@ -14,6 +14,7 @@
         "bulma": "^0.6.2",
         "bulma-extensions": "^0.6.0",
         "cross-env": "^5.1",
+        "ajax-request": "^1.2.3",
         "jquery": "^3.2",
         "laravel-mix": "^1.0",
         "lodash": "^4.17.4",
