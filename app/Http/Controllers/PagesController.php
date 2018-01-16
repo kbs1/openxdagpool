@@ -6,10 +6,10 @@ class PagesController extends Controller
 {
 	public function index($page)
 	{
-		$pages = ['unix', 'windows'];
+		$pages = ['setup/unix', 'setup/windows'];
 
 		if (in_array($page, $pages))
-			return view("pages.$page");
+			return view('pages.' . str_replace('/', '.', $page));
 
 		return redirect()->route('home');
 	}
