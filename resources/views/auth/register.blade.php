@@ -8,7 +8,7 @@
 					Register
 				</h1>
 				<h2 class="subtitle">
-					Register today if you want to easily keep track of your miners, their hashrates, payouts, and receive email notifications should your miner go offline.
+					Register if you want to easily keep track of your miners, their hashrates, payouts, and receive email notifications should your miner go offline.
 				</h2>
 			</div>
 		</div>
