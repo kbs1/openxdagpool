@@ -16,7 +16,7 @@
 	View.prototype.registerHandlers = function()
 	{
 		$(document).ready(this.loadPoolStats.bind(this));
-		window.setInterval(this.loadPoolStats.bind(this), 3000);
+		window.setInterval(this.loadPoolStats.bind(this), 30000);
 	}
 
 	View.prototype.loadPoolStats = function()
