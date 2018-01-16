@@ -26,13 +26,13 @@
 
 					<div class="card-content stats">
 						<nav class="level is-mobile">
-							<div class="level-item has-text-centered">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate">
 								<div>
 									<p class="heading">Hashrate</p>
 									<p class="title stat api is-loading" data-stat="hashrate"></p>
 								</div>
 							</div>
-							<div class="level-item has-text-centered">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Active miners">
 								<div>
 									<p class="heading">Miners</p>
 									<p class="title stat api is-loading" data-stat="miners"></p>
