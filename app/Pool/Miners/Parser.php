@@ -59,6 +59,16 @@ class Parser extends BaseParser
 			if ($parts[0] === '-1.')
 				continue;
 
+			if ($miner = $this->getMiner($parts[1])) {
+				$miner->addIpAndPort($parts[3]);
+				$miner->addNopaidShares($parts[5]);
+
+				if ($miner->getStatus() !== 'active' && $parts[2] === 'active')
+					$miner->setStatus($parts[2]);
+
+				continue;
+			}
+
 			$this->list[] = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 		}
 	}

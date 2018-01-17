@@ -65,7 +65,7 @@ class MinersController extends Controller
 
 			$result[$uuid] = [
 				'status' => $pool_miner->getStatus(),
-				'ip_and_port' => $pool_miner->getIpAndPort(),
+				'ip_and_port' => $pool_miner->getIpsAndPort(),
 				'hashrate' => $stats_presenter->formatHashrate($hashrate),
 				'nopaid_shares' => $pool_miner->getNopaidShares(),
 				'balance' => $balances->getBalance($miner->address) . ' XDAG',

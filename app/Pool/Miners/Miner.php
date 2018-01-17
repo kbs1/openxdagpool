@@ -4,14 +4,14 @@ namespace App\Pool\Miners;
 
 class Miner
 {
-	protected $address, $status, $ip, $bytes, $nopaid_shares;
+	protected $address, $status, $ips = [], $bytes, $nopaid_shares;
 	protected $list = [];
 
 	public function __construct($address, $status, $ip, $bytes, $nopaid_shares)
 	{
 		$this->address = $address;
 		$this->status = $status;
-		$this->ip = $ip;
+		$this->ips = [$ip];
 		$this->bytes = $bytes;
 		$this->nopaid_shares = $nopaid_shares;
 	}
@@ -26,9 +26,9 @@ class Miner
 		return $this->status;
 	}
 
-	public function getIpAndPort()
+	public function getIpsAndPort()
 	{
-		return $this->ip;
+		return implode(', ', $this->ips);
 	}
 
 	public function getBytesInOut()
@@ -39,5 +39,20 @@ class Miner
 	public function getNopaidShares()
 	{
 		return $this->nopaid_shares;
+	}
+
+	public function addIpAndPort($ip)
+	{
+		$this->ips[] = $ip;
+	}
+
+	public function addNopaidShares($amount)
+	{
+		$this->nopaid_shares += $amount;
+	}
+
+	public function setStatus($status)
+	{
+		$this->status = $status;
 	}
 }
