@@ -40,7 +40,7 @@
 						<tbody>
 							@forelse ($authUser->miners as $miner)
 								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}">
-									<td class="miner-address">{{ $miner->address }}</td>
+									<td class="miner-address is-tooltip-multiline">{{ $miner->address }}</td>
 									<td class="miner-status api is-loading"></td>
 									<td class="miner-hashrate api is-loading"></td>
 									<td class="miner-nopaid-shares api is-loading"></td>
