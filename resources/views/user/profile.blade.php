@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Register
+	{{ Auth::user()->nick }}
 @endsection
 
 @section('hero')
@@ -9,10 +9,10 @@
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">
-					Register
+					{{ Auth::user()->nick }}
 				</h1>
 				<h2 class="subtitle">
-					Register if you want to easily keep track of your miners, their hashrates, balances, and receive email notifications should your miner go offline.
+					Update your profile
 				</h2>
 			</div>
 		</div>
@@ -21,14 +21,16 @@
 
 @section('content')
 	<div class="columns is-marginless is-centered">
-		<div class="column is-5">
-			<div class="card">
+		<div class="column is-7">
+			<nav class="card">
 				<header class="card-header">
-					<p class="card-header-title">Register</p>
+					<p class="card-header-title">
+						Update profile
+					</p>
 				</header>
 
 				<div class="card-content">
-					<form class="register-form" method="POST" action="{{ route('register') }}">
+					<form class="register-form" method="POST" action="{{ route('profile.update') }}">
 
 						{{ csrf_field() }}
 
@@ -40,7 +42,7 @@
 							<div class="field-body">
 								<div class="field">
 									<p class="control">
-										<input class="input" id="nick" type="text" name="nick" value="{{ old('nick') }}" maxlength="20" required autofocus>
+										<input class="input" id="nick" type="text" name="nick" value="{{ old('nick', $authUser->nick) }}" maxlength="20" required autofocus>
 									</p>
 
 									@if ($errors->has('nick'))
@@ -60,7 +62,7 @@
 							<div class="field-body">
 								<div class="field">
 									<p class="control">
-										<input class="input" id="email" type="email" name="email" value="{{ old('email') }}" maxlength="255" required autofocus>
+										<input class="input" id="email" type="email" name="email" value="{{ old('email', $authUser->email) }}" maxlength="255" required autofocus>
 									</p>
 
 									@if ($errors->has('email'))
@@ -72,6 +74,8 @@
 							</div>
 						</div>
 
+						<p class="help">Do not type passwords if you don't want to change your current password.</p>
+
 						<div class="field is-horizontal">
 							<div class="field-label">
 								<label class="label">Password</label>
@@ -80,7 +84,7 @@
 							<div class="field-body">
 								<div class="field">
 									<p class="control">
-										<input class="input" id="password" type="password" name="password" required>
+										<input class="input" id="password" type="password" name="password">
 									</p>
 
 									@if ($errors->has('password'))
@@ -100,7 +104,7 @@
 							<div class="field-body">
 								<div class="field">
 									<p class="control">
-										<input class="input" id="password-confirm" type="password" name="password_confirmation" required>
+										<input class="input" id="password-confirm" type="password" name="password_confirmation">
 									</p>
 								</div>
 							</div>
@@ -112,14 +116,14 @@
 							<div class="field-body">
 								<div class="field is-grouped">
 									<div class="control">
-										<button type="submit" class="button is-primary">Register</button>
+										<button type="submit" class="button is-primary">Save</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</form>
 				</div>
-			</div>
+			</nav>
 		</div>
 	</div>
 @endsection

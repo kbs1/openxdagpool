@@ -4,19 +4,19 @@
 	Reset password
 @endsection
 
+@section('hero')
+	<section class="hero is-primary">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					Reset password
+				</h1>
+			</div>
+		</div>
+	</section>
+@endsection
+
 @section('content')
-
-    <section class="hero is-primary">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">
-                    Reset password
-                </h1>
-            </div>
-        </div>
-    </section>
-
-
     <div class="columns is-marginless is-centered">
         <div class="column is-5">
             <div class="card">
@@ -46,8 +46,7 @@
                             <div class="field-body">
                                 <div class="field">
                                     <p class="control">
-                                        <input class="input" id="email" type="email" name="email"
-                                               value="{{ old('email') }}" required autofocus>
+                                        <input class="input" id="email" type="email" name="email" value="{{ old('email') }}" maxlength="255" required autofocus>
                                     </p>
 
                                     @if ($errors->has('email'))

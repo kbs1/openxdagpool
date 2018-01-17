@@ -5,6 +5,8 @@ namespace App\Users;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Miners\Miner;
+
 class User extends Authenticatable
 {
 	use Notifiable;
@@ -27,4 +29,27 @@ class User extends Authenticatable
 	protected $hidden = [
 		'password', 'remember_token',
 	];
+
+	/* relations */
+	public function miners()
+	{
+		return $this->hasMany(Miner::class);
+	}
+
+	/* attributes */
+	public function getDisplayNickAttribute()
+	{
+		return '@' . $this->nick;
+	}
+
+	/* methods */
+	public function isActive()
+	{
+		return $this->active;
+	}
+
+	public function isAdministrator()
+	{
+		return $this->administrator;
+	}
 }

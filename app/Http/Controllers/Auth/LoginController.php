@@ -35,5 +35,11 @@ class LoginController extends Controller
 	public function __construct()
 	{
 		$this->middleware('guest')->except('logout');
+		view()->share('activeTab', 'profile');
+	}
+
+	public function username()
+	{
+		return 'nick';
 	}
 }

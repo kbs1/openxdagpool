@@ -15,7 +15,7 @@
 					<div class="navbar-brand">
 						<a href="{{ url('/') }}" class="navbar-item">Home</a>
 
-						<div class="navbar-burger burger" onclick="document.querySelector('#navMenu').classList.toggle('is-active');">
+						<div class="navbar-burger burger">
 							<span></span>
 							<span></span>
 							<span></span>
@@ -33,33 +33,29 @@
 
 									<hr class="navbar-divider">
 
-									<a class="navbar-item" href="{{ route('pages', 'setup/windows') }}">Windows miner setup</a>
-									<a class="navbar-item" href="{{ route('pages', 'setup/unix') }}">Unix miner setup</a>
-
-									<form id="logout-form" action="{{ route('logout') }}" method="POST"
-										  style="display: none;">
-										{{ csrf_field() }}
-									</form>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.windows' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/windows') }}">Windows miner setup</a>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.unix' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/unix') }}">Unix miner setup</a>
 								</div>
 							</div>
 						</div>
 
 						<div class="navbar-end">
 							@if (Auth::guest())
-								<a class="navbar-item" href="{{ route('login') }}">Login</a>
-								<a class="navbar-item" href="{{ route('register') }}">Register</a>
+								<a class="navbar-item{!! isset($activeTab) && $activeTab == 'login' ? ' is-active' : '' !!}" href="{{ route('login') }}">Login</a>
+								<a class="navbar-item{!! isset($activeTab) && $activeTab == 'register' ? ' is-active' : '' !!}" href="{{ route('register') }}">Register</a>
 							@else
 								<div class="navbar-item has-dropdown is-hoverable">
-									<a class="navbar-link" href="#">{{ Auth::user()->nick }}</a>
+									<a class="navbar-link" href="{{ route('profile') }}">{{ Auth::user()->nick }}</a>
 
 									<div class="navbar-dropdown">
-										<a class="navbar-item" href="{{ route('logout') }}"
-										   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-											Logout
-										</a>
+										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'profile' ? ' is-active' : '' !!}" href="{{ route('profile') }}">Profile</a>
+										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'miners' ? ' is-active' : '' !!}" href="{{ route('miners') }}">Miners</a>
 
-										<form id="logout-form" action="{{ route('logout') }}" method="POST"
-											  style="display: none;">
+										<hr class="navbar-divider">
+
+										<a class="navbar-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
+
+										<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 											{{ csrf_field() }}
 										</form>
 									</div>
@@ -69,6 +65,44 @@
 					</div>
 				</div>
 			</nav>
+
+			@yield('hero')
+
+			<div class="columns is-marginless is-centered">
+				<div class="column is-7">
+					@if (count($errors) > 0)
+						<div class="notification is-warning">
+							<button class="delete"></button>
+							<ul>
+								@foreach ($errors->all() as $error)
+									<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+					@endif
+
+					@if (Session::has('success'))
+						<div class="notification is-success">
+							<button class="delete"></button>
+							{{ Session::get('success') }}
+						</div>
+					@endif
+
+					@if (Session::has('warning'))
+						<div class="notification is-warning">
+							<button class="delete"></button>
+							{{ Session::get('warning') }}
+						</div>
+					@endif
+
+					@if (Session::has('error'))
+						<div class="notification is-danger">
+							<button class="delete"></button>
+							{{ Session::get('error') }}
+						</div>
+					@endif
+				</div>
+			</div>
 
 			@yield('content')
 
@@ -86,6 +120,9 @@
 		</div>
 
 		<script src="{{ mix('js/app.js') }}"></script>
+		<script>
+			var appView = new appView();
+		</script>
 		@yield('scripts')
 	</body>
 </html>

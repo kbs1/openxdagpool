@@ -25,15 +25,23 @@ class Parser extends BaseParser
 		return $active;
 	}
 
-	protected function getValue($marker)
+	public function getTotalNopaidShares()
 	{
-		$line = $this->getLine($marker);
+		$total = 0;
+		foreach ($this->list as $miner)
+			$total += $miner->getNopaidShares();
 
-		if ($line === false)
-			return 0;
+		return $total;
+	}
 
-		$line = explode(' of ', $line);
-		return $line[0];
+	public function getMiner($address)
+	{
+		foreach ($this->list as $miner) {
+			if ($miner->getAddress() === $address)
+				return $miner;
+		}
+
+		return null;
 	}
 
 	protected function parse()

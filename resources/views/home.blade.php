@@ -4,21 +4,23 @@
 	Home
 @endsection
 
+@section('hero')
+	<section class="hero is-primary">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					XDAG - Dagger pool
+				</h1>
+				<h2 class="subtitle">
+					High availability mining pool<br><small>Slovakia, Europe</small>
+				</h2>
+			</div>
+		</div>
+	</section>
+@endsection
+
 @section('content')
 	<div class="home-view">
-		<section class="hero is-primary">
-			<div class="hero-body">
-				<div class="container">
-					<h1 class="title">
-						XDAG - Dagger pool
-					</h1>
-					<h2 class="subtitle">
-						High availability mining pool<br>Slovakia, Europe
-					</h2>
-				</div>
-			</div>
-		</section>
-
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
 				<nav class="card">

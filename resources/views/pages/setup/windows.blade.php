@@ -4,7 +4,7 @@
 	Windows miner setup (Windows 10 64-bit)
 @endsection
 
-@section('content')
+@section('hero')
 	<section class="hero is-primary">
 		<div class="hero-body">
 			<div class="container">
@@ -17,7 +17,9 @@
 			</div>
 		</div>
 	</section>
+@endsection
 
+@section('content')
 	<div class="columns is-marginless is-centered">
 		<div class="column is-7">
 			<nav class="card">

@@ -9,7 +9,9 @@ class PagesController extends Controller
 		$pages = ['setup/unix', 'setup/windows'];
 
 		if (in_array($page, $pages))
-			return view('pages.' . str_replace('/', '.', $page));
+			return view('pages.' . str_replace('/', '.', $page), [
+				'activeTab' => str_replace('/', '.', $page),
+			]);
 
 		return redirect()->route('home');
 	}

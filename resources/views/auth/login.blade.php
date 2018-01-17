@@ -4,7 +4,7 @@
 	Login
 @endsection
 
-@section('content')
+@section('hero')
 	<section class="hero is-primary">
 		<div class="hero-body">
 			<div class="container">
@@ -17,7 +17,9 @@
 			</div>
 		</div>
 	</section>
+@endsection
 
+@section('content')
 	<div class="columns is-marginless is-centered">
 		<div class="column is-5">
 			<div class="card">
@@ -31,19 +33,18 @@
 
 						<div class="field is-horizontal">
 							<div class="field-label">
-								<label class="label">E-mail</label>
+								<label class="label">Nick</label>
 							</div>
 
 							<div class="field-body">
 								<div class="field">
 									<p class="control">
-										<input class="input" id="email" type="email" name="email"
-											   value="{{ old('email') }}" required autofocus>
+										<input class="input" id="nick" type="text" name="nick" value="{{ old('nick') }}" maxlength="20" required autofocus>
 									</p>
 
-									@if ($errors->has('email'))
+									@if ($errors->has('nick'))
 										<p class="help is-danger">
-											{{ $errors->first('email') }}
+											{{ $errors->first('nick') }}
 										</p>
 									@endif
 								</div>

@@ -46,10 +46,10 @@ class Presenter
 		return number_format($this->parser->getSupply(), 0, '.', ',') . ' XDAG';
 	}
 
-	protected function formatHashrate($rate)
+	public function formatHashrate($rate)
 	{
 		$size = [' h/s', ' Kh/s', ' Mh/s', ' Gh/s', ' Th/s', ' Ph/s', ' Eh/s', ' Zh/s', ' Yh/s'];
-		$factor = floor((strlen($rate) - 1) / 3);
+		$factor = floor((strlen(intval($rate)) - 1) / 3);
 
 		return floatval(sprintf("%.2f", $rate / pow(1000, $factor))) . @$size[$factor];
 	}

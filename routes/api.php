@@ -14,3 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/pool/stats', 'Api\StatsController@index')->name('api.stats');
+
+// this API route is in web.php to use the same session as web interface
+// Route::post('/miners', 'Api\MinersController@list')->name('api.miners');

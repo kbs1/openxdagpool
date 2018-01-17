@@ -37,6 +37,7 @@ class RegisterController extends Controller
 	public function __construct()
 	{
 		$this->middleware('guest');
+		view()->share('activeTab', 'register');
 	}
 
 	/**
@@ -48,8 +49,8 @@ class RegisterController extends Controller
 	protected function validator(array $data)
 	{
 		return Validator::make($data, [
-			'nick' => 'required|string|max:255|unique:users',
-			'email' => 'required|string|email|max:255|unique:users',
+			'nick' => 'required|string|min:3|max:20|unique:users',
+			'email' => 'required|string|email|min:3|max:255|unique:users',
 			'password' => 'required|string|min:6|confirmed',
 		]);
 	}
@@ -62,10 +63,15 @@ class RegisterController extends Controller
 	 */
 	protected function create(array $data)
 	{
-		return User::create([
+		$user = new User([
 			'nick' => $data['nick'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
 		]);
+
+		$user->active = true;
+		$user->save();
+
+		return $user;
 	}
 }
