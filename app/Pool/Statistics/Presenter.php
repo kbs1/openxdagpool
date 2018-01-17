@@ -11,14 +11,14 @@ class Presenter
 		$this->parser = $parser;
 	}
 
-	public function getHashrate()
+	public function getPoolHashrate()
 	{
-		$rate = $this->parser->getHashrate();
+		return $this->formatHashrate($this->parser->getPoolHashrate());
+	}
 
-		$size = [' h/s', ' Kh/s', ' Mh/s', ' Gh/s', ' Th/s', ' Ph/s', ' Eh/s', ' Zh/s', ' Yh/s'];
-		$factor = floor((strlen($rate) - 1) / 3);
-
-		return floatval(sprintf("%.2f", $rate / pow(1000, $factor))) . @$size[$factor];
+	public function getNetworkHashrate()
+	{
+		return $this->formatHashrate($this->parser->getNetworkHashrate());
 	}
 
 	public function getNumberOfBlocks()
@@ -31,8 +31,26 @@ class Presenter
 		return $this->parser->getNumberOfMainBlocks();
 	}
 
-	public function getDifficulty()
+	public function getReadableDifficulty()
+	{
+		return substr($this->parser->getDifficulty(), 0, 3) . '...' . substr($this->parser->getDifficulty(), -3);
+	}
+
+	public function getExactDifficulty()
 	{
 		return $this->parser->getDifficulty();
+	}
+
+	public function getSupply()
+	{
+		return number_format($this->parser->getSupply(), 0, '.', ',') . ' XDAG';
+	}
+
+	protected function formatHashrate($rate)
+	{
+		$size = [' h/s', ' Kh/s', ' Mh/s', ' Gh/s', ' Th/s', ' Ph/s', ' Eh/s', ' Zh/s', ' Yh/s'];
+		$factor = floor((strlen($rate) - 1) / 3);
+
+		return floatval(sprintf("%.2f", $rate / pow(1000, $factor))) . @$size[$factor];
 	}
 }

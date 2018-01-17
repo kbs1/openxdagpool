@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+	Register
+@endsection
+
 @section('content')
 	<section class="hero is-primary">
 		<div class="hero-body">
@@ -8,7 +12,7 @@
 					Register
 				</h1>
 				<h2 class="subtitle">
-					Register if you want to easily keep track of your miners, their hashrates, payouts, and receive email notifications should your miner go offline.
+					Register if you want to easily keep track of your miners, their hashrates, balances, and receive email notifications should your miner go offline.
 				</h2>
 			</div>
 		</div>

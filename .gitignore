@@ -8,6 +8,9 @@
 /vendor
 /.idea
 /.vagrant
+/storage/miners.txt
+/storage/stats.txt
+/storage/balances.txt
 Homestead.json
 Homestead.yaml
 npm-debug.log

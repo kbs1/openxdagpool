@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+	Login
+@endsection
+
 @section('content')
 	<section class="hero is-primary">
 		<div class="hero-body">
@@ -8,7 +12,7 @@
 					Login
 				</h1>
 				<h2 class="subtitle">
-					Login to access your list of miners, their hashrates and payouts.
+					Login to access your list of miners, their hashrates and balances.
 				</h2>
 			</div>
 		</div>

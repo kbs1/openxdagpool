@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
+@section('title')
+	Reset password
+@endsection
+
 @section('content')
 
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    Reset Password
+                    Reset password
                 </h1>
             </div>
         </div>
@@ -17,7 +21,7 @@
         <div class="column is-5">
             <div class="card">
                 <header class="card-header">
-                    <p class="card-header-title">Reset Password</p>
+                    <p class="card-header-title">Reset password</p>
                 </header>
 
                 <div class="card-content">
@@ -36,7 +40,7 @@
 
                         <div class="field is-horizontal">
                             <div class="field-label">
-                                <label class="label">E-Mail Address</label>
+                                <label class="label">E-mail</label>
                             </div>
 
                             <div class="field-body">
@@ -78,7 +82,7 @@
 
                         <div class="field is-horizontal">
                             <div class="field-label">
-                                <label class="label">Confirm Password</label>
+                                <label class="label">Confirm password</label>
                             </div>
 
                             <div class="field-body">
@@ -97,7 +101,7 @@
                             <div class="field-body">
                                 <div class="field is-grouped">
                                     <div class="control">
-                                        <button type="submit" class="button is-primary">Reset Password </button>
+                                        <button type="submit" class="button is-primary">Reset password</button>
                                     </div>
                                 </div>
                             </div>

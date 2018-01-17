@@ -34,3 +34,13 @@ p.offset {
 		left: calc(50% - 0.5em);
 	}
 }
+
+.stats {
+	.level {
+		margin-bottom: 0;
+	}
+
+	.network-stats {
+		display: none;
+	}
+}

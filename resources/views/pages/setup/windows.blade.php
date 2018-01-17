@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+	Windows miner setup (Windows 10 64-bit)
+@endsection
+
 @section('content')
 	<section class="hero is-primary">
 		<div class="hero-body">

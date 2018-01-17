@@ -6,11 +6,16 @@ use App\Pool\BaseParser;
 
 class Parser extends BaseParser
 {
-	protected $hashrate = 0, $blocks = 0, $main_blocks = 0, $difficulty = 0;
+	protected $pool_hashrate = 0, $network_hashrate = 0, $blocks = 0, $main_blocks = 0, $difficulty = 0, $supply = 0;
 
-	public function getHashrate()
+	public function getPoolHashrate()
 	{
-		return $this->hashrate;
+		return $this->pool_hashrate;
+	}
+
+	public function getNetworkHashrate()
+	{
+		return $this->network_hashrate;
 	}
 
 	public function getNumberOfBlocks()
@@ -28,11 +33,16 @@ class Parser extends BaseParser
 		return $this->difficulty;
 	}
 
+	public function getSupply()
+	{
+		return $this->supply;
+	}
+
 	protected function getLine($marker)
 	{
 		$marker .= ': ';
 
-		foreach ($this->data as $line) {
+		foreach ($this->lines as $line) {
 			if (substr($line, 0, strlen($marker)) === $marker)
 				return substr($line, strlen($marker));
 		}
@@ -40,7 +50,7 @@ class Parser extends BaseParser
 		return false;
 	}
 
-	protected function getValue($marker)
+	protected function getValue($marker, $network_value = false)
 	{
 		$line = $this->getLine($marker);
 
@@ -48,14 +58,16 @@ class Parser extends BaseParser
 			return 0;
 
 		$line = explode(' of ', $line);
-		return $line[0];
+		return $network_value === false ? $line[0] : ($line[1] ?? $line[0]);
 	}
 
 	protected function parse()
 	{
-		$this->hashrate = $this->getValue('hour hashrate MHs') * 1000000;
+		$this->pool_hashrate = $this->getValue('hour hashrate MHs') * 1000000;
+		$this->network_hashrate = $this->getValue('hour hashrate MHs', true) * 1000000;
 		$this->blocks = $this->getValue('blocks');
 		$this->main_blocks = $this->getValue('main blocks');
 		$this->difficulty = $this->getValue('chain difficulty');
+		$this->supply = $this->getValue('XDAG supply');
 	}
 }

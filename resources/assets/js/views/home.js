@@ -17,6 +17,8 @@
 	{
 		$(document).ready(this.loadPoolStats.bind(this));
 		window.setInterval(this.loadPoolStats.bind(this), 30000);
+
+		$('.stat-tabs li').click(this.handleTabs);
 	}
 
 	View.prototype.loadPoolStats = function()
@@ -55,7 +57,8 @@
 				return self.unableToLoadStats();
 			}
 
-			if (!json.hashrate || !json.miners || !json.fees || !json.config || !json.uptime || !json.uptime_exact)
+			if (!json.pool_hashrate || !json.network_hashrate || !json.difficulty || !json.difficulty_exact || !json.supply || !json.blocks || !json.main_blocks
+				|| !json.miners || !json.fees || !json.config || !json.uptime || !json.uptime_exact)
 				return self.unableToLoadStats();
 
 			$('.home-view .stats .stat').each(function(index, el) {
@@ -63,7 +66,8 @@
 			});
 
 			$('.home-view .stats .stat-tooltip').each(function(index, el) {
-				$(this).addClass('tooltip').attr('data-tooltip', json[$(this).data('stat')]);
+				var prefix = $(this).data('stat-prefix') ? $(this).data('stat-prefix') : '';
+				$(this).addClass('tooltip').attr('data-tooltip', prefix + json[$(this).data('stat')]);
 			});
 		});
 
@@ -73,6 +77,14 @@
 	View.prototype.unableToLoadStats = function()
 	{
 		$('.home-view .stats .stat').removeClass('is-loading').text('?');
+	}
+
+	View.prototype.handleTabs = function()
+	{
+		$('li', $(this).closest('ul')).removeClass('is-active');
+		$(this).addClass('is-active');
+		$('.stats nav').hide();
+		$('.stats ' + $(this).data('target')).css('display', 'flex');
 	}
 
 	module.exports = View;

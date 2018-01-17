@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+	Unix miner setup (Ubuntu 16.04)
+@endsection
+
 @section('content')
 	<section class="hero is-primary">
 		<div class="hero-body">
@@ -31,7 +35,7 @@
 							<li>Execute: <code>git clone https://github.com/cheatoshin/cheatcoin.git</code></li>
 							<li>Change directory: <code> cd ./cheatcoin/cheatcoin</code></li>
 							<li>Run <code>make</code></li>
-							<li>Run the program with <code>TZ=GMT ./xdag -d -m 1 pool.xdagpool.com:13654</code>. Set up your wallet password, type random keys.</li>
+							<li>Run the program with <code>TZ=GMT ./xdag -d -m 1 pool.xdagpool.com:13654</code>. Set up your wallet password, type random keys. Wait until host keys are generated.</li>
 							<li>Execute <code>TZ=GMT ./xdag -i</code>. Type <code>terminate</code> and press enter.</li>
 							<li><code>cd</code> to your home directory</li>
 							<li>Execute:

@@ -38,11 +38,11 @@ class Parser extends BaseParser
 
 	protected function parse()
 	{
-		array_shift($this->data);
-		array_shift($this->data);
-		array_shift($this->data);
+		array_shift($this->lines);
+		array_shift($this->lines);
+		array_shift($this->lines);
 
-		foreach ($this->data as $line) {
+		foreach ($this->lines as $line) {
 			$parts = preg_split('/\s+/siu', $line);
 
 			if (count($parts) !== 6)

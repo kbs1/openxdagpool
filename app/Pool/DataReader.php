@@ -13,4 +13,9 @@ class DataReader
 	{
 		return (string) @file_get_contents(env('MINERS_LIST_ADDR'));
 	}
+
+	public function getBalances()
+	{
+		return (string) @file_get_contents(env('BALANCES_ADDR'));
+	}
 }

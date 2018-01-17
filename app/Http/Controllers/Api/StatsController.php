@@ -25,10 +25,13 @@ class StatsController extends Controller
 		$miners = new MinersPresenter(new MinersParser($this->reader->getMiners()));
 
 		return response()->json([
-			'hashrate' => $stats->getHashrate(),
+			'pool_hashrate' => $stats->getPoolHashrate(),
+			'network_hashrate' => $stats->getNetworkHashrate(),
 			'blocks' => $stats->getNumberOfBlocks(),
 			'main_blocks' => $stats->getNumberOfMainBlocks(),
-			'difficulty' => $stats->getDifficulty(),
+			'difficulty' => $stats->getReadableDifficulty(),
+			'difficulty_exact' => $stats->getExactDifficulty(),
+			'supply' => $stats->getSupply(),
 
 			'miners' => $miners->getNumberOfActiveMiners(),
 

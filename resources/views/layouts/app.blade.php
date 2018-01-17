@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<title>{{ config('app.name', 'Laravel') }}</title>
+		<title>@yield('title', 'Pool') | {{ config('app.name', 'Laravel') }}</title>
 		<link href="{{ mix('css/app.css') }}" rel="stylesheet">
 	</head>
 	<body>
@@ -15,7 +15,7 @@
 					<div class="navbar-brand">
 						<a href="{{ url('/') }}" class="navbar-item">Home</a>
 
-						<div class="navbar-burger burger" data-target="navMenu">
+						<div class="navbar-burger burger" onclick="document.querySelector('#navMenu').classList.toggle('is-active');">
 							<span></span>
 							<span></span>
 							<span></span>

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+	Home
+@endsection
+
 @section('content')
 	<div class="home-view">
 		<section class="hero is-primary">
@@ -9,7 +13,7 @@
 						XDAG - Dagger pool
 					</h1>
 					<h2 class="subtitle">
-						High availability mining pool
+						High availability mining pool<br>Slovakia, Europe
 					</h2>
 				</div>
 			</div>
@@ -19,17 +23,20 @@
 			<div class="column is-7">
 				<nav class="card">
 					<header class="card-header">
-						<p class="card-header-title">
-							Pool statistics
-						</p>
+						<div class="tabs stat-tabs">
+							<ul>
+								<li class="is-active" data-target=".pool-stats"><a>Pool statistics</a></li>
+								<li data-target=".network-stats"><a>Network statistics</a></li>
+							</ul>
+						</div>
 					</header>
 
 					<div class="card-content stats">
-						<nav class="level is-mobile">
+						<nav class="level is-mobile pool-stats">
 							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate">
 								<div>
 									<p class="heading">Hashrate</p>
-									<p class="title stat api is-loading" data-stat="hashrate"></p>
+									<p class="title stat api is-loading" data-stat="pool_hashrate"></p>
 								</div>
 							</div>
 							<div class="level-item has-text-centered tooltip" data-tooltip="Active miners">
@@ -48,6 +55,32 @@
 								<div>
 									<p class="heading">Uptime</p>
 									<p class="title stat api is-loading" data-stat="uptime"></p>
+								</div>
+							</div>
+						</nav>
+						<nav class="level is-mobile network-stats">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate">
+								<div>
+									<p class="heading">Hashrate</p>
+									<p class="title stat api is-loading" data-stat="network_hashrate"></p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered tooltip" data-tooltip="Number of known blocks">
+								<div>
+									<p class="heading">Blocks</p>
+									<p class="title stat api is-loading" data-stat="blocks"></p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered stat-tooltip" data-stat="supply" data-stat-prefix="Coin supply: ">
+								<div>
+									<p class="heading">Main blocks</p>
+									<p class="title stat api is-loading" data-stat="main_blocks"></p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered stat-tooltip" data-stat="difficulty_exact">
+								<div>
+									<p class="heading">Difficulty</p>
+									<p class="title stat api is-loading" data-stat="difficulty"></p>
 								</div>
 							</div>
 						</nav>
@@ -97,7 +130,7 @@
 
 					<div class="card-content">
 						<div class="content">
-							Register if you want to easily keep track of your miners, their hashrates, payouts, and receive email notifications should your miner go offline (<span class="important">Coming soon!</span>).
+							Register if you want to easily keep track of your miners, their hashrates, balances, and receive email notifications should your miner go offline (<span class="important">Coming soon!</span>).
 						</div>
 					</div>
 				</nav>

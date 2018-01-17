@@ -4,25 +4,24 @@ namespace App\Pool;
 
 abstract class BaseParser
 {
-	protected $data = '';
+	protected $lines = [];
 
 	public function __construct($data)
 	{
-		$this->data = $data;
-		$this->sanitize();
+		$this->parseLines($data);
 		$this->parse();
 	}
 
-	protected function sanitize()
+	protected function parseLines($data)
 	{
-		$data = explode("\n", $this->data);
+		$lines = explode("\n", $data);
 
-		if (count($data) < 8)
+		if (count($lines) < 8)
 			return;
 
-		array_shift($data);
+		array_shift($lines);
 
-		foreach ($data as &$line) {
+		foreach ($lines as &$line) {
 			if (substr($line, 0, 6) === 'xdag> ')
 				$line = substr($line, 6);
 
@@ -30,9 +29,9 @@ abstract class BaseParser
 		}
 		unset($line);
 
-		$data = array_values(array_filter($data));
+		$lines = array_values(array_filter($lines));
 
-		$this->data = $data;
+		$this->lines = $lines;
 	}
 
 	abstract protected function parse();
