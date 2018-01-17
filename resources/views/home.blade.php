@@ -11,7 +11,7 @@
 				<h1 class="title">
 					XDAG - Dagger pool
 				</h1>
-				<h2 class="subtitle tootlip" data-tooltip="Location: Slovakia, Europe">
+				<h2 class="subtitle tooltip" data-tooltip="Location: Slovakia, Europe">
 					High availability mining pool
 				</h2>
 			</div>
