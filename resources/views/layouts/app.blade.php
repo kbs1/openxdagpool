@@ -25,7 +25,7 @@
 					<div class="navbar-menu" id="navMenu">
 						<div class="navbar-start">
 							<div class="navbar-item has-dropdown is-hoverable">
-								<a class="navbar-link" href="#">Resources</a>
+								<a class="navbar-link" href="{{ route('pages', 'setup/windows') }}">Resources</a>
 
 								<div class="navbar-dropdown">
 									<a class="navbar-item" href="http://cheatcoin.atwebpages.com" target="_blank">XDAG website</a>
@@ -45,7 +45,7 @@
 								<a class="navbar-item{!! isset($activeTab) && $activeTab == 'register' ? ' is-active' : '' !!}" href="{{ route('register') }}">Register</a>
 							@else
 								<div class="navbar-item has-dropdown is-hoverable">
-									<a class="navbar-link" href="{{ route('profile') }}">{{ Auth::user()->nick }}</a>
+									<a class="navbar-link" href="{{ route('miners') }}">{{ Auth::user()->nick }}</a>
 
 									<div class="navbar-dropdown">
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'profile' ? ' is-active' : '' !!}" href="{{ route('profile') }}">Profile</a>
