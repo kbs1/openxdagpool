@@ -24,7 +24,7 @@ class CreateMiner extends FormRequest
 	public function rules()
 	{
 		return [
-			'address' => 'required|string|regex:/^[a-z0-9\/+]{32}$/siu',
+			'address' => 'required|string|regex:/^[a-z0-9\/+]{32}$/siu|not_in:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
 		];
 	}
 }
