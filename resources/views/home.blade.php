@@ -45,7 +45,7 @@
 									</p>
 								</div>
 							</div>
-							<div class="level-item has-text-centered tooltip" data-tooltip="Active miners">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Currently active miners. Click for details.">
 								<div>
 									<p class="heading">Miners</p>
 									<p class="title">
@@ -67,7 +67,7 @@
 							</div>
 						</nav>
 						<nav class="level is-mobile network-stats">
-							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
 								<div>
 									<p class="heading">Hashrate</p>
 									<p class="title">
