@@ -22,7 +22,7 @@
 		$(document).ready(this.loadGraphsData.bind(this));
 		window.setInterval(this.loadGraphsData.bind(this), 30000);
 
-		$('.stat-tabs li').click(this.handleTabs);
+		$('.stats-view .stat-tabs li').click(this, this.handleTabs);
 	}
 
 	View.prototype.loadGraphsData = function()
@@ -105,15 +105,16 @@
 		$('.stats-view .chart-container .api').removeClass('is-loading').text('?');
 	}
 
-	View.prototype.handleTabs = function()
+	View.prototype.handleTabs = function(ev)
 	{
 		$('li', $(this).closest('ul')).removeClass('is-active');
 		$(this).addClass('is-active');
-		$('.stats .chart-container').hide();
-		$('.stats .chart-container' + $(this).data('target')).show();
+		$('.stats-view .stats .chart-container').hide();
+		$('.stats-view .stats .chart-container' + $(this).data('target')).show();
 
-		var parent = $('.stats .chart-container' + $(this).data('target') + '.chart-container');
-		$('svg', parent).css('width', $(parent).width() + 'px');
+		ev.data.pool_hashrate_chart.resize();
+		ev.data.active_miners_chart.resize();
+		ev.data.network_hashrate_chart.resize();
 	}
 
 	module.exports = View;
