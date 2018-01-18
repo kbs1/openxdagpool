@@ -54,7 +54,7 @@ class StatsController extends Controller
 		$stats = PoolStat::orderBy('id', 'asc')->where('created_at', '>', Carbon::now()->subDays(7))->get();
 
 		foreach ($stats as $stat) {
-			$datetime = $stat->created_at->->subMinutes(5)->format('Y-m-d H:i');
+			$datetime = $stat->created_at->subMinutes(5)->format('Y-m-d H:i');
 
 			$pool_hashrate['x'][] = $datetime;
 			$active_miners['x'][] = $datetime;
