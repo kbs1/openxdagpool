@@ -27,6 +27,6 @@ class Miner extends Model
 	/* methods */
 	public function getAverageUnpaidSharesAttribute()
 	{
-		return $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>', Carbon::now()->subHours(3))->groupBy('miner_id')->pluck('average')->first();
+		return $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>', Carbon::now()->subMinutes(30))->groupBy('miner_id')->pluck('average')->first();
 	}
 }
