@@ -6,6 +6,7 @@
 @import "bulma";
 
 @import "node_modules/font-awesome/scss/font-awesome";
+@import "node_modules/c3/src/scss/main";
 
 .modal .modal-card-foot {
 	justify-content: space-between;
@@ -47,7 +48,15 @@ p.offset {
 		margin-bottom: 0;
 	}
 
-	.network-stats {
+	> div.content {
+		margin-bottom: 0 !important;
+	}
+
+	.network-stats, .active-miners, .network-hashrate {
 		display: none;
+	}
+
+	.title a {
+		color: inherit;
 	}
 }

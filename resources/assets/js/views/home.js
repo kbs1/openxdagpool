@@ -41,6 +41,8 @@
 		var self = this;
 
 		this.ajax(request, function(error, response, body) {
+			self.loading = false;
+
 			if (error)
 				return self.unableToLoadStats();
 
@@ -70,8 +72,6 @@
 				$(this).addClass('tooltip').attr('data-tooltip', prefix + json[$(this).data('stat')]);
 			});
 		});
-
-		this.loading = false;
 	}
 
 	View.prototype.unableToLoadStats = function()

@@ -16,6 +16,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/pages/{page}', 'PagesController@index')->name('pages')->where('page', '(.+)');
 
+Route::get('/stats', 'StatsController@index')->name('stats');
+
 Route::get('/user/miners', 'User\MinersController@index')->name('miners');
 Route::post('/user/miners', 'User\MinersController@create')->name('miners.create');
 Route::delete('/user/miners', 'User\MinersController@delete')->name('miners.delete');

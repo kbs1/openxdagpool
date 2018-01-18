@@ -48,6 +48,8 @@
 		var self = this;
 
 		this.ajax(request, function(error, response, body) {
+			self.loading = false;
+
 			if (error)
 				return self.unableToLoadMinersData();
 
@@ -82,8 +84,6 @@
 				}
 			}
 		});
-
-		this.loading = false;
 	}
 
 	View.prototype.unableToLoadMinersData = function()

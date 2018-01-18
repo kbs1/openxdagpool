@@ -37,16 +37,20 @@
 
 					<div class="card-content stats">
 						<nav class="level is-mobile pool-stats">
-							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
 								<div>
 									<p class="heading">Hashrate</p>
-									<p class="title stat api is-loading" data-stat="pool_hashrate"></p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="pool_hashrate"></a>
+									</p>
 								</div>
 							</div>
 							<div class="level-item has-text-centered tooltip" data-tooltip="Active miners">
 								<div>
 									<p class="heading">Miners</p>
-									<p class="title stat api is-loading" data-stat="miners"></p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="miners"></a>
+									</p>
 								</div>
 							</div>
 							<div class="level-item has-text-centered stat-tooltip is-tooltip-multiline" data-stat="config">
@@ -66,7 +70,9 @@
 							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate">
 								<div>
 									<p class="heading">Hashrate</p>
-									<p class="title stat api is-loading" data-stat="network_hashrate"></p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="network_hashrate"></a>
+									</p>
 								</div>
 							</div>
 							<div class="level-item has-text-centered tooltip" data-tooltip="Number of known blocks">

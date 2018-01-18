@@ -25,7 +25,7 @@
 					<div class="navbar-menu" id="navMenu">
 						<div class="navbar-start">
 							<div class="navbar-item has-dropdown is-hoverable">
-								<a class="navbar-link" href="{{ route('pages', 'setup/windows') }}">Resources</a>
+								<a class="navbar-link" href="{{ route('stats') }}">Resources</a>
 
 								<div class="navbar-dropdown">
 									<a class="navbar-item" href="http://cheatcoin.atwebpages.com" target="_blank">XDAG website</a>
@@ -35,6 +35,10 @@
 
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.windows' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/windows') }}">Windows miner setup</a>
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.unix' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/unix') }}">Unix miner setup</a>
+
+									<hr class="navbar-divider">
+
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'stats' ? ' is-active' : '' !!}" href="{{ route('stats') }}">Statistics</a>
 								</div>
 							</div>
 						</div>
