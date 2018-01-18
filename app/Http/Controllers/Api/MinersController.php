@@ -57,7 +57,7 @@ class MinersController extends Controller
 
 			$hashrate = 0;
 			if ($total_nopaid_shares > 0) {
-				$nopaid_proportion = $pool_miner->getNopaidShares() / $total_nopaid_shares;
+				$nopaid_proportion = $miner->average_unpaid_shares / $total_nopaid_shares;
 				if (!is_nan($nopaid_proportion) && !is_infinite($nopaid_proportion)) {
 					$hashrate = $nopaid_proportion * $pool_hashrate;
 				}

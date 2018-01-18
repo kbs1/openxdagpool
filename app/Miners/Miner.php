@@ -17,4 +17,15 @@ class Miner extends Model
 	{
 		return $this->belongsTo(User::class);
 	}
+
+	public function unpaidShares()
+	{
+		return $this->hasMany(UnpaidShare::class);
+	}
+
+	/* methods */
+	public function getAverageUnpaidSharesAttribute()
+	{
+		return $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->groupBy('miner_id')->pluck('average')->first();
+	}
 }
