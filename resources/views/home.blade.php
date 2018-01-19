@@ -115,7 +115,7 @@
 										</p>
 									</div>
 								</div>
-								<div class="level-item has-text-centered tooltip" data-tooltip="Sum of all your registered address balances.">
+								<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Sum of all your registered address balances. Click for details.">
 									<div>
 										<p class="heading">Coins</p>
 										<p class="title stat api is-loading" data-stat="user_balance"></p>

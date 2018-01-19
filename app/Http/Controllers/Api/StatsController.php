@@ -41,10 +41,12 @@ class StatsController extends Controller
 			$hashrates = [];
 
 			foreach ($user->miners as $miner) {
+				$user_balance += $balances_parser->getBalance($miner->address);
+
 				if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) continue;
+
 				$user_hashrate += $miner->getEstimatedHashrate($total_unpaid_shares, $pool_hashrate);
 				$user_miners += $pool_miner->getMachinesCount();
-				$user_balance += $balances_parser->getBalance($miner->address);
 			}
 
 			$user_stats = [
