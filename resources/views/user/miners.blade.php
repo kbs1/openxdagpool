@@ -43,7 +43,7 @@
 									<td class="miner-address{{ $miner->note != '' ? ' tooltip' : '' }} is-tooltip-multiline" data-tooltip="{{ $miner->note }}">{{ $miner->address }}</td>
 									<td class="miner-status api is-loading"></td>
 									<td class="miner-hashrate api is-loading"></td>
-									<td class="miner-nopaid-shares api is-loading"></td>
+									<td class="miner-unpaid-shares api is-loading"></td>
 									<td class="miner-balance api is-loading"></td>
 									<td>
 										<input type="hidden" name="alerts[{{ $miner->uuid }}]" value="0">

@@ -76,7 +76,7 @@
 
 				$('.miner-status', tr).text(miner.status);
 				$('.miner-hashrate', tr).text(miner.hashrate);
-				$('.miner-nopaid-shares', tr).text(miner.nopaid_shares);
+				$('.miner-unpaid-shares', tr).text(miner.unpaid_shares);
 				$('.miner-balance', tr).text(miner.balance);
 
 				if (miner.ip_and_port) {

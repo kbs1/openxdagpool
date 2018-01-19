@@ -40,7 +40,7 @@ class CaptureMinerStats extends Command
 
 			$unpaid_share = new UnpaidShare([
 				'miner_id' => $miner->id,
-				'unpaid_shares' => $pool_miner->getNopaidShares(),
+				'unpaid_shares' => $pool_miner->getUnpaidShares(),
 			]);
 
 			$unpaid_share->save();

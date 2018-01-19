@@ -39,7 +39,7 @@ class User extends Authenticatable
 	/* attributes */
 	public function getDisplayNickAttribute()
 	{
-		return '@' . $this->nick;
+		return $this->nick;
 	}
 
 	/* methods */

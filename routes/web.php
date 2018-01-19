@@ -23,9 +23,10 @@ Route::post('/user/miners', 'User\MinersController@create')->name('miners.create
 Route::delete('/user/miners', 'User\MinersController@delete')->name('miners.delete');
 Route::post('/user/miners/alerts', 'User\MinersController@alerts')->name('miners.alerts');
 
-// API call, uses the same authentication as web interface
-Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
-
 Route::get('/user/profile', 'User\ProfileController@index')->name('profile');
 Route::post('/user/profile', 'User\ProfileController@update')->name('profile.update');
+
+// API calls, uses the same authentication as web interface
+Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
+Route::get('/api/pool/stats', 'Api\StatsController@index')->name('api.stats');
 

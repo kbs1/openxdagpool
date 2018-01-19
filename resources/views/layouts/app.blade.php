@@ -49,7 +49,7 @@
 								<a class="navbar-item{!! isset($activeTab) && $activeTab == 'register' ? ' is-active' : '' !!}" href="{{ route('register') }}">Register</a>
 							@else
 								<div class="navbar-item has-dropdown is-hoverable">
-									<a class="navbar-link" href="{{ route('miners') }}">{{ Auth::user()->nick }}</a>
+									<a class="navbar-link" href="{{ route('miners') }}">{{ Auth::user()->display_nick }}</a>
 
 									<div class="navbar-dropdown">
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'profile' ? ' is-active' : '' !!}" href="{{ route('profile') }}">Profile</a>

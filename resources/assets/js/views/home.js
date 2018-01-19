@@ -59,17 +59,16 @@
 				return self.unableToLoadStats();
 			}
 
-			if (!json.pool_hashrate || !json.network_hashrate || !json.difficulty || !json.difficulty_exact || !json.supply || !json.blocks || !json.main_blocks
-				|| !json.miners || !json.fees || !json.config || !json.uptime || !json.uptime_exact)
+			if (!json.pool_hashrate)
 				return self.unableToLoadStats();
 
 			$('.home-view .stats .stat').each(function(index, el) {
-				$(this).removeClass('is-loading').text(json[$(this).data('stat')]);
+				$(this).removeClass('is-loading').text(json[$(this).data('stat')] || '?');
 			});
 
 			$('.home-view .stats .stat-tooltip').each(function(index, el) {
 				var prefix = $(this).data('stat-prefix') ? $(this).data('stat-prefix') : '';
-				$(this).addClass('tooltip').attr('data-tooltip', prefix + json[$(this).data('stat')]);
+				$(this).addClass('tooltip').attr('data-tooltip', prefix + (json[$(this).data('stat')] || '?'));
 			});
 		});
 	}

@@ -28,13 +28,13 @@ class MinersController extends Controller
 	{
 		$user = Auth::user();
 
-		$stats = new StatisticsParser($this->reader->getStatistics());
-		$stats_presenter = new StatisticsPresenter($stats);
-		$miners = new MinersParser($this->reader->getMiners());
-		$balances = new BalancesParser($this->reader->getBalances());
+		;
+		$stats_presenter = new StatisticsPresenter($stats_parser = new StatisticsParser($this->reader->getStatistics()));
+		$miners_parser = new MinersParser($this->reader->getMiners());
+		$balances_parser = new BalancesParser($this->reader->getBalances());
 
-		$pool_hashrate = (float) $stats->getPoolHashrate();
-		$total_nopaid_shares = (float) $miners->getTotalNopaidShares();
+		$pool_hashrate = (float) $stats_parser->getPoolHashrate();
+		$total_unpaid_shares = (float) $miners_parser->getTotalUnpaidShares();
 
 		$result = [];
 
@@ -43,32 +43,26 @@ class MinersController extends Controller
 
 			if (!$miner) continue;
 
-			if (($pool_miner = $miners->getMiner($miner->address)) === null) {
+			if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) {
 				$result[$uuid] = [
 					'status' => 'offline',
 					'ip_and_port' => null,
 					'hashrate' => '0 H/s',
-					'nopaid_shares' => '0.000000',
-					'balance' => $balances->getBalance($miner->address) . ' XDAG',
+					'unpaid_shares' => '0.000000',
+					'balance' => $balances_parser->getBalance($miner->address) . ' XDAG',
 				];
 
 				continue;
 			}
 
-			$hashrate = 0;
-			if ($total_nopaid_shares > 0) {
-				$nopaid_proportion = $miner->average_unpaid_shares / $total_nopaid_shares;
-				if (!is_nan($nopaid_proportion) && !is_infinite($nopaid_proportion)) {
-					$hashrate = $nopaid_proportion * $pool_hashrate;
-				}
-			}
+			$hashrate = $miner->getEstimatedHashrate($total_unpaid_shares, $pool_hashrate);
 
 			$result[$uuid] = [
 				'status' => $pool_miner->getStatus(),
 				'ip_and_port' => $pool_miner->getIpsAndPort(),
 				'hashrate' => $stats_presenter->formatHashrate($hashrate),
-				'nopaid_shares' => $pool_miner->getNopaidShares(),
-				'balance' => $balances->getBalance($miner->address) . ' XDAG',
+				'unpaid_shares' => $pool_miner->getUnpaidShares(),
+				'balance' => $balances_parser->getBalance($miner->address) . ' XDAG',
 			];
 		}
 

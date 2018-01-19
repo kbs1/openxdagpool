@@ -29,14 +29,51 @@
 					<header class="card-header">
 						<div class="tabs stat-tabs">
 							<ul>
-								<li class="is-active" data-target=".pool-stats"><a>Pool statistics</a></li>
+								@if (!Auth::guest())
+									<li class="is-active" data-target=".user-stats"><a>{{ Auth::user()->display_nick }}'s statistics</a></li>
+									<li data-target=".pool-stats"><a>Pool statistics</a></li>
+								@else
+									<li class="is-active" data-target=".pool-stats"><a>Pool statistics</a></li>
+								@endif
 								<li data-target=".network-stats"><a>Network statistics</a></li>
 							</ul>
 						</div>
 					</header>
 
 					<div class="card-content stats">
-						<nav class="level is-mobile pool-stats">
+						@if (!Auth::guest())
+							<nav class="level is-mobile user-stats">
+								<div class="level-item has-text-centered tooltip" data-tooltip="Your estimated hashrate. Click for details.">
+									<div>
+										<p class="heading">Hashrate</p>
+										<p class="title">
+											<a href="{{ route('miners') }}" class="stat api is-loading" data-stat="user_hashrate"></a>
+										</p>
+									</div>
+								</div>
+								<div class="level-item has-text-centered tooltip" data-tooltip="Your active miners (machines). Click for details.">
+									<div>
+										<p class="heading">Miners</p>
+										<p class="title">
+											<a href="{{ route('miners') }}" class="stat api is-loading" data-stat="user_miners"></a>
+										</p>
+									</div>
+								</div>
+								<div class="level-item has-text-centered tooltip" data-tooltip="Sum of all your registered address balances.">
+									<div>
+										<p class="heading">Coins</p>
+										<p class="title stat api is-loading" data-stat="user_balance"></p>
+									</div>
+								</div>
+								<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Out of all pool users with registered miners, this is how your hashrate compares to them.">
+									<div>
+										<p class="heading">Rank</p>
+										<p class="title stat api is-loading" data-stat="user_rank"></p>
+									</div>
+								</div>
+							</nav>
+						@endif
+						<nav class="level is-mobile pool-stats{{ !Auth::guest() ? ' inactive-tab-stats' : '' }}">
 							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
 								<div>
 									<p class="heading">Hashrate</p>
@@ -66,7 +103,7 @@
 								</div>
 							</div>
 						</nav>
-						<nav class="level is-mobile network-stats">
+						<nav class="level is-mobile network-stats inactive-tab-stats">
 							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
 								<div>
 									<p class="heading">Hashrate</p>

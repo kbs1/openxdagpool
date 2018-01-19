@@ -46,4 +46,17 @@ class Miner extends Model
 		// OLD WAY (less precise):
 		// return $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>', Carbon::now()->subMinutes(30))->groupBy('miner_id')->pluck('average')->first();
 	}
+
+	public function getEstimatedHashrate($total_unpaid_shares, $pool_hashrate)
+	{
+		$hashrate = 0;
+		if ($total_unpaid_shares > 0) {
+			$unpaid_proportion = $this->average_unpaid_shares / $total_unpaid_shares;
+			if (!is_nan($unpaid_proportion) && !is_infinite($unpaid_proportion)) {
+				$hashrate = $unpaid_proportion * $pool_hashrate;
+			}
+		}
+
+		return $hashrate;
+	}
 }

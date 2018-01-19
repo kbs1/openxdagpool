@@ -25,11 +25,11 @@ class Parser extends BaseParser
 		return $active;
 	}
 
-	public function getTotalNopaidShares()
+	public function getTotalUnpaidShares()
 	{
 		$total = 0;
 		foreach ($this->list as $miner)
-			$total += $miner->getNopaidShares();
+			$total += $miner->getUnpaidShares();
 
 		return $total;
 	}
@@ -61,7 +61,7 @@ class Parser extends BaseParser
 
 			if ($miner = $this->getMiner($parts[1])) {
 				$miner->addIpAndPort($parts[3]);
-				$miner->addNopaidShares($parts[5]);
+				$miner->addUnpaidShares($parts[5]);
 
 				if ($miner->getStatus() !== 'active' && $parts[2] === 'active')
 					$miner->setStatus($parts[2]);
