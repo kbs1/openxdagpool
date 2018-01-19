@@ -34,8 +34,8 @@
 						<ol>
 							<li><code>cd</code> to your home directory. Do not run the miner as <code>root</code>!</li>
 							<li>Execute: <code>sudo apt-get install git gcc libssl-dev build-essential git</code></li>
-							<li>Execute: <code>git clone https://github.com/cheatoshin/cheatcoin.git</code></li>
-							<li>Change directory: <code> cd ./cheatcoin/cheatcoin</code></li>
+							<li>Execute: <code>git clone https://github.com/cheatoshin/xdag.git</code></li>
+							<li>Change directory: <code> cd ./xdag/cheatcoin</code></li>
 							<li>Run <code>make</code></li>
 							<li>Run the program with <code>TZ=GMT ./xdag -d -m 1 pool.xdagpool.com:13654</code>. Set up your wallet password, type random keys. Wait until host keys are generated.</li>
 							<li>Execute <code>TZ=GMT ./xdag -i</code>. Type <code>terminate</code> and press enter.</li>
@@ -52,7 +52,7 @@ if [ "$?" -ne 0 ]; then
 fi
 
 echo Starting console...
-(cd ./cheatcoin/cheatcoin &amp;&amp; TZ=GMT ./xdag -i)
+(cd ./xdag/cheatcoin &amp;&amp; TZ=GMT ./xdag -i)
 echo -n "Daemon PIDs: "
 pidof xdag
 EOD</pre>
@@ -70,7 +70,7 @@ if [ "$?" -eq 0 ]; then
 fi
 
 echo Starting daemon...
-(cd ./cheatcoin/cheatcoin &amp;&amp; TZ=GMT ./xdag -d -m <span class="parameter">4</span> pool.xdagpool.com:13654)
+(cd ./xdag/cheatcoin &amp;&amp; TZ=GMT ./xdag -d -m <span class="parameter">4</span> pool.xdagpool.com:13654)
 echo -n "Daemon PIDs: "
 pidof xdag
 EOD</pre>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads. You can control this later by typing <code>mining N</code> in the XDAG console, where <span class="parameter">N</span> is the number of mining threads you want to run.
@@ -88,7 +88,7 @@ exit 1
 fi
 
 echo Updating git repository...
-(cd ./cheatcoin &amp;&amp; git pull &amp;&amp; cd ./cheatcoin &amp;&amp; make)
+(cd ./xdag &amp;&amp; git pull &amp;&amp; cd ./cheatcoin &amp;&amp; make)
 
 echo "Done! Start the daemon with ./xdag_run.sh"
 EOD</pre>

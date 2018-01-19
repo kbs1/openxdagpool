@@ -32,7 +32,7 @@
 				<div class="card-content">
 					<div class="content">
 						<ol>
-							<li>Download <code>win64exe.zip</code> from the <a href="http://cheatcoin.atwebpages.com/_gallery_.html" target="_blank">official website</a>.</li>
+							<li>Download <code>win64exe.zip</code> from the <a href="http://xdag.me/downloads.html" target="_blank">official website</a>.</li>
 							<li>Extract the archive into <code>C:\xdag</code></code></li>
 							<li>Click on start, type <code>run</code>, press enter, type <code>cmd</code>, press enter.</li>
 							<li>Type <code>cd C:\xdag</code> and press enter.</li>
@@ -91,7 +91,7 @@
 					<div class="content">
 						<ol>
 							<li>To start the miner, simply run the <code>RUNMINER.bat</code> file.</li>
-							<li>To update your installation to the latest version, stop the miner by typing <code>terminate</code> in the miner console, press enter. Download new <code>win64exe.zip</code> from the <a href="http://cheatcoin.atwebpages.com/_gallery_.html" target="_blank">official website</a>. Extract the archive into <code>C:\xdag2</code>. Copy over files and folders <code>storage</code>, <code>dnet_key.dat</code>, <code>wallet.dat</code>, <code>RUNMINER.bat</code> and <code>RunAsDate.exe</code> (if applicable) from the old <code>C:\xdag</code> installation. Move <code>C:\xdag</code> into the trash. Rename <code>C:\xdag2</code> to <code>C:\xdag</code>. Run <code>RUNMINER.bat</code> as usual.</li>
+							<li>To update your installation to the latest version, stop the miner by typing <code>terminate</code> in the miner console, press enter. Download new <code>win64exe.zip</code> from the <a href="http://xdag.me/downloads.html" target="_blank">official website</a>. Extract the archive into <code>C:\xdag2</code>. Copy over files and folders <code>storage</code>, <code>dnet_key.dat</code>, <code>wallet.dat</code>, <code>RUNMINER.bat</code> and <code>RunAsDate.exe</code> (if applicable) from the old <code>C:\xdag</code> installation. Move <code>C:\xdag</code> into the trash. Rename <code>C:\xdag2</code> to <code>C:\xdag</code>. Run <code>RUNMINER.bat</code> as usual.</li>
 						</ol>
 						<p>To view your current balance at any time, type <code>balance</code> in the miner console.</p>
 					</div>
