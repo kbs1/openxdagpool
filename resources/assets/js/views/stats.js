@@ -114,11 +114,11 @@
 
 		if (target == 'all') {
 			$('.stats-view .stats .chart-container').show();
-			$('.stats-view .stats .chart-container.not-first').css('margin-bottom', '1.5rem');
+			$('.stats-view .stats .chart-container.not-first').css('margin-top', '1.5rem');
 		} else {
 			$('.stats-view .stats .chart-container').hide();
 			$('.stats-view .stats .chart-container' + target).show();
-			$('.stats-view .stats .chart-container.not-first').css('margin-bottom', '0');
+			$('.stats-view .stats .chart-container.not-first').css('margin-top', '0');
 		}
 
 		ev.data.pool_hashrate_chart.resize();
