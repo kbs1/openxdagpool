@@ -30,10 +30,10 @@
 						<div class="tabs stat-tabs">
 							<ul>
 								<li class="is-active" data-target=".pool-stats"><a>Pool statistics</a></li>
+								<li data-target=".network-stats"><a>Network statistics</a></li>
 								@if (!Auth::guest())
 									<li data-target=".user-stats"><a>{{ Auth::user()->display_nick }}'s statistics</a></li>
 								@endif
-								<li data-target=".network-stats"><a>Network statistics</a></li>
 							</ul>
 						</div>
 					</header>
@@ -69,6 +69,34 @@
 								</div>
 							</div>
 						</nav>
+						<nav class="level is-mobile network-stats inactive-tab-stats">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
+								<div>
+									<p class="heading">Hashrate</p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="network_hashrate"></a>
+									</p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered tooltip" data-tooltip="Number of known blocks">
+								<div>
+									<p class="heading">Blocks</p>
+									<p class="title stat api is-loading" data-stat="blocks"></p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered stat-tooltip" data-stat="supply" data-stat-prefix="Coin supply: ">
+								<div>
+									<p class="heading">Main blocks</p>
+									<p class="title stat api is-loading" data-stat="main_blocks"></p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered stat-tooltip" data-stat="difficulty_exact">
+								<div>
+									<p class="heading">Difficulty</p>
+									<p class="title stat api is-loading" data-stat="difficulty"></p>
+								</div>
+							</div>
+						</nav>
 						@if (!Auth::guest())
 							<nav class="level is-mobile user-stats inactive-tab-stats">
 								<div class="level-item has-text-centered tooltip" data-tooltip="Your estimated hashrate. Click for details.">
@@ -101,34 +129,6 @@
 								</div>
 							</nav>
 						@endif
-						<nav class="level is-mobile network-stats inactive-tab-stats">
-							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
-								<div>
-									<p class="heading">Hashrate</p>
-									<p class="title">
-										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="network_hashrate"></a>
-									</p>
-								</div>
-							</div>
-							<div class="level-item has-text-centered tooltip" data-tooltip="Number of known blocks">
-								<div>
-									<p class="heading">Blocks</p>
-									<p class="title stat api is-loading" data-stat="blocks"></p>
-								</div>
-							</div>
-							<div class="level-item has-text-centered stat-tooltip" data-stat="supply" data-stat-prefix="Coin supply: ">
-								<div>
-									<p class="heading">Main blocks</p>
-									<p class="title stat api is-loading" data-stat="main_blocks"></p>
-								</div>
-							</div>
-							<div class="level-item has-text-centered stat-tooltip" data-stat="difficulty_exact">
-								<div>
-									<p class="heading">Difficulty</p>
-									<p class="title stat api is-loading" data-stat="difficulty"></p>
-								</div>
-							</div>
-						</nav>
 					</div>
 				</nav>
 			</div>
