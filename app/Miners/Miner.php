@@ -31,14 +31,14 @@ class Miner extends Model
 		$shares = $this->unpaidShares()->where('created_at', '>', Carbon::now()->subHours(24))->orderBy('id', 'asc')->get();
 
 		foreach ($shares as $share) {
-				$diff = $share->unpaid_shares - $last;
+			$diff = $share->unpaid_shares - $last;
 
-				if ($diff >= 0) {
-					$sum += $diff;
-					$count++;
-				}
+			if ($diff >= 0) {
+				$sum += $diff;
+				$count++;
+			}
 
-				$last = $share->unpaid_shares;
+			$last = $share->unpaid_shares;
 		}
 
 		return $count ? $sum / $count : 0;
