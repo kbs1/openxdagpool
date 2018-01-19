@@ -11,7 +11,7 @@ class Miner extends Model
 {
 	use \App\Support\HasUuid;
 
-	protected $fillable = ['address', 'email_alerts'];
+	protected $fillable = ['address', 'note', 'email_alerts'];
 
 	/* relations */
 	public function user()

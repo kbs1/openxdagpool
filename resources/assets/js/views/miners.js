@@ -80,7 +80,7 @@
 				$('.miner-balance', tr).text(miner.balance);
 
 				if (miner.ip_and_port) {
-					$('.miner-address', tr).addClass('tooltip').attr('data-tooltip', 'IP and port: ' + miner.ip_and_port);
+					$('.miner-address', tr).addClass('tooltip').attr('data-tooltip', 'IP and port: ' + miner.ip_and_port + ($(tr).data('note') ? ', Note: ' + $(tr).data('note') : ''));
 				}
 			}
 		});
@@ -100,6 +100,7 @@
 	{
 		var miner = $(this).closest('tr');
 		$('#deleteMinerAddress').val($(miner).data('address'))
+		$('#deleteMinerNote').val($(miner).data('note'))
 		$('#deleteMinerModal').addClass('is-active');
 
 		return false;

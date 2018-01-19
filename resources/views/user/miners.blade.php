@@ -39,8 +39,8 @@
 						</thead>
 						<tbody>
 							@forelse ($authUser->miners as $miner)
-								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}">
-									<td class="miner-address is-tooltip-multiline">{{ $miner->address }}</td>
+								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}" data-note="{{ $miner->address }}">
+									<td class="miner-address{{ $miner->note != '' ? ' tooltip' : '' }} is-tooltip-multiline" data-tooltip="{{ $miner->note }}">{{ $miner->address }}</td>
 									<td class="miner-status api is-loading"></td>
 									<td class="miner-hashrate api is-loading"></td>
 									<td class="miner-nopaid-shares api is-loading"></td>
@@ -106,6 +106,25 @@
 								</div>
 							</div>
 						</div>
+
+						<div class="column">
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">Note</label>
+								</div>
+
+								<div class="field-body">
+									<div class="field">
+										<p class="control has-icons-left has-icons-right">
+											<input class="input" type="text" id="note" name="note">
+											<span class="icon is-small is-left">
+												<i class="fa fa-sticky-note-o"></i>
+											</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
 					</section>
 					<footer class="modal-card-foot">
 						<button type="submit" class="button is-success">Save</button>
@@ -139,6 +158,25 @@
 											<input class="input" type="text" id="deleteMinerAddress" name="address" readonly>
 											<span class="icon is-small is-left">
 												<i class="fa fa-address-card-o"></i>
+											</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">Note</label>
+								</div>
+
+								<div class="field-body">
+									<div class="field">
+										<p class="control has-icons-left has-icons-right">
+											<input class="input" type="text" id="deleteMinerNote" name="note" readonly>
+											<span class="icon is-small is-left">
+												<i class="fa fa-sticky-note-o"></i>
 											</span>
 										</p>
 									</div>

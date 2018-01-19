@@ -29,6 +29,7 @@ class MinersController extends Controller
 		$user = Auth::user();
 		$miner = new Miner([
 			'address' => $request->input('address'),
+			'note' => $request->input('note'),
 			'email_alerts' => false,
 		]);
 
