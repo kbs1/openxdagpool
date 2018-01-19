@@ -47,7 +47,7 @@ class StatsController extends Controller
 
 	public function detailed()
 	{
-		$pool_hashrate = ['x' => [], 'Hashrate (Mh/s)' => []];
+		$pool_hashrate = ['x' => [], 'Hashrate (Gh/s)' => []];
 		$active_miners = ['x' => [], 'Active miners' => []];
 		$network_hashrate = ['x' => [], 'Hashrate (Gh/s)' => []];
 
@@ -60,7 +60,7 @@ class StatsController extends Controller
 			$active_miners['x'][] = $datetime;
 			$network_hashrate['x'][] = $datetime;
 
-			$pool_hashrate['Hashrate (Mh/s)'][] = $stat->pool_hashrate / 1000000;
+			$pool_hashrate['Hashrate (Gh/s)'][] = $stat->pool_hashrate / 1000000000;
 			$network_hashrate['Hashrate (Gh/s)'][] = $stat->network_hashrate / 1000000000;
 
 			$active_miners['Active miners'][] = $stat->active_miners;
