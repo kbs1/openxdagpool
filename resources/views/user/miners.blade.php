@@ -39,7 +39,7 @@
 						</thead>
 						<tbody>
 							@forelse ($authUser->miners as $miner)
-								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}" data-note="{{ $miner->address }}">
+								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}" data-note="{{ $miner->note }}">
 									<td class="miner-address{{ $miner->note != '' ? ' tooltip' : '' }} is-tooltip-multiline" data-tooltip="{{ $miner->note }}">{{ $miner->address }}</td>
 									<td class="miner-status api is-loading"></td>
 									<td class="miner-hashrate api is-loading"></td>
