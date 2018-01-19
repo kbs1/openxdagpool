@@ -49,7 +49,7 @@ class MinersController extends Controller
 					'ip_and_port' => null,
 					'hashrate' => '0 H/s',
 					'nopaid_shares' => '0.000000',
-					'balance' => null,
+					'balance' => $balances->getBalance($miner->address) . ' XDAG',
 				];
 
 				continue;
