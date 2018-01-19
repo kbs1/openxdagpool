@@ -29,11 +29,9 @@
 					<header class="card-header">
 						<div class="tabs stat-tabs">
 							<ul>
+								<li class="is-active" data-target=".pool-stats"><a>Pool statistics</a></li>
 								@if (!Auth::guest())
-									<li class="is-active" data-target=".user-stats"><a>{{ Auth::user()->display_nick }}'s statistics</a></li>
-									<li data-target=".pool-stats"><a>Pool statistics</a></li>
-								@else
-									<li class="is-active" data-target=".pool-stats"><a>Pool statistics</a></li>
+									<li data-target=".user-stats"><a>{{ Auth::user()->display_nick }}'s statistics</a></li>
 								@endif
 								<li data-target=".network-stats"><a>Network statistics</a></li>
 							</ul>
@@ -41,8 +39,38 @@
 					</header>
 
 					<div class="card-content stats">
+						<nav class="level is-mobile pool-stats">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
+								<div>
+									<p class="heading">Hashrate</p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="pool_hashrate"></a>
+									</p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered tooltip" data-tooltip="Currently active miners. Click for details.">
+								<div>
+									<p class="heading">Miners</p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="miners"></a>
+									</p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered stat-tooltip is-tooltip-multiline" data-stat="config">
+								<div>
+									<p class="heading">Fees</p>
+									<p class="title stat api is-loading" data-stat="fees"></p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered stat-tooltip is-tooltip-multiline" data-stat="uptime_exact">
+								<div>
+									<p class="heading">Uptime</p>
+									<p class="title stat api is-loading" data-stat="uptime"></p>
+								</div>
+							</div>
+						</nav>
 						@if (!Auth::guest())
-							<nav class="level is-mobile user-stats">
+							<nav class="level is-mobile user-stats inactive-tab-stats">
 								<div class="level-item has-text-centered tooltip" data-tooltip="Your estimated hashrate. Click for details.">
 									<div>
 										<p class="heading">Hashrate</p>
@@ -73,36 +101,6 @@
 								</div>
 							</nav>
 						@endif
-						<nav class="level is-mobile pool-stats{{ !Auth::guest() ? ' inactive-tab-stats' : '' }}">
-							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
-								<div>
-									<p class="heading">Hashrate</p>
-									<p class="title">
-										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="pool_hashrate"></a>
-									</p>
-								</div>
-							</div>
-							<div class="level-item has-text-centered tooltip" data-tooltip="Currently active miners. Click for details.">
-								<div>
-									<p class="heading">Miners</p>
-									<p class="title">
-										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="miners"></a>
-									</p>
-								</div>
-							</div>
-							<div class="level-item has-text-centered stat-tooltip is-tooltip-multiline" data-stat="config">
-								<div>
-									<p class="heading">Fees</p>
-									<p class="title stat api is-loading" data-stat="fees"></p>
-								</div>
-							</div>
-							<div class="level-item has-text-centered stat-tooltip is-tooltip-multiline" data-stat="uptime_exact">
-								<div>
-									<p class="heading">Uptime</p>
-									<p class="title stat api is-loading" data-stat="uptime"></p>
-								</div>
-							</div>
-						</nav>
 						<nav class="level is-mobile network-stats inactive-tab-stats">
 							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
 								<div>
