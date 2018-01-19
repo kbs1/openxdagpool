@@ -27,7 +27,8 @@
 					<header class="card-header">
 						<div class="tabs stat-tabs">
 							<ul>
-								<li class="is-active" data-target=".pool-hashrate"><a>Pool hashrate</a></li>
+								<li class="is-active" data-target="all"><a>All</a></li>
+								<li data-target=".pool-hashrate"><a>Pool hashrate</a></li>
 								<li data-target=".active-miners"><a>Active miners</a></li>
 								<li data-target=".network-hashrate"><a>Network hashrate</a></li>
 							</ul>
@@ -38,10 +39,10 @@
 						<div class="content chart-container pool-hashrate">
 							<div class="chart api is-loading"></div>
 						</div>
-						<div class="content chart-container active-miners">
+						<div class="content chart-container not-first active-miners">
 							<div class="chart api is-loading"></div>
 						</div>
-						<div class="content chart-container network-hashrate">
+						<div class="content chart-container not-first network-hashrate">
 							<div class="chart api is-loading"></div>
 						</div>
 					</div>

@@ -107,10 +107,19 @@
 
 	View.prototype.handleTabs = function(ev)
 	{
+		var target = $(this).data('target');
+
 		$('li', $(this).closest('ul')).removeClass('is-active');
 		$(this).addClass('is-active');
-		$('.stats-view .stats .chart-container').hide();
-		$('.stats-view .stats .chart-container' + $(this).data('target')).show();
+
+		if (target == 'all') {
+			$('.stats-view .stats .chart-container').show();
+			$('.stats-view .stats .chart-container.not-first').css('margin-bottom', '1.5rem');
+		} else {
+			$('.stats-view .stats .chart-container').hide();
+			$('.stats-view .stats .chart-container' + target).show();
+			$('.stats-view .stats .chart-container.not-first').css('margin-bottom', '0');
+		}
 
 		ev.data.pool_hashrate_chart.resize();
 		ev.data.active_miners_chart.resize();
