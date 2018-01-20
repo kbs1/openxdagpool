@@ -14,7 +14,7 @@ class BalanceController extends Controller
 		$balances = new BalanceParser($reader->getBalances());
 
 		if (!$balances->addressExists($address))
-			return redirect()->back()->with('warning', "Address \"$address is not known\" on the network.");
+			return redirect()->back()->with('warning', "Address \"$address\" is not known on the network.");
 
 		$balance = $balances->getBalance($address);
 		return redirect()->back()->with('success', "Balance on address \"$address\" is $balance XDAG.");
