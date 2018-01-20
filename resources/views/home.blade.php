@@ -176,7 +176,7 @@
 					</header>
 
 					<div class="card-content">
-						<p class="offset">Windows (<a href="{{ route('pages', 'setup/windows') }}">detailed instructions</a>):</p>
+						<p>Windows (<a href="{{ route('pages', 'setup/windows') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
 							<span class="parameter">C:\xdag</span>\xdag.exe -d -m <span class="parameter">4</span> pool.xdagpool.com:13654
 						</pre>
