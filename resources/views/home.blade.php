@@ -226,10 +226,10 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
-								<li><span class="important">2018-01-20</span> Updated pool software, added balance checker</li>
+								<li><span class="important">2018-01-20</span> Updated pool software, added wallet balance checker</li>
 								<li><span class="important">2018-01-19</span> Added user's stats on the homepage</li>
 								<li><span class="important">2018-01-17</span> Added detailed network graphs</li>
-								<li><span class="important">2018-01-16</span> Added option to register your miners</li>
+								<li><span class="important">2018-01-16</span> Added option to register your miners, updated pool software</li>
 								<li><span class="important">2018-01-15</span> Pool launched</li>
 							</ul>
 						</div>
