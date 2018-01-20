@@ -141,6 +141,36 @@
 				<nav class="card">
 					<header class="card-header">
 						<p class="card-header-title">
+							Wallet balance
+						</p>
+					</header>
+
+					<div class="card-content">
+						<div class="content">
+							<form action="{{ route('balance') }}" method="post">
+								{{ csrf_field() }}
+								<div class="field has-addons is-horizontal">
+									<div class="control is-expanded">
+										<input class="input is-fullwidth" type="text" name="address" placeholder="Wallet address" maxlength="32" required>
+									</div>
+									<div class="control">
+										<button class="button" type="submit">
+											Show
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<div class="columns is-marginless is-centered">
+			<div class="column is-7">
+				<nav class="card">
+					<header class="card-header">
+						<p class="card-header-title">
 							Mining information
 						</p>
 					</header>
@@ -178,6 +208,30 @@
 					<div class="card-content">
 						<div class="content">
 							Register if you want to easily keep track of your miners, their hashrates, balances, and receive email notifications should your miner go offline (<span class="important">Coming soon!</span>).
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<div class="columns is-marginless is-centered">
+			<div class="column is-7">
+				<nav class="card">
+					<header class="card-header">
+						<p class="card-header-title">
+							Pool news
+						</p>
+					</header>
+
+					<div class="card-content">
+						<div class="content">
+							<ul>
+								<li><span class="important">2018-01-20</span> Updated pool software, added balance checker</li>
+								<li><span class="important">2018-01-19</span> Added user's stats on the homepage</li>
+								<li><span class="important">2018-01-17</span> Added detailed network graphs</li>
+								<li><span class="important">2018-01-16</span> Added option to register your miners</li>
+								<li><span class="important">2018-01-15</span> Pool launched</li>
+							</ul>
 						</div>
 					</div>
 				</nav>

@@ -13,6 +13,11 @@ class Parser extends BaseParser
 		return $this->list[$address] ?? 0;
 	}
 
+	public function addressExists($address)
+	{
+		return isset($this->list[$address]);
+	}
+
 	protected function parse()
 	{
 		foreach ($this->lines as $line) {
