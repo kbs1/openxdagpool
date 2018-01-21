@@ -113,12 +113,28 @@
 			<div class="container">
 				<div class="content">
 					<hr>
-					<p id="footer" class="is-pulled-right">
+					<a href="#" id="footer" class="is-pulled-right">
 						XDAGpool.com,
 						@php
 							echo date('Y');
 						@endphp
-					</p>
+					</a>
+				</div>
+			</div>
+
+			<div class="modal" id="contactUsModal">
+				<div class="modal-background"></div>
+				<div class="modal-card">
+					<header class="modal-card-head">
+						<p class="modal-card-title">Contact us</p>
+						<a class="delete close-modal" aria-label="close" href="#"></a>
+					</header>
+					<section class="modal-card-body">
+						<p>Questions, comments, or suggestions? Contact us at <span id="contactEmail"></span></p>
+					</section>
+					<footer class="modal-card-foot">
+						<button type="button" class="button close-modal">Close</button>
+					</footer>
 				</div>
 			</div>
 		</div>

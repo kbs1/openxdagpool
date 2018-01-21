@@ -25,6 +25,17 @@ class Miner extends Model
 		return $this->hasMany(UnpaidShare::class);
 	}
 
+	/* attributes */
+	public function getShortAddressAttribute()
+	{
+		return substr($this->address, 0, 3) . '...' . substr($this->address, -3);
+	}
+
+	public function getShortNoteAttribute()
+	{
+		return str_limit($this->note, 10);
+	}
+
 	/* methods */
 	public function getAverageUnpaidSharesAttribute()
 	{

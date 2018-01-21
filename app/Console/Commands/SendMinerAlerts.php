@@ -8,11 +8,12 @@ use App\Pool\DataReader;
 use App\Pool\Miners\Parser as MinersParser;
 
 use App\Miners\Miner;
+use App\Mail\{MinerWentOffline, MinerBackOnline};
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Mail;
 
-class CaptureMinerStats extends Command
+class SendMinerAlerts extends Command
 {
 	protected $signature = 'alerts:miners';
 	protected $description = 'Check each registered miner and send went-offline or back-online notification whenever applicable';
@@ -32,10 +33,19 @@ class CaptureMinerStats extends Command
 		foreach (Miner::where('email_alerts', true)->get() as $miner) {
 			$pool_miner = $miners->getMiner($miner->address);
 
-			if ($pool_miner && !$miner->seen_online) {
-				Mail::to($request->user())->send(new OrderShipped($order));
-			}
+			if (!$pool_miner && $miner->seen_online) {
+				$this->line("Sending 'went offline' notification for miner '{$miner->address}' to '{$miner->user->email}'...");
+				$miner->seen_online = false;
+				$miner->save();
 
+				Mail::to($miner->user->email, $miner->user->nick)->send(new MinerWentOffline($miner));
+			} else if ($pool_miner && !$miner->seen_online) {
+				$this->line("Sending 'back online' notification for miner '{$miner->address}' to '{$miner->user->email}'...");
+				$miner->seen_online = true;
+				$miner->save();
+
+				Mail::to($miner->user->email, $miner->user->nick)->send(new MinerBackOnline($miner));
+			}
 		}
 
 		$this->info('Completed successfully.');

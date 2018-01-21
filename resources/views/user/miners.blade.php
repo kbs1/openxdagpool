@@ -33,7 +33,7 @@
 								<th class="tooltip" data-tooltip="Estimated hashrate. Updates every 5 minutes.">Hashrate</th>
 								<th class="tooltip" data-tooltip="Unpaid shares. Updates every 5 minutes.">Unpaid shares</th>
 								<th class="tooltip" data-tooltip="Current address balance. Updates every 4 hours.">Balance</th>
-								<th class="tooltip is-tooltip-multiline" data-tooltip="E-mail alerts when miner goes offline. Currently under development.">Alerts</th>
+								<th class="tooltip is-tooltip-multiline" data-tooltip="E-mail alerts when miner goes offline and back online.">Alerts</th>
 								<th></th>
 							</tr>
 						</thead>
