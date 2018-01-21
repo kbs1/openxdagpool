@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
 	protected $commands = [
 		Commands\CapturePoolStats::class,
 		Commands\CaptureMinerStats::class,
+		Commands\SendMinerAlerts::class,
 	];
 
 	/**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
 	{
 		$schedule->command('stats:pool')->everyFiveMinutes();
 		$schedule->command('stats:miners')->everyFiveMinutes();
+		$schedule->command('alerts:miners')->everyFiveMinutes();
 	}
 
 	/**

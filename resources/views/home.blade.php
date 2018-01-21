@@ -207,7 +207,7 @@
 
 					<div class="card-content">
 						<div class="content">
-							Register if you want to easily keep track of your miners, their hashrates, balances, and receive email notifications should your miner go offline (<span class="important">Coming soon!</span>).
+							Register if you want to easily keep track of your miners, their hashrates, balances, and receive email notifications should your miner go offline.
 						</div>
 					</div>
 				</nav>
@@ -226,6 +226,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-01-21</span> Support for "went offline" and "back online" miner alerts</li>
 								<li><span class="important">2018-01-20</span> Updated pool software, added wallet balance checker</li>
 								<li><span class="important">2018-01-19</span> Added user's stats on the homepage</li>
 								<li><span class="important">2018-01-17</span> Added detailed network graphs</li>
