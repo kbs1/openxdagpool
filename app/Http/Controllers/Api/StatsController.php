@@ -96,7 +96,7 @@ class StatsController extends Controller
 	{
 		$pool_hashrate = ['x' => [], 'Pool hashrate (Gh/s)' => []];
 		$active_miners = ['x' => [], 'Active pool miners' => []];
-		$network_hashrate = ['x' => [], 'Network nashrate (Gh/s)' => []];
+		$network_hashrate = ['x' => [], 'Network hashrate (Gh/s)' => []];
 
 		$stats = PoolStat::orderBy('id', 'asc')->where('created_at', '>', Carbon::now()->subDays(7))->get();
 
@@ -108,7 +108,7 @@ class StatsController extends Controller
 			$network_hashrate['x'][] = $datetime;
 
 			$pool_hashrate['Pool hashrate (Gh/s)'][] = $stat->pool_hashrate / 1000000000;
-			$network_hashrate['Network ashrate (Gh/s)'][] = $stat->network_hashrate / 1000000000;
+			$network_hashrate['Network hashrate (Gh/s)'][] = $stat->network_hashrate / 1000000000;
 
 			$active_miners['Active pool miners'][] = $stat->active_miners;
 		}
