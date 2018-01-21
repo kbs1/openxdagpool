@@ -5,6 +5,7 @@ namespace App\Miners;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Users\User;
+use App\Pool\Statistics\Stat as PoolStat;
 use Carbon\Carbon;
 
 class Miner extends Model
@@ -27,7 +28,9 @@ class Miner extends Model
 	/* methods */
 	public function getAverageUnpaidSharesAttribute()
 	{
-		$sum = $count = $last = 0;
+		return $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>', Carbon::now()->subHours(24))->groupBy('miner_id')->pluck('average')->first();
+
+		/*$sum = $count = $last = 0;
 		$shares = $this->unpaidShares()->where('created_at', '>', Carbon::now()->subHours(24))->orderBy('id', 'asc')->get();
 
 		foreach ($shares as $share) {
@@ -41,19 +44,16 @@ class Miner extends Model
 			$last = $share->unpaid_shares;
 		}
 
-		return $count ? $sum / $count : 0;
-
-		// OLD WAY (less precise):
-		// return $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>', Carbon::now()->subMinutes(30))->groupBy('miner_id')->pluck('average')->first();
+		return $count ? $sum / $count : 0;*/
 	}
 
-	public function getEstimatedHashrate($total_unpaid_shares, $pool_hashrate)
+	public function getEstimatedHashrate($total_unpaid_shares)
 	{
 		$hashrate = 0;
 		if ($total_unpaid_shares > 0) {
 			$unpaid_proportion = $this->average_unpaid_shares / $total_unpaid_shares;
 			if (!is_nan($unpaid_proportion) && !is_infinite($unpaid_proportion)) {
-				$hashrate = $unpaid_proportion * $pool_hashrate;
+				$hashrate = $unpaid_proportion * PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>', Carbon::now()->subHours(24))->pluck('avg_pool_hashrate')->first();
 			}
 		}
 

@@ -45,7 +45,7 @@ class StatsController extends Controller
 
 				if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) continue;
 
-				$user_hashrate += $miner->getEstimatedHashrate($total_unpaid_shares, $pool_hashrate);
+				$user_hashrate += $miner->getEstimatedHashrate($total_unpaid_shares);
 				$user_miners += $pool_miner->getMachinesCount();
 			}
 
@@ -63,7 +63,7 @@ class StatsController extends Controller
 				$user_hashrate = 0;
 				foreach ($user->miners as $miner) {
 					if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) continue;
-					$user_hashrate += $miner->getEstimatedHashrate($total_unpaid_shares, $pool_hashrate);
+					$user_hashrate += $miner->getEstimatedHashrate($total_unpaid_shares);
 				}
 
 				$hashrates[] = $user_hashrate;

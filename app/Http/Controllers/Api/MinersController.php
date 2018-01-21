@@ -28,12 +28,10 @@ class MinersController extends Controller
 	{
 		$user = Auth::user();
 
-		;
-		$stats_presenter = new StatisticsPresenter($stats_parser = new StatisticsParser($this->reader->getStatistics()));
+		$stats_presenter = new StatisticsPresenter(new StatisticsParser($this->reader->getStatistics()));
 		$miners_parser = new MinersParser($this->reader->getMiners());
 		$balances_parser = new BalancesParser($this->reader->getBalances());
 
-		$pool_hashrate = (float) $stats_parser->getPoolHashrate();
 		$total_unpaid_shares = (float) $miners_parser->getTotalUnpaidShares();
 
 		$result = [];
@@ -55,7 +53,7 @@ class MinersController extends Controller
 				continue;
 			}
 
-			$hashrate = $miner->getEstimatedHashrate($total_unpaid_shares, $pool_hashrate);
+			$hashrate = $miner->getEstimatedHashrate($total_unpaid_shares);
 
 			$result[$uuid] = [
 				'status' => $pool_miner->getStatus(),
