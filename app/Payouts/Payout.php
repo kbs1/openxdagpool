@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Payments;
+namespace App\Payouts;
 
 use Illuminate\Database\Eloquent\Model;
 
 use Carbon\Carbon;
 
-class Payment extends Model
+class Payout extends Model
 {
 	protected $fillable = ['made_at', 'made_at_milliseconds', 'tag', 'sender', 'recipient', 'amount'];
 	protected $dates = ['made_at', 'created_at', 'updated_at'];

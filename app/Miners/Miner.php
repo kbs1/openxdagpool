@@ -5,7 +5,7 @@ namespace App\Miners;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Users\User;
-use App\Payments\Payment;
+use App\Payouts\Payout;
 
 use App\Pool\Statistics\Stat as PoolStat;
 use Carbon\Carbon;
@@ -27,9 +27,9 @@ class Miner extends Model
 		return $this->hasMany(UnpaidShare::class);
 	}
 
-	public function payments()
+	public function payouts()
 	{
-		return $this->hasMany(Payment::class, 'recipient', 'address')->orderBy('id', 'asc');
+		return $this->hasMany(Payout::class, 'recipient', 'address')->orderBy('id', 'asc');
 	}
 
 	/* attributes */

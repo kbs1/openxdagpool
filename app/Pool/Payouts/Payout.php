@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Pool\Payments;
+namespace App\Pool\Payouts;
 
 use Carbon\Carbon;
 
-class Payment
+class Payout
 {
 	protected $made_at, $made_at_milliseconds, $tag, $sender, $recipient, $amount;
 

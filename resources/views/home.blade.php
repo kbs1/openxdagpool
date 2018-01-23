@@ -230,7 +230,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
-								<li><span class="important">2018-01-23</span> Added detailed payment statistics</li>
+								<li><span class="important">2018-01-23</span> Added detailed payout statistics</li>
 								<li><span class="important">2018-01-22</span> Updated pool software</li>
 								<li><span class="important">2018-01-21</span> Support for "went offline" and "back online" miner alerts</li>
 								<li><span class="important">2018-01-20</span> Updated pool software, added wallet balance checker</li>

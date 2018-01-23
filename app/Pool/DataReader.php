@@ -19,9 +19,9 @@ class DataReader
 		return (string) @file_get_contents($this->getPath('BALANCES_ADDR'));
 	}
 
-	public function getPayments()
+	public function getPayouts()
 	{
-		return (string) @file_get_contents($this->getPath('PAYMENTS_ADDR'));
+		return (string) @file_get_contents($this->getPath('PAYOUTS_ADDR'));
 	}
 
 	protected function getPath($env_name)

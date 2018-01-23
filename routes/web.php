@@ -22,13 +22,17 @@ Route::get('/user/miners', 'User\MinersController@index')->name('miners');
 Route::post('/user/miners', 'User\MinersController@create')->name('miners.create');
 Route::delete('/user/miners', 'User\MinersController@delete')->name('miners.delete');
 Route::post('/user/miners/alerts', 'User\MinersController@alerts')->name('miners.alerts');
-Route::get('/user/miners/{address}/payments', 'User\PaymentsController@miner')->name('miners.payments');
-Route::get('/user/miners/{address}/payments/export', 'User\PaymentsController@exportMiner')->name('miners.payments.export');
+Route::get('/user/miners/{address}/payouts-graph', 'User\PayoutsController@minerPayoutsGraph')->name('miners.payouts.graph');
+Route::get('/user/miners/{address}/payouts-listing', 'User\PayoutsController@minerPayoutsListing')->name('miners.payouts.listing');
+Route::get('/user/miners/{address}/payouts-graph/export', 'User\PayoutsController@exportMinerPayoutsGraph')->name('miners.payouts.export-graph');
+Route::get('/user/miners/{address}/payouts-listing/export', 'User\PayoutsController@exportMinerPayoutsListing')->name('miners.payouts.export-listing');
 
 Route::get('/user/profile', 'User\ProfileController@index')->name('profile');
 Route::post('/user/profile', 'User\ProfileController@update')->name('profile.update');
-Route::get('/user/payments', 'User\PaymentsController@user')->name('user.payments');
-Route::get('/user/payments/export', 'User\PaymentsController@exportUser')->name('user.payments.export');
+Route::get('/user/payouts-graph', 'User\PayoutsController@userPayoutsGraph')->name('user.payouts.graph');
+Route::get('/user/payouts-listging', 'User\PayoutsController@userPayoutsListing')->name('user.payouts.listing');
+Route::get('/user/payouts-graph/export', 'User\PayoutsController@exportUserPayoutsGraph')->name('user.payouts.export-graph');
+Route::get('/user/payouts-listing/export', 'User\PayoutsController@exportUserPayoutsListing')->name('user.payouts.export-listing');
 
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
