@@ -12,7 +12,7 @@
 					Login
 				</h1>
 				<h2 class="subtitle">
-					Login to access your list of miners, their hashrates and balances.
+					Login to access your list of miners, their hashrates, balances and payouts.
 				</h2>
 			</div>
 		</div>

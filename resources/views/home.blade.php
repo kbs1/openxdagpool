@@ -211,7 +211,7 @@
 
 					<div class="card-content">
 						<div class="content">
-							Register if you want to easily keep track of your miners, their hashrates, balances, and receive email notifications should your miner go offline.
+							Register if you want to easily keep track of your miners, their hashrates, balances, payouts and receive email notifications should your miner go offline.
 						</div>
 					</div>
 				</nav>
