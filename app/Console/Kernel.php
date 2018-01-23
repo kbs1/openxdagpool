@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('payments:import')->everyHour();
+		$schedule->command('payments:import')->hourly();
 		$schedule->command('stats:miners')->everyFiveMinutes();
 		$schedule->command('stats:pool')->everyFiveMinutes();
 		$schedule->command('alerts:miners')->everyFiveMinutes();

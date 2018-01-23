@@ -4,12 +4,12 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Pool\{DataReader, BalancesParser};
+use App\Pool\DataReader;
 use App\Pool\Payments\Parser as PaymentsParser;
 
 use App\Miners\Miner;
 
-class SaveMinerStats extends Command
+class ImportPayments extends Command
 {
 	protected $signature = 'payments:import';
 	protected $description = 'Imports all new payments for each registered miner.';
@@ -33,7 +33,7 @@ class SaveMinerStats extends Command
 			$last_payment = $miner->payments()->orderBy('id', 'desc')->first();
 
 			foreach ($payments as $payment) {
-				if ($payment->compareDate........
+				//if ($payment->compareDate........
 			}
 
 			$miner->payments()->create([
