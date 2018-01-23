@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('payments:import')->hourly();
+		$schedule->command('payments:import')->cron('59 */3 * * *');
 		$schedule->command('pool:cron')->everyFiveMinutes();
 	}
 
