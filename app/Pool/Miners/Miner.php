@@ -5,7 +5,6 @@ namespace App\Pool\Miners;
 class Miner
 {
 	protected $address, $status, $ips = [], $bytes, $unpaid_shares;
-	protected $list = [];
 
 	public function __construct($address, $status, $ip, $bytes, $unpaid_shares)
 	{

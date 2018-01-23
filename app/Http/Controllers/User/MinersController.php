@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\CreateMiner;
+use Auth;
 
 use App\Pool\DataReader;
 use App\Pool\Miners\Parser as MinersParser;
-
-use App\Miners\Miner;
-use Auth;
 
 class MinersController extends Controller
 {
@@ -30,15 +27,10 @@ class MinersController extends Controller
 	public function create(CreateMiner $request)
 	{
 		$user = Auth::user();
-		$miner = new Miner([
+		$user->miners->create([
 			'address' => $request->input('address'),
 			'note' => $request->input('note'),
-			'email_alerts' => false,
-			'seen_online' => false,
 		]);
-
-		$miner->user_id = $user->id;
-		$miner->save();
 
 		return redirect()->back()->with('success', 'Miner successfully added.');
 	}
@@ -46,7 +38,7 @@ class MinersController extends Controller
 	public function delete(CreateMiner $request)
 	{
 		$user = Auth::user();
-		$miner = Miner::where('address', $request->input('address'))->where('user_id', $user->id)->first();
+		$miner = $user->miners()->where('address', $request->input('address'))->first();
 
 		if (!$miner)
 			return redirect()->back()->with('error', 'Miner not found.');
@@ -60,18 +52,20 @@ class MinersController extends Controller
 	public function alerts(Request $request, DataReader $reader)
 	{
 		$user = Auth::user();
+		$alerts = (array) $request->input('alerts');
 		$miners_parser = null;
+		$uuids = array_keys($alerts);
+		if (!$uuids) $uuids = ['0'];
 
-		foreach ((array) $request->input('alerts') as $uuid => $alert) {
-			$miner = Miner::where('uuid', $uuid)->where('user_id', $user->id)->first();
+		foreach ($user->miners()->whereIn('uuid', $uuids)->get() as $miner) {
+			$miner->email_alerts = (boolean) $alerts[$miner->uuid];
 
-			if (!$miner) continue;
-
-			$miner->email_alerts = $alert ? true : false;
-
-			if ($alert) {
+			if ($miner->email_alerts) {
 				$miners_parser = $miners_parser ?? new MinersParser($reader->getMiners());
-				$miner->seen_online = $miners_parser->getMiner($miner->address) ? true : false;
+				$pool_miner = $miners_parser->getMiner($miner->address);
+
+				$miner->seen_online = $pool_miner !== null;
+				$miner->status = $pool_miner ? $pool_miner->getStatus() : 'offline';
 			}
 
 			$miner->save();

@@ -18,7 +18,8 @@
 		$(document).ready(this.loadPoolStats.bind(this));
 		window.setInterval(this.loadPoolStats.bind(this), 30000);
 
-		$('.stat-tabs li').click(this.handleTabs);
+		$('.home-view #balanceCheckForm').submit(this.checkBalance.bind(this));
+		$('.home-view .stat-tabs li').click(this.handleTabs);
 	}
 
 	View.prototype.loadPoolStats = function()
@@ -76,6 +77,64 @@
 	View.prototype.unableToLoadStats = function()
 	{
 		$('.home-view .stats .stat').removeClass('is-loading').text('?');
+	}
+
+	View.prototype.checkBalance = function()
+	{
+		if (this.loading)
+			return;
+
+		$('.home-view #balanceCheckForm button').addClass('is-loading');
+		this.loading = true;
+
+		var request = {
+			'url': '/api/wallet/balance',
+			'method': 'POST',
+			'data': {},
+			'encoding': 'utf-8',
+			'headers': {
+				'Accept': 'application/json',
+			},
+		};
+
+		var self = this;
+
+		this.ajax(request, function(error, response, body) {
+			$('.home-view #balanceCheckForm button').removeClass('is-loading');
+			self.loading = false;
+
+			if (error)
+				return self.unableToCheckBalance();
+
+			if (!response)
+				return self.unableToCheckBalance();
+
+			if (response.headers['content-type'] !== 'application/json')
+				return self.unableToCheckBalance();
+
+			var json;
+			try {
+				json = JSON.parse(body);
+			} catch (error) {
+				return self.unableToCheckBalance();
+			}
+
+			if (!json.status || !json.message)
+				return self.unableToCheckBalance();
+
+			var parent = $('.home-view #balanceResult');
+			$(parent).removeClass('is-success').removeClass('is-warning').addClass(json.status ? 'is-success' : 'is-warning');
+			$('span', parent).text(json.message);
+		});
+
+		return false;
+	}
+
+	View.prototype.unableToCheckBalance = function()
+	{
+		var parent = $('.home-view #balanceResult');
+		$(parent).removeClass('is-success').removeClass('is-warning').addClass('is-danger');
+		$('span', parent).text('Unable to check address balance.');
 	}
 
 	View.prototype.handleTabs = function()

@@ -14,7 +14,6 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::post('/balance', 'BalanceController@check')->name('balance');
 Route::get('/pages/{page}', 'PagesController@index')->name('pages')->where('page', '(.+)');
 
 Route::get('/stats', 'StatsController@index')->name('stats');
@@ -30,4 +29,3 @@ Route::post('/user/profile', 'User\ProfileController@update')->name('profile.upd
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
 Route::get('/api/pool/stats', 'Api\StatsController@index')->name('api.stats');
-

@@ -25,6 +25,11 @@
 	<div class="home-view">
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
+				<div class="notification" id="balanceResult">
+					<button class="delete"></button>
+					<span></span>
+				</div>
+
 				<nav class="card">
 					<header class="card-header">
 						<div class="tabs stat-tabs">
@@ -147,7 +152,7 @@
 
 					<div class="card-content">
 						<div class="content">
-							<form action="{{ route('balance') }}" method="post">
+							<form action="#" method="post" id="balanceCheckForm">
 								{{ csrf_field() }}
 								<div class="field has-addons is-horizontal">
 									<div class="control is-expanded">

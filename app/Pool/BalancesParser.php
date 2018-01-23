@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Pool\Balances;
+namespace App\Pool;
 
-use App\Pool\BaseParser;
-
-class Parser extends BaseParser
+class BalancesParser extends BaseParser
 {
 	protected $list = [];
 

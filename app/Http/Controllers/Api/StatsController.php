@@ -4,85 +4,66 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-use App\Pool\{DataReader, Config, Uptime};
+use App\Pool\{DataReader, Config, Uptime, Formatter};
 use App\Pool\Statistics\{Parser as StatisticsParser, Presenter as StatisticsPresenter, Stat as PoolStat};
-use App\Pool\Miners\{Parser as MinersParser, Presenter as MinersPresenter};
-use App\Pool\Balances\Parser as BalancesParser;
 
 use App\Users\User;
+use App\Miners\Miner;
 
 use Carbon\Carbon;
 use Auth;
 
 class StatsController extends Controller
 {
-	protected $reader, $config, $uptime;
+	protected $reader, $config, $uptime, $format;
 
-	public function __construct(DataReader $reader, Config $config, Uptime $uptime)
+	public function __construct(DataReader $reader, Config $config, Uptime $uptime, Formatter $format)
 	{
 		$this->reader = $reader;
 		$this->config = $config;
 		$this->uptime = $uptime;
+		$this->format = $format;
 	}
 
 	public function index()
 	{
 		$stats_presenter = new StatisticsPresenter($stats_parser = new StatisticsParser($this->reader->getStatistics()));
-		$miners_presenter = new MinersPresenter($miners_parser = new MinersParser($this->reader->getMiners()));
-		$balances_parser = new BalancesParser($this->reader->getBalances());
-
 		$pool_hashrate = (float) $stats_parser->getPoolHashrate();
-		$total_unpaid_shares = (float) $miners_parser->getTotalUnpaidShares();
-
 		$user_stats = [];
 
 		if ($user = Auth::user()) {
-			$user_hashrate = $user_miners = $user_balance = 0;
-			$hashrates = [];
-
-			foreach ($user->miners as $miner) {
-				$user_balance += $balances_parser->getBalance($miner->address);
-
-				if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) continue;
-
-				$user_hashrate += $miner->getEstimatedHashrate($total_unpaid_shares);
-				$user_miners += $pool_miner->getMachinesCount();
-			}
+			$user_hashrate = $user->miners->sum('hashrate');
 
 			$user_stats = [
-				'user_hashrate' => $stats_presenter->formatHashrate($user_hashrate),
-				'user_miners' => $user_miners,
-				'user_balance' => $user_balance,
+				'user_hashrate' => $this->format->hash($user_hashrate),
+				'user_miners' => $user->miners->sum('machines_count'),
+				'user_balance' => $this->format->balance($user_balance = $user->miners->sum('balance')),
+				'user_balance_exact' => $this->format->fullBalance($user_balance),
 				'user_rank' => '#1',
 			];
 
-			$hashrates[] = $user_hashrate;
-			$current_user_hashrate = $user_hashrate;
+			$hashrates = [$user_hashrate];
 
-			foreach (User::where('id', '!=', $user->id)->with('miners')->get() as $user) {
-				$user_hashrate = 0;
-				foreach ($user->miners as $miner) {
-					if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) continue;
-					$user_hashrate += $miner->getEstimatedHashrate($total_unpaid_shares);
-				}
+			foreach (User::where('id', '!=', $user->id)->with('miners')->get() as $user)
+				$hashrates[] = $user->miners->sum('hashrate');
 
-				$hashrates[] = $user_hashrate;
-			}
-
+			$hashrates = array_values(array_unique($hashrates));
 			rsort($hashrates);
-			$user_stats['user_rank'] = '#' . (array_search($current_user_hashrate, $hashrates) + 1);
+			$user_stats['user_rank'] = '#' . (array_search($user_hashrate, $hashrates) + 1);
 		}
 
+		$pool_stat = PoolStat::orderBy('id', 'desc')->first();
+
 		return response()->json([
-			'pool_hashrate' => $stats_presenter->getPoolHashrate(),
-			'network_hashrate' => $stats_presenter->getNetworkHashrate(),
-			'blocks' => $stats_presenter->getNumberOfBlocks(),
-			'main_blocks' => $stats_presenter->getNumberOfMainBlocks(),
+			'pool_hashrate' => $this->format->hash($stats_parser->getPoolHashrate()),
+			'network_hashrate' => $this->format->hash($stats_parser->getNetworkHashrate()),
+			'blocks' => $stats_parser->getNumberOfBlocks(),
+			'main_blocks' => $stats_parser->getNumberOfMainBlocks(),
 			'difficulty' => $stats_presenter->getReadableDifficulty(),
 			'difficulty_exact' => $stats_presenter->getExactDifficulty(),
-			'supply' => $stats_presenter->getSupply(),
+			'supply' => $this->format->wholeBalance($stats_parser->getSupply()),
 
-			'miners' => $miners_presenter->getNumberOfActiveMiners(),
+			'miners' => number_format($pool_stat ? $pool_stat->active_miners : 0, 0, '.', ','),
 
 			'fees' => $this->config->getFees(),
 			'config' => $this->config->getConfig(),
@@ -98,7 +79,7 @@ class StatsController extends Controller
 		$active_miners = ['x' => [], 'Active pool miners' => []];
 		$network_hashrate = ['x' => [], 'Network hashrate (Gh/s)' => []];
 
-		$stats = PoolStat::orderBy('id', 'asc')->where('created_at', '>', Carbon::now()->subDays(7))->get();
+		$stats = PoolStat::orderBy('id', 'asc')->where('created_at', '>', Carbon::now()->subDays(3))->get();
 
 		foreach ($stats as $stat) {
 			$datetime = $stat->created_at->subMinutes(5)->format('Y-m-d H:i');
