@@ -4,7 +4,7 @@ namespace App\Pool\Statistics;
 
 class Presenter
 {
-	protected $parser, $formatter;
+	protected $parser;
 
 	public function __construct(Parser $parser)
 	{

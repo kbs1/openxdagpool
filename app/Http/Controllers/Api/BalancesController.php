@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckBalance;
-
 use App\Miners\Miner;
 
 use App\Pool\{DataReader, BalancesParser};
@@ -15,14 +15,14 @@ class BalancesController extends Controller
 		$address = $request->input('address');
 
 		if ($miner = Miner::where('address', $address)->orderBy('id', 'asc')->first())
-			return response()->json(['succes' => true, 'message' => "Balance on address \"$address\" is {$miner->balance} XDAG."]);
+			return response()->json(['status' => true, 'message' => "Balance on address \"$address\" is {$miner->balance} XDAG."]);
 
-		$balances = new BalanceParser($reader->getBalances());
+		$balances = new BalancesParser($reader->getBalances());
 
 		if (!$balances->addressExists($address))
-			return response()->json(['succes' => false, 'message' => "Address \"$address\" is not known on the network."]);
+			return response()->json(['status' => false, 'message' => "Address \"$address\" is not known on the network."]);
 
 		$balance = $balances->getBalance($address);
-		return response()->json(['succes' => true, 'message' => "Balance on address \"$address\" is $balance XDAG."]);
+		return response()->json(['status' => true, 'message' => "Balance on address \"$address\" is $balance XDAG."]);
 	}
 }

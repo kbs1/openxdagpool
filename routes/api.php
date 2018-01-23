@@ -14,6 +14,6 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/pool/stats/detailed', 'Api\StatsController@detailed')->name('api.stats.detailed');
-Route::post('/api/wallet/balance', 'Api\BalancesController@check')->name('api.balances');
+Route::post('/wallet/balance', 'Api\BalancesController@check')->name('api.balances');
 
 // also see API routes in web.php (for routes that use the same session as web does)

@@ -25,7 +25,7 @@
 
 	View.prototype.handleNotifications = function()
 	{
-		$(this).parent().remove();
+		$(this).parent().hide();
 	}
 
 	View.prototype.closeModal = function()

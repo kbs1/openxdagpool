@@ -153,7 +153,6 @@
 					<div class="card-content">
 						<div class="content">
 							<form action="#" method="post" id="balanceCheckForm">
-								{{ csrf_field() }}
 								<div class="field has-addons is-horizontal">
 									<div class="control is-expanded">
 										<input class="input is-fullwidth" type="text" name="address" placeholder="Wallet address" maxlength="32" required>

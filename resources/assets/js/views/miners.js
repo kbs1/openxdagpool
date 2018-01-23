@@ -77,7 +77,7 @@
 				$('.miner-status', tr).text(miner.status);
 				$('.miner-hashrate', tr).text(miner.hashrate);
 				$('.miner-unpaid-shares', tr).text(miner.unpaid_shares);
-				$('.miner-balance', tr).text(miner.balance);
+				$('.miner-balance', tr).text(miner.balance).addClass('tooltip').attr('data-tooltip', miner.balance_exact);
 
 				if (miner.ip_and_port) {
 					$('.miner-address', tr).addClass('tooltip').attr('data-tooltip', 'IP and port: ' + miner.ip_and_port + ($(tr).data('note') ? ', Note: ' + $(tr).data('note') : ''));

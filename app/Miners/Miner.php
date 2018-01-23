@@ -25,6 +25,11 @@ class Miner extends Model
 		return $this->hasMany(UnpaidShare::class);
 	}
 
+	public function payments()
+	{
+		return $this->hasMany(Payment::class);
+	}
+
 	/* attributes */
 	public function getShortAddressAttribute()
 	{

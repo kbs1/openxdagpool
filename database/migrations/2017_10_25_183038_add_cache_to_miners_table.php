@@ -16,7 +16,7 @@ class AddCacheToMinersTable extends Migration
 		Schema::table('miners', function (Blueprint $table) {
 			$table->string('status', 20)->default('offline')->after('note');
 			$table->text('ip_and_port')->after('status')->nullable();
-			$table->text('machines_count')->default(0)->after('ip_and_port');
+			$table->unsignedInteger('machines_count')->default(0)->after('ip_and_port');
 			$table->bigInteger('hashrate')->default(0)->after('machines_count');
 			$table->decimal('unpaid_shares', 20, 6)->default(0)->after('hashrate');
 			$table->decimal('balance', 20, 9)->default(0)->after('unpaid_shares');

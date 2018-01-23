@@ -22,6 +22,7 @@ Route::get('/user/miners', 'User\MinersController@index')->name('miners');
 Route::post('/user/miners', 'User\MinersController@create')->name('miners.create');
 Route::delete('/user/miners', 'User\MinersController@delete')->name('miners.delete');
 Route::post('/user/miners/alerts', 'User\MinersController@alerts')->name('miners.alerts');
+Route::get('/user/miners/{address}/payments', 'User\PaymentsController@index')->name('payments');
 
 Route::get('/user/profile', 'User\ProfileController@index')->name('profile');
 Route::post('/user/profile', 'User\ProfileController@update')->name('profile.update');

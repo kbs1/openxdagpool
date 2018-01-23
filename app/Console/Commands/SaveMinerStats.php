@@ -29,9 +29,10 @@ class SaveMinerStats extends Command
 
 		$total_unpaid_shares = (float) $miners_parser->getTotalUnpaidShares();
 
+		Miner::unguard();
 		foreach (Miner::all() as $miner) {
 			if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) {
-				$miner->update([
+				$miner->fill([
 					'status' => 'offline',
 					'ip_and_port' => null,
 					'machines_count' => 0,
@@ -40,10 +41,12 @@ class SaveMinerStats extends Command
 					'balance' => $balances_parser->getBalance($miner->address),
 				]);
 
+				$miner->save();
+
 				continue;
 			}
 
-			$miner->update([
+			$miner->fill([
 				'status' => $pool_miner->getStatus(),
 				'ip_and_port' => $pool_miner->getIpsAndPort(),
 				'machines_count' => $pool_miner->getMachinesCount(),
@@ -52,7 +55,9 @@ class SaveMinerStats extends Command
 				'balance' => $balances_parser->getBalance($miner->address),
 			]);
 
-			$unpaid_share = $miner->unpaidShares()->create([
+			$miner->save();
+
+			$miner->unpaidShares()->create([
 				'unpaid_shares' => $miner->unpaid_shares,
 			]);
 		}

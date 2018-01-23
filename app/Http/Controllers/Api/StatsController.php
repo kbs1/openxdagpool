@@ -35,7 +35,7 @@ class StatsController extends Controller
 			$user_hashrate = $user->miners->sum('hashrate');
 
 			$user_stats = [
-				'user_hashrate' => $this->format->hash($user_hashrate),
+				'user_hashrate' => $this->format->hashrate($user_hashrate),
 				'user_miners' => $user->miners->sum('machines_count'),
 				'user_balance' => $this->format->balance($user_balance = $user->miners->sum('balance')),
 				'user_balance_exact' => $this->format->fullBalance($user_balance),
@@ -55,8 +55,8 @@ class StatsController extends Controller
 		$pool_stat = PoolStat::orderBy('id', 'desc')->first();
 
 		return response()->json([
-			'pool_hashrate' => $this->format->hash($stats_parser->getPoolHashrate()),
-			'network_hashrate' => $this->format->hash($stats_parser->getNetworkHashrate()),
+			'pool_hashrate' => $this->format->hashrate($stats_parser->getPoolHashrate()),
+			'network_hashrate' => $this->format->hashrate($stats_parser->getNetworkHashrate()),
 			'blocks' => $stats_parser->getNumberOfBlocks(),
 			'main_blocks' => $stats_parser->getNumberOfMainBlocks(),
 			'difficulty' => $stats_presenter->getReadableDifficulty(),

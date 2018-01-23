@@ -27,7 +27,7 @@ class MinersController extends Controller
 	public function create(CreateMiner $request)
 	{
 		$user = Auth::user();
-		$user->miners->create([
+		$user->miners()->create([
 			'address' => $request->input('address'),
 			'note' => $request->input('note'),
 		]);

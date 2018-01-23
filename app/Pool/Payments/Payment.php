@@ -4,14 +4,14 @@ namespace App\Pool\Payments;
 
 class Payment
 {
-	protected $timestamp, $tag, $sender, $receiver, $amount;
+	protected $timestamp, $tag, $sender, $recipient, $amount;
 
-	public function __construct($timestamp, $tag, $sender, $receiver, $amount)
+	public function __construct($timestamp, $tag, $sender, $recipient, $amount)
 	{
 		$this->timestamp = $timestamp;
 		$this->tag = $tag;
 		$this->sender = $sender;
-		$this->receiver = $receiver;
+		$this->recipient = $recipient;
 		$this->amount = $amount;
 	}
 
@@ -30,9 +30,9 @@ class Payment
 		return $this->sender;
 	}
 
-	public function getReceiver()
+	public function getRecipient()
 	{
-		return $this->receiver;
+		return $this->recipient;
 	}
 
 	public function getAmount()

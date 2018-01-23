@@ -22,12 +22,12 @@ class Parser extends BaseParser
 		return $total;
 	}
 
-	public function getPaymentsForAddress($address)
+	public function getPaymentsForRecipient($address)
 	{
 		$list = [];
 
 		foreach ($this->list as $payment) {
-			if ($payment->getReceiver() === $address)
+			if ($payment->getRecipient() === $address)
 				$list[] = $payment;
 		}
 

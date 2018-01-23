@@ -82,7 +82,7 @@
 	View.prototype.checkBalance = function()
 	{
 		if (this.loading)
-			return;
+			return false;
 
 		$('.home-view #balanceCheckForm button').addClass('is-loading');
 		this.loading = true;
@@ -90,7 +90,9 @@
 		var request = {
 			'url': '/api/wallet/balance',
 			'method': 'POST',
-			'data': {},
+			'data': {
+				'address': $('.home-view #balanceCheckForm input').val()
+			},
 			'encoding': 'utf-8',
 			'headers': {
 				'Accept': 'application/json',
@@ -119,12 +121,20 @@
 				return self.unableToCheckBalance();
 			}
 
-			if (!json.status || !json.message)
-				return self.unableToCheckBalance();
-
 			var parent = $('.home-view #balanceResult');
-			$(parent).removeClass('is-success').removeClass('is-warning').addClass(json.status ? 'is-success' : 'is-warning');
-			$('span', parent).text(json.message);
+			var status, message;
+
+			if (json.errors) {
+				status = false;
+				message = $.map(json.errors, function(item) { return item.join(' ') }).join(' ');
+			} else {
+				status = json.status;
+				message = json.message;
+			}
+
+
+			$(parent).removeClass('is-success').removeClass('is-warning').addClass(status ? 'is-success' : 'is-warning').show();
+			$('span', parent).text(message);
 		});
 
 		return false;
@@ -133,7 +143,7 @@
 	View.prototype.unableToCheckBalance = function()
 	{
 		var parent = $('.home-view #balanceResult');
-		$(parent).removeClass('is-success').removeClass('is-warning').addClass('is-danger');
+		$(parent).removeClass('is-success').removeClass('is-warning').addClass('is-danger').show();
 		$('span', parent).text('Unable to check address balance.');
 	}
 

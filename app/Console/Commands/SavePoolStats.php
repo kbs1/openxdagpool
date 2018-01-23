@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use App\Pool\DataReader;
 use App\Pool\Statistics\{Parser as StatisticsParser, Stat};
+use App\Miners\Miner;
 
 class SavePoolStats extends Command
 {

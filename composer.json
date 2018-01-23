@@ -10,6 +10,7 @@
         "laravel-frontend-presets/bulma": "^1.5",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
+        "maatwebsite/excel": "^2.1",
         "webpatser/laravel-uuid": "^2.0"
     },
     "require-dev": {
