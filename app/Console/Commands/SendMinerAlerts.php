@@ -32,6 +32,6 @@ class SendMinerAlerts extends Command
 			}
 		}
 
-		$this->info('Completed successfully.');
+		$this->info('SendMinerAlerts completed successfully.');
 	}
 }

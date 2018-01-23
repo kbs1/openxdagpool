@@ -47,6 +47,6 @@ class ImportPayouts extends Command
 			$payout->save();
 		}
 
-		$this->info('Completed successfully.');
+		$this->info('ImportPayouts completed successfully.');
 	}
 }

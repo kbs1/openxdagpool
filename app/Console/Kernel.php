@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
 	 * @var array
 	 */
 	protected $commands = [
+		Commands\DownloadPoolData::class,
 		Commands\PoolCron::class,
 		Commands\ImportPayouts::class,
 		Commands\SaveMinerStats::class,
@@ -28,7 +29,7 @@ class Kernel extends ConsoleKernel
 	 */
 	protected function schedule(Schedule $schedule)
 	{
-		$schedule->command('payouts:import')->cron('59 */3 * * *');
+		$schedule->command('payouts:import')->cron('45 */3 * * *');
 		$schedule->command('pool:cron')->everyFiveMinutes();
 	}
 

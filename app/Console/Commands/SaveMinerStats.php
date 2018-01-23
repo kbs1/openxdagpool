@@ -64,6 +64,6 @@ class SaveMinerStats extends Command
 			]);
 		}
 
-		$this->info('Completed successfully.');
+		$this->info('SaveMinerStats completed successfully.');
 	}
 }

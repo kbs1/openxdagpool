@@ -33,6 +33,6 @@ class SavePoolStats extends Command
 
 		$stat->save();
 
-		$this->info('Completed successfully.');
+		$this->info('SavePoolStats completed successfully.');
 	}
 }

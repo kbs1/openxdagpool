@@ -6,22 +6,22 @@ class DataReader
 {
 	public function getStatistics()
 	{
-		return (string) @file_get_contents($this->getPath('STATS_ADDR'));
+		return (string) @fopen($this->getPath('STATS'), 'r');
 	}
 
 	public function getMiners()
 	{
-		return (string) @file_get_contents($this->getPath('MINERS_LIST_ADDR'));
+		return (string) @fopen($this->getPath('MINERS'), 'r');
 	}
 
 	public function getBalances()
 	{
-		return (string) @file_get_contents($this->getPath('BALANCES_ADDR'));
+		return (string) @fopen($this->getPath('BALANCES'), 'r');
 	}
 
 	public function getPayouts()
 	{
-		return (string) @file_get_contents($this->getPath('PAYOUTS_ADDR'));
+		return (string) @fopen($this->getPath('PAYOUTS'), 'r');
 	}
 
 	protected function getPath($env_name)

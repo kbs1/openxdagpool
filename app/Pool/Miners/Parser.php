@@ -6,11 +6,11 @@ use App\Pool\BaseParser;
 
 class Parser extends BaseParser
 {
-	protected $list = [];
-
 	public function getNumberOfMiners()
 	{
-		return count($this->list);
+		$this->forEachLine(function($line, 4) {
+			$parts = preg_split('/\s+/siu', $line);
+		});
 	}
 
 	public function getNumberOfActiveMiners()

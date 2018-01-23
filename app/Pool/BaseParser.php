@@ -2,37 +2,34 @@
 
 namespace App\Pool;
 
-abstract class BaseParser
+class BaseParser
 {
-	protected $lines = [];
+	protected $handle;
 
-	public function __construct($data)
+	public function __construct($handle)
 	{
-		$this->parseLines($data);
-		$this->parse();
+		$this->handle = $handle;
 	}
 
-	protected function parseLines($data)
+	public function forEachLine(callable $callback, $skip = 0)
 	{
-		$lines = explode("\n", $data);
-
-		if (count($lines) < 8)
+		if (!$this->handle)
 			return;
 
-		array_shift($lines);
+		$line_number = 0;
 
-		foreach ($lines as &$line) {
+		while (($line = fgets($this->handle)) !== false) {
 			if (substr($line, 0, 6) === 'xdag> ')
 				$line = substr($line, 6);
 
 			$line = trim($line);
+
+			if ($line !== '') {
+				if ($skip <= $line_mnumber)
+					$callback($line);
+
+				$line_number++;
+			}
 		}
-		unset($line);
-
-		$lines = array_values(array_filter($lines));
-
-		$this->lines = $lines;
 	}
-
-	abstract protected function parse();
 }
