@@ -32,8 +32,7 @@
 								<th class="tooltip" data-tooltip="Status updates every 5 minutes.">Status</th>
 								<th class="tooltip" data-tooltip="Estimated hashrate. Updates every 5 minutes.">Hashrate</th>
 								<th class="tooltip" data-tooltip="Unpaid shares. Updates every 5 minutes.">Unpaid shares</th>
-								<th class="tooltip" data-tooltip="Current address balance. Updates every 4 hours.">Balance</th>
-								<th class="tooltip" data-tooltip="Current address balance. Updates every 4 hours.">Balance</th>
+								<th class="tooltip" data-tooltip="Current address balance. Updates approximately every 4 hours.">Balance</th>
 								<th class="tooltip is-tooltip-multiline" data-tooltip="E-mail alerts when miner goes offline and back online.">Alerts</th>
 								<th></th>
 							</tr>
@@ -51,7 +50,7 @@
 										<input type="checkbox" name="alerts[{{ $miner->uuid }}]" value="1"{{ $miner->email_alerts ? ' checked' : '' }}>
 									</td>
 									<td>
-										<a class="button is-success tooltip" href="{{ route('miners.payments', $miner->address) }}" data-tooltip="View payments">
+										<a class="button is-success tooltip" href="{{ route('miners.payments', urlencode($miner->address)) }}" data-tooltip="View payments">
 											<span class="icon"><i class="fa fa-money"></i></span>
 										</a>
 
