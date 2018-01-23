@@ -26,7 +26,7 @@
 				<h4 class="title is-4">Address {{ $miner->address }}</h4>
 				@include('user.partials.payments')
 
-				<a class="button is-primary is-pulled-right" href="{{ route('miners.payments.export', urlencode($miner->address)) }}" target="_blank">
+				<a class="button is-primary is-pulled-right" href="{{ route('miners.payments.export', $miner->uuid) }}" target="_blank">
 					<span class="icon"><i class="fa fa-file-excel-o"></i></span>
 					<span>Export</span>
 				</a>

@@ -29,9 +29,9 @@ class PaymentsController extends Controller
 		return $this->exportPayments($user->getPayments(), 'user', $user->display_nick);
 	}
 
-	public function miner($address)
+	public function miner($uuid)
 	{
-		if (($miner = Auth::user()->miners()->where('address', $address)->first()) === null)
+		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
 		return view('user.miner-payments', [
@@ -41,9 +41,9 @@ class PaymentsController extends Controller
 		]);
 	}
 
-	public function exportMiner($address)
+	public function exportMiner($uuid)
 	{
-		if (($miner = Auth::user()->miners()->where('address', $address)->first()) === null)
+		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
 		return $this->exportPayments($miner->payments, 'address', $miner->address);

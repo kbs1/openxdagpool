@@ -50,7 +50,7 @@
 										<input type="checkbox" name="alerts[{{ $miner->uuid }}]" value="1"{{ $miner->email_alerts ? ' checked' : '' }}>
 									</td>
 									<td>
-										<a class="button is-success tooltip" href="{{ route('miners.payments', urlencode($miner->address)) }}" data-tooltip="View payments">
+										<a class="button is-success tooltip" href="{{ route('miners.payments', $miner->uuid) }}" data-tooltip="View payments">
 											<span class="icon"><i class="fa fa-money"></i></span>
 										</a>
 
