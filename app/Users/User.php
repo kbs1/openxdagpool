@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Miners\Miner;
+use App\Payments\Payment;
 
 class User extends Authenticatable
 {
@@ -43,6 +44,12 @@ class User extends Authenticatable
 	}
 
 	/* methods */
+	public function getPayments()
+	{
+		$addresses = $this->miners->pluck('address');
+		return Payment::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc')->get();
+	}
+
 	public function isActive()
 	{
 		return $this->active;

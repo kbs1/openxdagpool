@@ -2,22 +2,26 @@
 
 namespace App\Pool\Payments;
 
+use Carbon\Carbon;
+
 class Payment
 {
-	protected $timestamp, $tag, $sender, $recipient, $amount;
+	protected $made_at, $made_at_milliseconds, $tag, $sender, $recipient, $amount;
 
-	public function __construct($timestamp, $tag, $sender, $recipient, $amount)
+	public function __construct($made_at, $tag, $sender, $recipient, $amount)
 	{
-		$this->timestamp = $timestamp;
+		$made_at = explode('.', $made_at);
+		$this->made_at = $made_at[0];
+		$this->made_at_milliseconds = $made_at[1] ?? 0;
 		$this->tag = $tag;
 		$this->sender = $sender;
 		$this->recipient = $recipient;
 		$this->amount = $amount;
 	}
 
-	public function getTimestamp()
+	public function getMadeAt()
 	{
-		return $this->timestamp;
+		return Carbon::parse($this->made_at . '.' . $this->made_at_milliseconds * 1000);
 	}
 
 	public function getTag()

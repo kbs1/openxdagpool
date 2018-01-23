@@ -6,8 +6,9 @@ use Illuminate\Console\Command;
 
 use App\Pool\DataReader;
 use App\Pool\Payments\Parser as PaymentsParser;
+use App\Payments\Payment;
 
-use App\Miners\Miner;
+use Carbon\Carbon;
 
 class ImportPayments extends Command
 {
@@ -26,19 +27,24 @@ class ImportPayments extends Command
 	{
 		$payments_parser = new PaymentsParser($this->reader->getPayments());
 
-		foreach (Miner::all() as $miner) {
-			$payments = $payments_parser->getPaymentsForRecipient($miner->address);
-			if (!$payments) continue;
+		$latest = Payment::orderBy('id', 'desc')->first();
+		$latest_made_at = $latest ? $latest->precise_made_at : null;
 
-			$last_payment = $miner->payments()->orderBy('id', 'desc')->first();
+		foreach ($payments_parser->getPayments() as $pool_payment) {
+			$made_at = $pool_payment->getMadeAt();
 
-			foreach ($payments as $payment) {
-				//if ($payment->compareDate........
-			}
+			if ($latest_made_at && $made_at <= $latest_made_at && $made_at->micro <= $latest_made_at->micro) // overcome Carbon bug
+				continue;
 
-			$miner->payments()->create([
-				'unpaid_shares' => $miner->unpaid_shares,
+			$payment = new Payment([
+				'tag' => $pool_payment->getTag(),
+				'sender' => $pool_payment->getSender(),
+				'recipient' => $pool_payment->getRecipient(),
+				'amount' => $pool_payment->getAmount(),
 			]);
+
+			$payment->precise_made_at = $made_at;
+			$payment->save();
 		}
 
 		$this->info('Completed successfully.');

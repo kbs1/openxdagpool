@@ -12,44 +12,64 @@ class PaymentsController extends Controller
 	{
 		$this->middleware('auth');
 		$this->middleware('active');
-		view()->share('activeTab', 'miners');
 	}
 
-	public function index($address)
+	public function user()
 	{
-		if (($miner = Auth::user()->miners()->where('address', $address)->first()) === null)
-			return redirect()->back()->with('error', 'Miner not found.');
-
-		return view('user.payments', [
-			'miner' => $miner,
+		return view('user.user-payments', [
+			'payments' => Auth::user()->getPayments(),
+			'activeTab' => 'payments',
 		]);
 	}
 
-	public function export($address)
+	public function exportUser()
+	{
+		$user = Auth::user();
+
+		return $this->exportPayments($user->getPayments(), 'user', $user->display_nick);
+	}
+
+	public function miner($address)
 	{
 		if (($miner = Auth::user()->miners()->where('address', $address)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
+		return view('user.miner-payments', [
+			'miner' => $miner,
+			'payments' => $miner->payments,
+			'activeTab' => 'miners',
+		]);
+	}
+
+	public function exportMiner($address)
+	{
+		if (($miner = Auth::user()->miners()->where('address', $address)->first()) === null)
+			return redirect()->back()->with('error', 'Miner not found.');
+
+		return $this->exportPayments($miner->payments, 'address', $miner->address);
+	}
+
+	protected function exportPayments($payments, $for_label, $for)
+	{
 		$export = [
-			['Recipient:', $miner->address, ''],
-			['', '', ''],
-			['Date and time', 'Sender', 'Amount']
+			[ucfirst($for_label) . ':', $for, '', ''],
+			['', '', '', ''],
+			['Date and time', 'Sender', 'Recipient', 'Amount']
 		];
 
 		$total = 0;
-		foreach ($miner->payments as $payment) {
-			$export[] = [$payment->made_at_full, $payment->sender, $payment->amount];
+		foreach ($payments as $payment) {
+			$export[] = [$payment->precise_made_at->format('Y-m-d H:i:s.u'), $payment->sender, $payment->recipient, $payment->amount];
 			$total += $payment->amount;
 		}
 
-		$export[] = ['', '', ''];
-		$export[] = ['', 'Total:', sprintf('%.09f', $total)];
+		$export[] = ['', '', '', ''];
+		$export[] = ['', '', 'Total:', sprintf('%.09f', $total)];
 
-		return Excel::create(config('app.name') . ' - payments for ' . $miner->address, function($excel) use ($data) {
-			$excel->sheet('Payments', function($sheet) use ($data) {
-				$sheet->fromArray($data, null, 'A1', false, false);
+		return Excel::create(config('app.name') . ' - payments for ' . $for_label . ' ' . $for, function($excel) use ($export) {
+			$excel->sheet('Payments', function($sheet) use ($export) {
+				$sheet->fromArray($export, null, 'A1', false, false);
 			});
 		})->download('xlsx');
-
 	}
 }

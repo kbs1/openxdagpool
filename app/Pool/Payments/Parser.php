@@ -8,6 +8,11 @@ class Parser extends BaseParser
 {
 	protected $list = [];
 
+	public function getPayments()
+	{
+		return $this->list;
+	}
+
 	public function getNumberOfPayments()
 	{
 		return count($this->list);
@@ -47,7 +52,7 @@ class Parser extends BaseParser
 			if (count($parts) !== 12)
 				continue;
 
-			$this->list[] = new Payment($parts[0] . ' ' . $parts[1], substr(substr($parts[2], 1), -1), $parts[6], $parts[8], $parts[10]);
+			$this->list[] = new Payment($parts[0] . ' ' . $parts[1], substr(substr($parts[2], 1), 0, -1), $parts[6], $parts[8], $parts[10]);
 		}
 	}
 }

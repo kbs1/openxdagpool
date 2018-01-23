@@ -120,7 +120,7 @@
 										</p>
 									</div>
 								</div>
-								<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Sum of all your registered address balances. Click for details.">
+								<div class="level-item has-text-centered stat-tooltip" data-stat="user_earnings" data-stat-prefix="Earnings: ">
 									<div>
 										<p class="heading">Coins</p>
 										<p class="title">
@@ -230,6 +230,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-01-23</span> Added detailed payment statistics</li>
 								<li><span class="important">2018-01-22</span> Updated pool software</li>
 								<li><span class="important">2018-01-21</span> Support for "went offline" and "back online" miner alerts</li>
 								<li><span class="important">2018-01-20</span> Updated pool software, added wallet balance checker</li>

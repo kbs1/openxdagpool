@@ -54,6 +54,7 @@
 									<div class="navbar-dropdown">
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'profile' ? ' is-active' : '' !!}" href="{{ route('profile') }}">Profile</a>
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'miners' ? ' is-active' : '' !!}" href="{{ route('miners') }}">Miners</a>
+										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'payments' ? ' is-active' : '' !!}" href="{{ route('user.payments') }}">Payments</a>
 
 										<hr class="navbar-divider">
 

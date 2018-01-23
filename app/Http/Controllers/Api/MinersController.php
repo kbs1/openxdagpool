@@ -33,6 +33,8 @@ class MinersController extends Controller
 				'unpaid_shares' => $miner->unpaid_shares,
 				'balance' => $this->format->balance($miner->balance),
 				'balance_exact' => $this->format->fullBalance($miner->balance),
+				'earned' => $this->format->balance($miner->earned),
+				'earned_exact' => $this->format->fullBalance($miner->earned),
 			];
 		}
 

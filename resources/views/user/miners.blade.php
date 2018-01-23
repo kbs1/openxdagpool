@@ -33,6 +33,7 @@
 								<th class="tooltip" data-tooltip="Estimated hashrate. Updates every 5 minutes.">Hashrate</th>
 								<th class="tooltip" data-tooltip="Unpaid shares. Updates every 5 minutes.">Unpaid shares</th>
 								<th class="tooltip" data-tooltip="Current address balance. Updates every 4 hours.">Balance</th>
+								<th class="tooltip" data-tooltip="Current address balance. Updates every 4 hours.">Balance</th>
 								<th class="tooltip is-tooltip-multiline" data-tooltip="E-mail alerts when miner goes offline and back online.">Alerts</th>
 								<th></th>
 							</tr>
@@ -40,17 +41,17 @@
 						<tbody>
 							@forelse ($authUser->miners as $miner)
 								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}" data-note="{{ $miner->note }}">
-									<td class="miner-address{{ $miner->note != '' ? ' tooltip' : '' }} is-tooltip-multiline" data-tooltip="{{ $miner->note }}">{{ $miner->address }}</td>
+									<td class="miner-address tooltip is-tooltip-multiline" data-tooltip="{{ $miner->note ? $miner->address . ', ' . $miner->note : $miner->address }}">{{ $miner->short_address }}</td>
 									<td class="miner-status api is-loading"></td>
 									<td class="miner-hashrate api is-loading"></td>
 									<td class="miner-unpaid-shares api is-loading"></td>
-									<td class="miner-balance api is-loading"></td>
+									<td class="miner-balance api is-loading is-tooltip-multiline"></td>
 									<td>
 										<input type="hidden" name="alerts[{{ $miner->uuid }}]" value="0">
 										<input type="checkbox" name="alerts[{{ $miner->uuid }}]" value="1"{{ $miner->email_alerts ? ' checked' : '' }}>
 									</td>
 									<td>
-										<a class="button is-success tooltip" href="{{ route('payments', $miner->address) }}" data-tooltip="View payments">
+										<a class="button is-success tooltip" href="{{ route('miners.payments', $miner->address) }}" data-tooltip="View payments">
 											<span class="icon"><i class="fa fa-money"></i></span>
 										</a>
 
@@ -61,16 +62,18 @@
 								</tr>
 							@empty
 								<tr>
-									<td colspan="7">No miners.</td>
+									<td colspan="8">No miners.</td>
 								</tr>
 							@endforelse
 						</tbody>
 					</table>
 
-					<button type="submit" class="button is-pulled-right">
-						<span class="icon"><i class="fa fa-floppy-o"></i></span>
-						<span>Save alert preferences</span>
-					</button>
+					@if ($authUser->miners->count())
+						<button type="submit" class="button is-pulled-right">
+							<span class="icon"><i class="fa fa-floppy-o"></i></span>
+							<span>Save alert preferences</span>
+						</button>
+					@endif
 
 					<a class="button is-primary" id="addMiner">
 						<span class="icon"><i class="fa fa-plus-square-o"></i></span>
@@ -80,7 +83,7 @@
 				<hr>
 				<p><span class="important">Note:</span> hash rate calculation is purely informational, it does not represent 'what the pool sees', or your real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching your real speed over a longer period of time (usually 6 hours). You are always mining at full speed reported by typing <code>stats</code> into your miner console.</p>
 				<hr>
-				<p><span class="important">Note:</span> address balances update approximately every 4 hours. Like hash rate, this display is meant for a quick check on your miners once or twice a day, to see how they are doing. Always check your real time balance using the <code>balance</code> command in your miner console if you need a precise value.</p>
+				<p><span class="important">Note:</span> address balances and earnings update approximately every 4 hours. Like hash rate, this display is meant for a quick check on your miners once or twice a day, to see how they are doing. Always check your real time balance using the <code>balance</code> command in your miner console if you need a precise value.</p>
 			</div>
 		</div>
 

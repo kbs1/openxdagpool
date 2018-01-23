@@ -5,6 +5,8 @@ namespace App\Miners;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Users\User;
+use App\Payments\Payment;
+
 use App\Pool\Statistics\Stat as PoolStat;
 use Carbon\Carbon;
 
@@ -27,13 +29,13 @@ class Miner extends Model
 
 	public function payments()
 	{
-		return $this->hasMany(Payment::class);
+		return $this->hasMany(Payment::class, 'recipient', 'address')->orderBy('id', 'asc');
 	}
 
 	/* attributes */
 	public function getShortAddressAttribute()
 	{
-		return substr($this->address, 0, 3) . '...' . substr($this->address, -3);
+		return substr($this->address, 0, 5) . '...' . substr($this->address, -5);
 	}
 
 	public function getShortNoteAttribute()

@@ -39,6 +39,7 @@ class SaveMinerStats extends Command
 					'hashrate' => 0,
 					'unpaid_shares' => 0,
 					'balance' => $balances_parser->getBalance($miner->address),
+					'earned' => $miner->payments()->sum('amount'),
 				]);
 
 				$miner->save();
@@ -53,6 +54,7 @@ class SaveMinerStats extends Command
 				'hashrate' => $miner->getEstimatedHashrate($total_unpaid_shares),
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
 				'balance' => $balances_parser->getBalance($miner->address),
+				'earned' => $miner->payments()->sum('amount'),
 			]);
 
 			$miner->save();
