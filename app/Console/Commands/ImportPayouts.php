@@ -39,16 +39,12 @@ class ImportPayouts extends Command
 			if ($latest_fully_imported_at && $made_at <= $latest_fully_imported_at)
 				return;
 
-			if ($latest_fully_imported_at && !$last_made_at) {
+			if ($latest_fully_imported_at && !$last_made_at)
 				Payout::where('made_at', '=', $made_at)->where('made_at_milliseconds', '=', floor($made_at->micro / 1000))->delete();
-			}
 
 			$last_made_at = $last_made_at ?? $made_at;
 
 			if ($last_made_at < $made_at) {
-				if ($latest_fully_imported_at)
-					\DB::table('payouts')->where('date_fully_imported', false)->update(['date_fully_imported' => true]);
-
 				$inserted += count($insert);
 				$this->line("Imported: $inserted");
 
