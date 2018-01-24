@@ -4,30 +4,30 @@ namespace App\Pool;
 
 class BalancesParser extends BaseParser
 {
-	protected $list = [];
-
 	public function getBalance($address)
 	{
-		return $this->list[$address] ?? 0;
+		$balance = 0;
+
+		$this->forEachBalanceLine(function($parts) use ($address, &$balance) {
+			if ($parts[0] === $address)
+				$balance = $parts[1];
+		});
+
+		return $balance;
 	}
 
-	public function addressExists($address)
+	protected function forEachBalanceLine(callable $callback, $skip = 0)
 	{
-		return isset($this->list[$address]);
-	}
-
-	protected function parse()
-	{
-		foreach ($this->lines as $line) {
+		$this->forEachLine(function($line) use ($callback) {
 			$parts = preg_split('/\s+/siu', $line);
 
 			if (count($parts) !== 2)
-				continue;
+				return;
 
 			if (strlen($parts[0]) !== 32)
-				continue;
+				return;
 
-			$this->list[$parts[0]] = $parts[1];
-		}
+			$callback($parts);
+		}, $skip);
 	}
 }
