@@ -18,11 +18,11 @@ class BalancesController extends Controller
 			return response()->json(['status' => true, 'message' => "Balance on address \"$address\" is {$miner->balance} XDAG."]);
 
 		$balances = new BalancesParser($reader->getBalances());
+		$balance = $balances->getBalance($address);
 
-		if (!$balances->addressExists($address))
+		if ($balance === null)
 			return response()->json(['status' => false, 'message' => "Address \"$address\" is not known on the network."]);
 
-		$balance = $balances->getBalance($address);
 		return response()->json(['status' => true, 'message' => "Balance on address \"$address\" is $balance XDAG."]);
 	}
 }

@@ -6,7 +6,7 @@ class BalancesParser extends BaseParser
 {
 	public function getBalance($address)
 	{
-		$balance = 0;
+		$balance = null;
 
 		$this->forEachBalanceLine(function($parts) use ($address, &$balance) {
 			if ($parts[0] === $address)
