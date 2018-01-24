@@ -41,6 +41,10 @@ class PayoutsController extends Controller
 	public function exportUserPayoutsListing()
 	{
 		$user = Auth::user();
+
+		if ($user->getPayoutsCount() > 10000)
+			return $this->exportPayoutsCsv($user, $user->getPayoutsSum(), 'user', $user->display_nick);
+
 		return $this->exportPayoutsListing($user->getPayouts(), 'user', $user->display_nick);
 	}
 
@@ -83,10 +87,48 @@ class PayoutsController extends Controller
 		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
-		return $this->exportPayoutsListing($miner->payouts, 'address', $miner->address);
+		if ($miner->payouts()->count() > 10000)
+			return $this->exportPayoutsCsv($miner, $miner->payouts->sum('amount'), 'address', $miner->address);
+
+		return $this->exportPayoutsXlsx($miner->payouts, 'address', $miner->address);
 	}
 
-	protected function exportPayoutsListing($payouts, $for_label, $for)
+	protected function exportPayoutsCsv($model, $sum, $for_label, $for)
+	{
+		$download_name = $this->sanitizeFileName(config('app.name') . ' - payouts listing for ' . $for_label . ' ' . $for . ' ' . rand() . '.csv');
+		$filename = public_path('payouts/' . $download_name);
+
+		try {
+			$model->exportPayoutsToCsv($filename);
+		} catch (\Illuminate\Database\QueryException $ex) {
+			return redirect()->back()->with('error', 'Unable to export your payouts, please try again later.');
+		}
+
+		$file = @fopen($filename, 'a');
+		if (!$file) return redirect()->back()->with('error', 'Unable to export your payouts, please try again later.');
+
+		fputcsv($file, ['', '', '', '']);
+		fputcsv($file, [ucfirst($for_label) . ':', $for, '', '']);
+		fputcsv($file, ['', '', '', '']);
+		fputcsv($file, ['', '', 'Total:', sprintf('%.09f', $sum)]);
+
+		/*return response()->stream(function() use ($filename) {
+			$stream = \Storage::readStream($filename);
+			fpassthru($stream);
+			if (is_resource($stream)) {
+				fclose($stream);
+			}
+		}, 200, [
+			'Content-Type'          => \Storage::mimeType('public/' . $download_name),
+			'Content-Length'        => \Storage::size('public/' . $download_name),
+			'Content-Disposition'   => 'attachment; filename="' . basename($filename) . '"',
+			'Pragma'                => 'public',
+		])->deleteFileAfterSend(true);*/
+
+		return response()->download($filename)->deleteFileAfterSend(true);
+	}
+
+	protected function exportPayoutsXlsx($payouts, $for_label, $for)
 	{
 		$export = [
 			[ucfirst($for_label) . ':', $for, '', ''],
@@ -103,7 +145,7 @@ class PayoutsController extends Controller
 		$export[] = ['', '', '', ''];
 		$export[] = ['', '', 'Total:', sprintf('%.09f', $total)];
 
-		return Excel::create(config('app.name') . ' - payouts listing for ' . $for_label . ' ' . $for, function($excel) use ($export) {
+		return Excel::create($this->sanitizeFileName(config('app.name') . ' - payouts listing for ' . $for_label . ' ' . $for . ' ' . rand()), function($excel) use ($export) {
 			$excel->sheet('Payouts listing', function($sheet) use ($export) {
 				$sheet->fromArray($export, null, 'A1', false, false);
 			});
@@ -127,7 +169,7 @@ class PayoutsController extends Controller
 		$export[] = ['', ''];
 		$export[] = ['Total:', sprintf('%.09f', $total)];
 
-		return Excel::create(config('app.name') . ' - daily payouts for ' . $for_label . ' ' . $for, function($excel) use ($export) {
+		return Excel::create($this->sanitizeFileName(config('app.name') . ' - daily payouts for ' . $for_label . ' ' . $for . ' ' . rand()), function($excel) use ($export) {
 			$excel->sheet('Daily payouts', function($sheet) use ($export) {
 				$sheet->fromArray($export, null, 'A1', false, false);
 			});
@@ -146,5 +188,14 @@ class PayoutsController extends Controller
 		}
 
 		return json_encode($graph);
+	}
+
+	protected function sanitizeFilename($filename)
+	{
+		$chars = ['/', '<', '>', ':', '"', '\\', '|', '?', '*'];
+		for ($i = 0; $i < 32; $i++)
+			$chars[] = chr($i);
+
+		return str_replace($chars, '_', $filename);
 	}
 }

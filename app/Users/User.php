@@ -56,10 +56,25 @@ class User extends Authenticatable
 		return Payout::selectRaw('sum(amount) sum')->whereIn('recipient', $addresses ?: ['none'])->pluck('sum')->first();
 	}
 
+	public function getPayoutsCount()
+	{
+		$addresses = $this->miners->pluck('address');
+		return Payout::whereIn('recipient', $addresses ?: ['none'])->count();
+	}
+
 	public function getDailyPayouts()
 	{
 		$addresses = $this->miners->pluck('address');
 		return Payout::selectRaw('sum(amount) total, DATE_FORMAT(made_at, "%Y-%m-%d") date')->whereIn('recipient', $addresses ?: ['none'])->groupBy('date')->get();
+	}
+
+	public function exportPayoutsToCsv($filename)
+	{
+		$addresses = $this->miners->pluck('address');
+		$in_clause = array_fill(0, count($addresses), '?');
+
+		return \DB::statement('SELECT made_at, sender, recipient, amount FROM payouts WHERE recipient IN (' . implode(', ', $in_clause) . ')
+			INTO OUTFILE ' . \DB::getPdo()->quote($filename) . ' FIELDS TERMINATED BY "," ENCLOSED BY \'"\' LINES TERMINATED BY "\n"', $addresses->toArray());
 	}
 
 	public function isActive()
