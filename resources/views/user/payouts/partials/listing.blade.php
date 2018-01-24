@@ -17,7 +17,7 @@
 			</tr>
 		@empty
 			<tr>
-				<td colspan="4">No payouts yet, check back later! ;-)</td>
+				<td colspan="4">No payouts yet, check back soon! ;-)</td>
 			</tr>
 		@endforelse
 	</tbody>

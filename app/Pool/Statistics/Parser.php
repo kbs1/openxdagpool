@@ -6,7 +6,14 @@ use App\Pool\BaseParser;
 
 class Parser extends BaseParser
 {
-	protected $pool_hashrate = 0, $network_hashrate = 0, $blocks = 0, $main_blocks = 0, $difficulty = 0, $supply = 0;
+	protected $lines, $pool_hashrate = 0, $network_hashrate = 0, $blocks = 0, $main_blocks = 0, $difficulty = 0, $supply = 0;
+
+	public function __construct($handle)
+	{
+		parent::__construct($handle);
+		$this->read();
+		$this->parse();
+	}
 
 	public function getPoolHashrate()
 	{
@@ -36,6 +43,14 @@ class Parser extends BaseParser
 	public function getSupply()
 	{
 		return $this->supply;
+	}
+
+	protected function read()
+	{
+		$this->lines = [];
+		$this->forEachLine(function($line) {
+			$this->lines[] = $line;
+		});
 	}
 
 	protected function getLine($marker)

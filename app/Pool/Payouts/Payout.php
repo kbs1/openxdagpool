@@ -12,7 +12,7 @@ class Payout
 	{
 		$made_at = explode('.', $made_at);
 		$this->made_at = $made_at[0];
-		$this->made_at_milliseconds = $made_at[1] ?? 0;
+		$this->made_at_milliseconds = intval($made_at[1] ?? 0);
 		$this->tag = $tag;
 		$this->sender = $sender;
 		$this->recipient = $recipient;
@@ -21,7 +21,7 @@ class Payout
 
 	public function getMadeAt()
 	{
-		return Carbon::parse($this->made_at . '.' . $this->made_at_milliseconds * 1000);
+		return Carbon::parse($this->made_at . '.' . sprintf('%06d', $this->made_at_milliseconds * 1000));
 	}
 
 	public function getTag()

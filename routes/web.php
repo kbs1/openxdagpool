@@ -20,6 +20,7 @@ Route::get('/stats', 'StatsController@index')->name('stats');
 
 Route::get('/user/miners', 'User\MinersController@index')->name('miners');
 Route::post('/user/miners', 'User\MinersController@create')->name('miners.create');
+Route::put('/user/miners', 'User\MinersController@update')->name('miners.update');
 Route::delete('/user/miners', 'User\MinersController@delete')->name('miners.delete');
 Route::post('/user/miners/alerts', 'User\MinersController@alerts')->name('miners.alerts');
 Route::get('/user/miners/{address}/payouts-graph', 'User\PayoutsController@minerPayoutsGraph')->name('miners.payouts.graph');

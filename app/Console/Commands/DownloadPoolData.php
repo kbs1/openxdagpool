@@ -9,14 +9,6 @@ class DownloadPoolData extends Command
 	protected $signature = 'pool:download-data';
 	protected $description = 'Downloads pool miners, stats, balances and payouts data into the storage folder using wget.';
 
-	protected $reader;
-
-	public function __construct(DataReader $reader)
-	{
-		$this->reader = $reader;
-		parent::__construct();
-	}
-
 	public function handle()
 	{
 		$this->download(env('DOWNLOAD_MINERS'), env('MINERS'));
@@ -33,9 +25,9 @@ class DownloadPoolData extends Command
 		$destination = $this->getPath($destination);
 
 		if (substr($source, 0, 7) !== 'http://' && substr($source, 0, 8) !== 'https://')
-			exec('/bin/cp ' . escapeshellarg($source) . ' ' . escapeshellarg($destination));
+			exec(env('CP_EXECUTABLE', '/bin/cp') . ' ' . escapeshellarg($source) . ' ' . escapeshellarg($destination));
 		else
-			exec('/usr/bin/wget -q -O ' . escapeshellarg($destination) . ' ' . escapeshellarg($source));
+			exec(env('WGET_EXECUTABLE', '/usr/bin/wget') . ' -q -O ' . escapeshellarg($destination) . ' ' . escapeshellarg($source));
 	}
 
 	protected function getPath($path)

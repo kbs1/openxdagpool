@@ -82,7 +82,8 @@
 				data: {
 					json: json,
 					x: 'x',
-					xFormat: '%Y-%m-%d %H:%M'
+					xFormat: '%Y-%m-%d %H:%M',
+					//type: 'bar'
 				},
 				axis: {
 					x: {

@@ -6,22 +6,22 @@ class DataReader
 {
 	public function getStatistics()
 	{
-		return (string) @fopen($this->getPath('STATS'), 'r');
+		return @fopen($this->getPath('STATS'), 'r');
 	}
 
 	public function getMiners()
 	{
-		return (string) @fopen($this->getPath('MINERS'), 'r');
+		return @fopen($this->getPath('MINERS'), 'r');
 	}
 
 	public function getBalances()
 	{
-		return (string) @fopen($this->getPath('BALANCES'), 'r');
+		return @fopen($this->getPath('BALANCES'), 'r');
 	}
 
 	public function getPayouts()
 	{
-		return (string) @fopen($this->getPath('PAYOUTS'), 'r');
+		return @fopen($this->getPath('PAYOUTS'), 'r');
 	}
 
 	protected function getPath($env_name)

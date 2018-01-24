@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Payouts ({{ $miner->short_address }})
+	Payouts - {{ $miner->short_address }}
 @endsection
 
 @section('hero')
@@ -51,6 +51,6 @@
 
 @section('scripts')
 	<script>
-		var payoutView = new payoutView({});
+		var payoutsView = new payoutsView('{!! $graph_data !!}');
 	</script>
 @endsection

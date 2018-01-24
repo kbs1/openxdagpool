@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Payouts ({{ $authUser->display_nick }})
+	{{ $authUser->display_nick }}'s earnings
 @endsection
 
 @section('hero')
@@ -23,7 +23,7 @@
 	<div class="miners-view">
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
-				<h4 class="title is-4">User {{ $authUser->display_nick }}</h4>
+				<h4 class="title is-4">{{ $authUser->display_nick }}'s earnings</h4>
 
 				<div class="tabs">
 					<ul>

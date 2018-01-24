@@ -50,6 +50,12 @@ class User extends Authenticatable
 		return Payout::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc')->get();
 	}
 
+	public function getDailyPayouts()
+	{
+		$addresses = $this->miners->pluck('address');
+		return Payout::selectRaw('sum(amount) total, DATE_FORMAT(made_at, "%Y-%m-%d") date')->whereIn('recipient', $addresses ?: ['none'])->groupBy('date')->get();
+	}
+
 	public function isActive()
 	{
 		return $this->active;

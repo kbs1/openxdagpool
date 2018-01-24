@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Payouts ({{ $miner->short_address }})
+	Payouts - {{ $miner->short_address }}
 @endsection
 
 @section('hero')

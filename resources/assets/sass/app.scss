@@ -65,3 +65,13 @@ pre.oneline {
 .home-view #balanceResult {
 	display: none;
 }
+
+.miners-view {
+	.is-disabled {
+		background-color: rgb(245, 245, 245);
+	}
+
+	.modal textarea {
+		height: 250px;
+	}
+}

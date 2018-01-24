@@ -49,6 +49,20 @@ class MinersController extends Controller
 		return redirect()->back()->with('success', 'Miner successfully deleted.');
 	}
 
+	public function update(Request $request)
+	{
+		$user = Auth::user();
+		$miner = $user->miners()->where('uuid', $request->input('uuid'))->first();
+
+		if (!$miner)
+			return redirect()->back()->with('error', 'Miner not found.');
+
+		$miner->note = $request->input('note');
+		$miner->save();
+
+		return redirect()->back()->with('success', 'Miner successfully updated.');
+	}
+
 	public function alerts(Request $request, DataReader $reader)
 	{
 		$user = Auth::user();

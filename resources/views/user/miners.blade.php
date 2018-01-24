@@ -40,7 +40,7 @@
 						<tbody>
 							@forelse ($authUser->miners as $miner)
 								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}" data-note="{{ $miner->note }}">
-									<td class="miner-address tooltip is-tooltip-multiline" data-tooltip="{{ $miner->note ? $miner->address . ', ' . $miner->note : $miner->address }}">{{ $miner->short_address }}</td>
+									<td class="miner-address tooltip is-tooltip-multiline" data-tooltip="{{ $miner->note ? $miner->address . ', ' . $miner->note : $miner->address }}"><a href="#" class="update-miner">{{ $miner->short_address }}</a></td>
 									<td class="miner-status api is-loading"></td>
 									<td class="miner-hashrate api is-loading"></td>
 									<td class="miner-unpaid-shares api is-loading"></td>
@@ -165,7 +165,7 @@
 								<div class="field-body">
 									<div class="field">
 										<p class="control has-icons-left has-icons-right">
-											<input class="input" type="text" id="deleteMinerAddress" name="address" readonly>
+											<input class="input is-disabled" type="text" id="deleteMinerAddress" name="address" readonly>
 											<span class="icon is-small is-left">
 												<i class="fa fa-address-card-o"></i>
 											</span>
@@ -184,7 +184,7 @@
 								<div class="field-body">
 									<div class="field">
 										<p class="control has-icons-left has-icons-right">
-											<input class="input" type="text" id="deleteMinerNote" name="note" readonly>
+											<input class="input is-disabled" type="text" id="deleteMinerNote" name="note" readonly>
 											<span class="icon is-small is-left">
 												<i class="fa fa-sticky-note-o"></i>
 											</span>
@@ -196,6 +196,78 @@
 					</section>
 					<footer class="modal-card-foot">
 						<button type="submit" class="button is-danger">Delete</button>
+						<button type="button" class="button close-modal">Back</button>
+					</footer>
+				</form>
+			</div>
+		</div>
+
+		<div class="modal" id="updateMinerModal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Miner details</p>
+					<a class="delete close-modal" aria-label="close" href="#"></a>
+				</header>
+				<form id="deleteMinerForm" method="post" action="{{ route('miners.update') }}">
+					<input type="hidden" name="uuid" id="updateMinerUuid" value="">
+					<input type="hidden" name="_method" value="put">
+					{{ csrf_field() }}
+					<section class="modal-card-body">
+						<div class="column">
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">Address</label>
+								</div>
+
+								<div class="field-body">
+									<div class="field">
+										<p class="control has-icons-left has-icons-right">
+											<input class="input is-disabled" type="text" id="updateMinerAddress" name="address" readonly>
+											<span class="icon is-small is-left">
+												<i class="fa fa-address-card-o"></i>
+											</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">Note</label>
+								</div>
+
+								<div class="field-body">
+									<div class="field">
+										<p class="control has-icons-left has-icons-right">
+											<input class="input" type="text" id="updateMinerNote" name="note">
+											<span class="icon is-small is-left">
+												<i class="fa fa-sticky-note-o"></i>
+											</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="field is-horizontal">
+								<div class="field-label">
+									<label class="label">IPs and ports</label>
+								</div>
+
+								<div class="field-body">
+									<div class="field">
+										<textarea class="input is-disabled" id="updateMinerIpsAndPorts" name="ips_and_ports" rows="5" readonly></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<footer class="modal-card-foot">
+						<button type="submit" class="button is-primary">Update note</button>
 						<button type="button" class="button close-modal">Back</button>
 					</footer>
 				</form>

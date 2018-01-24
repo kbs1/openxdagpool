@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Pool\DataReader;
+use App\Pool\Miners\Parser as MinersParser;
 use App\Pool\Statistics\{Parser as StatisticsParser, Stat};
 use App\Miners\Miner;
 
@@ -24,11 +25,12 @@ class SavePoolStats extends Command
 	public function handle()
 	{
 		$stats = new StatisticsParser($this->reader->getStatistics());
+		$miners = new MinersParser($this->reader->getMiners());
 
 		$stat = new Stat([
 			'pool_hashrate' => $stats->getPoolHashrate(),
 			'network_hashrate' => $stats->getNetworkHashrate(),
-			'active_miners' => Miner::where('status', '!=', 'offline')->count(),
+			'active_miners' => $miners->getNumberOfActiveMiners(),
 		]);
 
 		$stat->save();

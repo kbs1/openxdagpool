@@ -17,7 +17,7 @@ class PayoutsController extends Controller
 	public function userPayoutsGraph()
 	{
 		return view('user.payouts.user-payouts-graph', [
-			'payouts' => Auth::user()->getPayouts(),
+			'graph_data' => $this->getGraphData(Auth::user()->getDailyPayouts()),
 			'activeTab' => 'payouts',
 		]);
 	}
@@ -30,10 +30,15 @@ class PayoutsController extends Controller
 		]);
 	}
 
+	public function exportUserPayoutsGraph()
+	{
+		$user = Auth::user();
+		return $this->exportPayoutsGraph($user->getDailyPayouts(), 'user', $user->display_nick);
+	}
+
 	public function exportUserPayoutsListing()
 	{
 		$user = Auth::user();
-
 		return $this->exportPayoutsListing($user->getPayouts(), 'user', $user->display_nick);
 	}
 
@@ -42,11 +47,9 @@ class PayoutsController extends Controller
 		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
-		$payouts = $miner->payouts
-
 		return view('user.payouts.miner-payouts-graph', [
 			'miner' => $miner,
-			'payouts' => $miner->payouts,
+			'graph_data' => $this->getGraphData($miner->getDailyPayouts()),
 			'activeTab' => 'miners',
 		]);
 	}
@@ -61,6 +64,14 @@ class PayoutsController extends Controller
 			'payouts' => $miner->payouts,
 			'activeTab' => 'miners',
 		]);
+	}
+
+	public function exportMinerPayoutsGraph($uuid)
+	{
+		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
+			return redirect()->back()->with('error', 'Miner not found.');
+
+		return $this->exportPayoutsGraph($miner->getDailyPayouts(), 'address', $miner->address);
 	}
 
 	public function exportMinerPayoutsListing($uuid)
@@ -81,43 +92,53 @@ class PayoutsController extends Controller
 
 		$total = 0;
 		foreach ($payouts as $payout) {
-			$export[] = [$payout->precise_made_at->format('Y-m-d H:i:s.u'), $payout->sender, $payout->recipient, $payout->amount];
+			$export[] = [$payout->made_at->format('Y-m-d H:i:s'), $payout->sender, $payout->recipient, $payout->amount];
 			$total += $payout->amount;
 		}
 
 		$export[] = ['', '', '', ''];
 		$export[] = ['', '', 'Total:', sprintf('%.09f', $total)];
 
-		return Excel::create(config('app.name') . ' - payouts for ' . $for_label . ' ' . $for, function($excel) use ($export) {
-			$excel->sheet('Payouts', function($sheet) use ($export) {
+		return Excel::create(config('app.name') . ' - payouts listing for ' . $for_label . ' ' . $for, function($excel) use ($export) {
+			$excel->sheet('Payouts listing', function($sheet) use ($export) {
 				$sheet->fromArray($export, null, 'A1', false, false);
 			});
 		})->download('xlsx');
 	}
 
-	protected function getPayouts
-
-	protected function getGraphData($payouts)
+	protected function exportPayoutsGraph($days, $for_label, $for)
 	{
-		$graph = ['x' => [], 'Payouts' => []];
+		$export = [
+			[ucfirst($for_label) . ':', $for],
+			['', ''],
+			['Date', 'Amount']
+		];
 
-		foreach ($stats as $stat) {
-			$datetime = $stat->created_at->subMinutes(5)->format('Y-m-d H:i');
-
-			$pool_hashrate['x'][] = $datetime;
-			$active_miners['x'][] = $datetime;
-			$network_hashrate['x'][] = $datetime;
-
-			$pool_hashrate['Pool hashrate (Gh/s)'][] = $stat->pool_hashrate / 1000000000;
-			$network_hashrate['Network hashrate (Gh/s)'][] = $stat->network_hashrate / 1000000000;
-
-			$active_miners['Active pool miners'][] = $stat->active_miners;
+		$total = 0;
+		foreach ($days as $day) {
+			$export[] = [$day->date, sprintf('%.09f', $day->total)];
+			$total += $day->total;
 		}
 
-		return response()->json([
-			'pool_hashrate' => $pool_hashrate,
-			'active_miners' => $active_miners,
-			'network_hashrate' => $network_hashrate,
-		]);
+		$export[] = ['', ''];
+		$export[] = ['Total:', sprintf('%.09f', $total)];
+
+		return Excel::create(config('app.name') . ' - daily payouts for ' . $for_label . ' ' . $for, function($excel) use ($export) {
+			$excel->sheet('Daily payouts', function($sheet) use ($export) {
+				$sheet->fromArray($export, null, 'A1', false, false);
+			});
+		})->download('xlsx');
+	}
+
+	protected function getGraphData($days)
+	{
+		$graph = ['x' => [], 'Payout' => []];
+
+		foreach ($days as $day) {
+			$graph['x'][] = $day->date;
+			$graph['Payout'][] = sprintf('%.09f', $day->total);
+		}
+
+		return json_encode($graph);
 	}
 }

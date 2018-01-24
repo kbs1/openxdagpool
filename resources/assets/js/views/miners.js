@@ -19,6 +19,7 @@
 		window.setInterval(this.loadMinersData.bind(this), 30000);
 
 		$('#addMiner').click(this.addMiner);
+		$('.update-miner').click(this.updateMiner);
 		$('.delete-miner').click(this.deleteMiner);
 	}
 
@@ -80,7 +81,10 @@
 				$('.miner-balance', tr).text(miner.balance).addClass('tooltip').attr('data-tooltip', 'Exact balance: ' + miner.balance_exact + ', Earned: ' + miner.earned_exact);
 
 				if (miner.ip_and_port) {
+					$(tr).data('ipAndPort', miner.ip_and_port);
 					$('.miner-address', tr).attr('data-tooltip', 'IP and port: ' + miner.ip_and_port + ', Address: ' + $(tr).data('address') + ($(tr).data('note') ? ', Note: ' + $(tr).data('note') : ''));
+				} else {
+					$(tr).data('ipAndPort', null);
 				}
 			}
 		});
@@ -96,11 +100,25 @@
 		$('#addMinerModal').addClass('is-active');
 	}
 
+	View.prototype.updateMiner = function()
+	{
+		var miner = $(this).closest('tr');
+		$('#updateMinerUuid').val($(miner).data('uuid'));
+		$('#updateMinerAddress').val($(miner).data('address'));
+		$('#updateMinerNote').val($(miner).data('note'));
+		$('#updateMinerIpsAndPorts').val($(miner).data('ipAndPort') ? $(miner).data('ipAndPort').replace(', ', '\n') : '');
+
+		$('#updateMinerModal').addClass('is-active');
+
+		return false;
+	}
+
 	View.prototype.deleteMiner = function()
 	{
 		var miner = $(this).closest('tr');
-		$('#deleteMinerAddress').val($(miner).data('address'))
-		$('#deleteMinerNote').val($(miner).data('note'))
+		$('#deleteMinerAddress').val($(miner).data('address'));
+		$('#deleteMinerNote').val($(miner).data('note'));
+
 		$('#deleteMinerModal').addClass('is-active');
 
 		return false;

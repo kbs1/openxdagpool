@@ -25,11 +25,13 @@ class BaseParser
 			$line = trim($line);
 
 			if ($line !== '') {
-				if ($skip <= $line_mnumber)
+				if ($skip <= $line_number)
 					$callback($line);
 
 				$line_number++;
 			}
 		}
+
+		fseek($this->handle, 0);
 	}
 }

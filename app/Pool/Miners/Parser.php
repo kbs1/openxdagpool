@@ -8,19 +8,23 @@ class Parser extends BaseParser
 {
 	public function getNumberOfMiners()
 	{
-		$this->forEachLine(function($line, 4) {
-			$parts = preg_split('/\s+/siu', $line);
+		$count = 0;
+
+		$this->forEachMinerLine(function($parts) use (&$count) {
+			$count++;
 		});
+
+		return $count;
 	}
 
 	public function getNumberOfActiveMiners()
 	{
 		$active = 0;
 
-		foreach ($this->list as $miner) {
-			if ($miner->getStatus() === 'active')
+		$this->forEachMinerLine(function($parts) use (&$active) {
+			if ($parts[2] === 'active')
 				$active++;
-		}
+		});
 
 		return $active;
 	}
@@ -28,48 +32,47 @@ class Parser extends BaseParser
 	public function getTotalUnpaidShares()
 	{
 		$total = 0;
-		foreach ($this->list as $miner)
-			$total += $miner->getUnpaidShares();
+
+		$this->forEachMinerLine(function($parts) use (&$total) {
+			$total += $parts[5];
+		});
 
 		return $total;
 	}
 
 	public function getMiner($address)
 	{
-		foreach ($this->list as $miner) {
-			if ($miner->getAddress() === $address)
-				return $miner;
-		}
+		$miner = null;
 
-		return null;
+		$this->forEachMinerLine(function($parts) use ($address, &$miner) {
+			if ($parts[1] === $address) {
+				if (!$miner) {
+					$miner = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
+				} else {
+					$miner->addIpAndPort($parts[3]);
+					$miner->addUnpaidShares($parts[5]);
+
+					if ($miner->getStatus() !== 'active' && $parts[2] === 'active')
+						$miner->setStatus($parts[2]);
+				}
+			}
+		});
+
+		return $miner;
 	}
 
-	protected function parse()
+	protected function forEachMinerLine(callable $callback, $skip = 0)
 	{
-		array_shift($this->lines);
-		array_shift($this->lines);
-		array_shift($this->lines);
-
-		foreach ($this->lines as $line) {
+		$this->forEachLine(function($line) use ($callback) {
 			$parts = preg_split('/\s+/siu', $line);
 
 			if (count($parts) !== 6)
-				continue;
+				return;
 
 			if ($parts[0] === '-1.')
-				continue;
+				return;
 
-			if ($miner = $this->getMiner($parts[1])) {
-				$miner->addIpAndPort($parts[3]);
-				$miner->addUnpaidShares($parts[5]);
-
-				if ($miner->getStatus() !== 'active' && $parts[2] === 'active')
-					$miner->setStatus($parts[2]);
-
-				continue;
-			}
-
-			$this->list[] = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
-		}
+			$callback($parts);
+		}, $skip);
 	}
 }

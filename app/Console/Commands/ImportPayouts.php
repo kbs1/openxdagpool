@@ -5,10 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Pool\DataReader;
-use App\Pool\Payouts\Parser as PayoutsParser;
+use App\Pool\Payouts\{Parser as PayoutsParser, Payout as PoolPayout};
 use App\Payouts\Payout;
-
-use Carbon\Carbon;
 
 class ImportPayouts extends Command
 {
@@ -27,25 +25,49 @@ class ImportPayouts extends Command
 	{
 		$payouts_parser = new PayoutsParser($this->reader->getPayouts());
 
-		$latest = Payout::orderBy('id', 'desc')->first();
-		$latest_made_at = $latest ? $latest->precise_made_at : null;
+		$latest = Payout::where('date_fully_imported', true)->orderBy('id', 'desc')->first();
+		$latest_fully_imported_at = $latest ? $latest->precise_made_at : null;
+		$last_made_at = null;
 
-		foreach ($payouts_parser->getPayouts() as $pool_payout) {
+		$payouts_parser->forEachPayoutLine(function(PoolPayout $pool_payout) use ($latest, $latest_fully_imported_at, &$last_made_at) {
 			$made_at = $pool_payout->getMadeAt();
 
-			if ($latest_made_at && $made_at <= $latest_made_at && $made_at->micro <= $latest_made_at->micro) // overcome Carbon bug
-				continue;
+			if ($latest_fully_imported_at && $made_at <= $latest_fully_imported_at)
+				return;
+
+			if ($latest_fully_imported_at && !$last_made_at) {
+				Payout::where('made_at', '<', $made_at)->orWhere(function($query) use ($made_at) {
+					$query->where('made_at', '=', $made_at)->where('made_at_milliseconds', '<', floor($made_at->micro / 1000));
+				})->update([
+					'date_fully_imported' => true,
+				]);
+
+				Payout::where('made_at', '=', $made_at)->where('made_at_milliseconds', '=', floor($made_at->micro / 1000))->delete();
+			}
 
 			$payout = new Payout([
 				'tag' => $pool_payout->getTag(),
 				'sender' => $pool_payout->getSender(),
 				'recipient' => $pool_payout->getRecipient(),
 				'amount' => $pool_payout->getAmount(),
+				'date_fully_imported' => false,
 			]);
 
 			$payout->precise_made_at = $made_at;
 			$payout->save();
-		}
+
+			$last_made_at = $last_made_at ?? $made_at;
+
+			if ($last_made_at < $made_at) {
+				Payout::where('made_at', '<', $made_at)->orWhere(function($query) use ($made_at) {
+					$query->where('made_at', '=', $made_at)->where('made_at_milliseconds', '<', floor($made_at->micro / 1000));
+				})->update([
+					'date_fully_imported' => true,
+				]);
+
+				$last_made_at = $made_at;
+			}
+		});
 
 		$this->info('ImportPayouts completed successfully.');
 	}

@@ -77,4 +77,9 @@ class Miner extends Model
 
 		return $hashrate;
 	}
+
+	public function getDailyPayouts()
+	{
+		return Payout::selectRaw('sum(amount) total, DATE_FORMAT(made_at, "%Y-%m-%d") date')->where('recipient', $this->address)->groupBy('date')->get();
+	}
 }
