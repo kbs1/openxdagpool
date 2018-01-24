@@ -31,8 +31,9 @@ class ImportPayouts extends Command
 		$latest_fully_imported_at = $latest ? $latest->precise_made_at : null;
 		$last_made_at = null;
 		$insert = [];
+		$inserted = 0;
 
-		$payouts_parser->forEachPayoutLine(function(PoolPayout $pool_payout) use ($latest_fully_imported_at, &$last_made_at, &$insert) {
+		$payouts_parser->forEachPayoutLine(function(PoolPayout $pool_payout) use ($latest_fully_imported_at, &$last_made_at, &$insert, &$inserted) {
 			$made_at = $pool_payout->getMadeAt();
 
 			if ($latest_fully_imported_at && $made_at <= $latest_fully_imported_at)
@@ -47,6 +48,9 @@ class ImportPayouts extends Command
 			if ($last_made_at < $made_at) {
 				if ($latest_fully_imported_at)
 					\DB::table('payouts')->where('date_fully_imported', false)->update(['date_fully_imported' => true]);
+
+				$inserted += count($insert);
+				$this->line("Imported: $inserted");
 
 				Payout::insert($insert);
 				$insert = [];
@@ -75,6 +79,9 @@ class ImportPayouts extends Command
 
 				unset($ins);
 			}
+
+			$inserted += count($insert);
+			$this->line("Imported: $inserted");
 
 			Payout::insert($insert);
 		}
