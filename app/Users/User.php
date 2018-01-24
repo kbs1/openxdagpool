@@ -47,7 +47,13 @@ class User extends Authenticatable
 	public function getPayouts()
 	{
 		$addresses = $this->miners->pluck('address');
-		return Payout::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc')->get();
+		return Payout::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc')->paginate(500);
+	}
+
+	public function getPayoutsSum()
+	{
+		$addresses = $this->miners->pluck('address');
+		return Payout::selectRaw('sum(amount) sum')->whereIn('recipient', $addresses ?: ['none'])->pluck('sum')->first();
 	}
 
 	public function getDailyPayouts()

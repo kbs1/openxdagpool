@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-	<div class="miners-view">
+	<div class="payouts-listing-view">
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
 				<h4 class="title is-4">Address {{ $miner->address }}</h4>
@@ -34,14 +34,16 @@
 
 				@include('user.payouts.partials.listing')
 
-				<a class="button is-primary is-pulled-right" href="{{ route('miners.payouts.export-listing', $miner->uuid) }}" target="_blank">
-					<span class="icon"><i class="fa fa-file-excel-o"></i></span>
-					<span>Export</span>
-				</a>
+				<div class="links">
+					<a class="button is-primary is-pulled-right" href="{{ route('miners.payouts.export-listing', $miner->uuid) }}" target="_blank">
+						<span class="icon"><i class="fa fa-file-excel-o"></i></span>
+						<span>Export</span>
+					</a>
 
-				<a class="button" href="{{ route('miners') }}">
-					<span>Back</span>
-				</a>
+					<a class="button" href="{{ route('miners') }}">
+						<span>Back</span>
+					</a>
+				</div>
 				<hr>
 				<p><span class="important">Note:</span> Payouts update approximately every 4 hours. Payouts are sent immediately after they are ready.</p>
 			</div>

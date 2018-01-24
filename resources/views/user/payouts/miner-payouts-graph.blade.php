@@ -34,6 +34,8 @@
 
 				<div id="graph"></div>
 
+				<h5 class="title is-5">Total: {{ number_format($payouts_sum, 9, '.', ',') }}</h5>
+
 				<a class="button is-primary is-pulled-right" href="{{ route('miners.payouts.export-graph', $miner->uuid) }}" target="_blank">
 					<span class="icon"><i class="fa fa-file-excel-o"></i></span>
 					<span>Export</span>

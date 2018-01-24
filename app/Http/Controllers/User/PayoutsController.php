@@ -17,7 +17,8 @@ class PayoutsController extends Controller
 	public function userPayoutsGraph()
 	{
 		return view('user.payouts.user-payouts-graph', [
-			'graph_data' => $this->getGraphData(Auth::user()->getDailyPayouts()),
+			'graph_data' => $this->getGraphData(Auth::user()->getDailyPayouts(), $sum),
+			'payouts_sum' => $sum,
 			'activeTab' => 'payouts',
 		]);
 	}
@@ -26,6 +27,7 @@ class PayoutsController extends Controller
 	{
 		return view('user.payouts.user-payouts-listing', [
 			'payouts' => Auth::user()->getPayouts(),
+			'payouts_sum' => Auth::user()->getPayoutsSum(),
 			'activeTab' => 'payouts',
 		]);
 	}
@@ -49,7 +51,8 @@ class PayoutsController extends Controller
 
 		return view('user.payouts.miner-payouts-graph', [
 			'miner' => $miner,
-			'graph_data' => $this->getGraphData($miner->getDailyPayouts()),
+			'graph_data' => $this->getGraphData($miner->getDailyPayouts(), $sum),
+			'payouts_sum' => $sum,
 			'activeTab' => 'miners',
 		]);
 	}
@@ -61,7 +64,8 @@ class PayoutsController extends Controller
 
 		return view('user.payouts.miner-payouts-listing', [
 			'miner' => $miner,
-			'payouts' => $miner->payouts,
+			'payouts' => $miner->payouts()->paginate(500),
+			'payouts_sum' => $miner->payouts->sum('amount'),
 			'activeTab' => 'miners',
 		]);
 	}
@@ -130,13 +134,15 @@ class PayoutsController extends Controller
 		})->download('xlsx');
 	}
 
-	protected function getGraphData($days)
+	protected function getGraphData($days, &$sum)
 	{
 		$graph = ['x' => [], 'Payout' => []];
+		$sum = 0;
 
 		foreach ($days as $day) {
 			$graph['x'][] = $day->date;
 			$graph['Payout'][] = sprintf('%.09f', $day->total);
+			$sum += $day->total;
 		}
 
 		return json_encode($graph);

@@ -24,9 +24,16 @@
 	@if ($payouts->count())
 		<tfoot>
 			<tr>
-				<th colspan="3">TOTAL</th>
+				<th colspan="3">Total on page</th>
 				<th>{{ number_format($payouts->sum('amount'), 9, '.', ',') }} XDAG</th>
+			</tr>
+			<tr>
+				<th colspan="3">Total</th>
+				<th>{{ number_format($payouts_sum, 9, '.', ',') }} XDAG</th>
 			</tr>
 		</tfoot>
 	@endif
 </table>
+@if ($payouts->count())
+	{{ $payouts->links() }}
+@endif
