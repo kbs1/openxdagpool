@@ -69,7 +69,7 @@ class PayoutsController extends Controller
 		return view('user.payouts.miner-payouts-listing', [
 			'miner' => $miner,
 			'payouts' => $miner->payouts()->paginate(500),
-			'payouts_sum' => $miner->payouts->sum('amount'),
+			'payouts_sum' => $miner->payouts()->sum('amount'),
 			'activeTab' => 'miners',
 		]);
 	}
@@ -88,7 +88,7 @@ class PayoutsController extends Controller
 			return redirect()->back()->with('error', 'Miner not found.');
 
 		if ($miner->payouts()->count() > 10000)
-			return $this->exportPayoutsCsv($miner, $miner->payouts->sum('amount'), 'address', $miner->address);
+			return $this->exportPayoutsCsv($miner, $miner->payouts()->sum('amount'), 'address', $miner->address);
 
 		return $this->exportPayoutsXlsx($miner->payouts, 'address', $miner->address);
 	}

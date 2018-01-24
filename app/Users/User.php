@@ -53,7 +53,7 @@ class User extends Authenticatable
 	public function getPayoutsSum()
 	{
 		$addresses = $this->miners->pluck('address');
-		return Payout::selectRaw('sum(amount) sum')->whereIn('recipient', $addresses ?: ['none'])->pluck('sum')->first();
+		return Payout::whereIn('recipient', $addresses ?: ['none'])->sum('amount');
 	}
 
 	public function getPayoutsCount()
