@@ -25,10 +25,10 @@
 	<div class="home-view">
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
-				@if (env('IMPORTANT_MESSAGE'))
+				@if ($message)
 					<div class="notification is-info">
 						<button class="delete"></button>
-						{{ env('IMPORTANT_MESSAGE') }}
+						{{ $message }}
 					</div>
 				@endif
 
