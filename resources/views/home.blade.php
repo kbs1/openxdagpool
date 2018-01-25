@@ -25,6 +25,13 @@
 	<div class="home-view">
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
+				@if (env('IMPORTANT_MESSAGE'))
+					<div class="notification is-info">
+						<button class="delete"></button>
+						{{ env('IMPORTANT_MESSAGE') }}
+					</div>
+				@endif
+
 				<div class="notification" id="balanceResult">
 					<button class="delete"></button>
 					<span></span>
@@ -230,6 +237,8 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-01-25</span> Updated pool software to version 852, supports more than 1024 miners</li>
+								<li><span class="important">2018-01-24</span> Payout statistics and exports now work even for large datasets</li>
 								<li><span class="important">2018-01-23</span> Added detailed payout statistics</li>
 								<li><span class="important">2018-01-22</span> Updated pool software</li>
 								<li><span class="important">2018-01-21</span> Support for "went offline" and "back online" miner alerts</li>
