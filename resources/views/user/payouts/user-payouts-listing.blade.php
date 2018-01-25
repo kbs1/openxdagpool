@@ -45,7 +45,7 @@
 					</a>
 				</div>
 				<hr>
-				<p><span class="important">Note:</span> Payouts update approximately every 4 hours. Payouts are sent immediately after they are ready.</p>
+				<p><span class="important">Note:</span> Payouts update approximately every 4 hours. Payouts are sent immediately when they are ready.</p>
 			</div>
 		</div>
 	</div>
