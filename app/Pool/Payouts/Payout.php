@@ -16,7 +16,7 @@ class Payout
 		$this->tag = $tag;
 		$this->sender = $sender;
 		$this->recipient = $recipient;
-		$this->amount = $amount;
+		$this->amount = $amount > 1024 ? 0 : $amount; // this is a bug in pool software, such transaction must be rejected
 	}
 
 	public function getMadeAt()
