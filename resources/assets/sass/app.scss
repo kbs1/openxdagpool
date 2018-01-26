@@ -8,6 +8,10 @@
 @import "node_modules/font-awesome/scss/font-awesome";
 @import "node_modules/c3/src/scss/main";
 
+.page-padding {
+	padding-top: .75rem;
+}
+
 .modal .modal-card-foot {
 	justify-content: space-between;
 	flex-direction: row-reverse;

@@ -110,6 +110,8 @@
 						@endif
 					</div>
 				</div>
+			@else
+				<div class="page-padding"></div>
 			@endif
 
 			@yield('content')
