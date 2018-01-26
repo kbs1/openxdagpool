@@ -41,7 +41,7 @@
 				<table class="table is-fullwidth is-striped">
 					<thead>
 						<tr>
-							<th>Pos.</th>
+							<th>Rank</th>
 							<th>Nick</th>
 							<th class="tooltip is-tooltip-multiline" data-tooltip="Current hashrate of all user's miners. Updates every 5 minutes.">Hashrate</th>
 						</tr>
@@ -68,7 +68,7 @@
 									@php ($shown_myself = true)
 								@endif
 								<tr{!! isset($authUser) && $item['user']->id === $authUser->id ? ' class="is-selected"' : '' !!}>
-									<th>{{ $loop->iteration }}.</th>
+									<th>#{{ $loop->iteration }}</th>
 									<td>{{ $item['user']->display_nick }}</td>
 									<td>{{ $item['hashrate'] }}</td>
 								</tr>
@@ -80,7 +80,7 @@
 						@endforelse
 						@if ($myself)
 							<tr class="is-selected">
-								<th>{{ $myself_rank }}.</th>
+								<th>#{{ $myself_rank }}</th>
 								<td>{{ $myself->display_nick }}</td>
 								<td>{{ $myself_hashrate }}</td>
 							</tr>
