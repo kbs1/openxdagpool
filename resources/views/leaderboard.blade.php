@@ -56,7 +56,7 @@
 									@php ($myself_rank = $index + 1)
 									@php ($myself_hashrate = $item['hashrate'])
 								@endif
-								@if (!$shown_full && !$shown_myself)
+								@if (!$shown_full && !$shown_myself && !isset($authUser))
 									@php ($shown_full = true)
 									<tr>
 										<td>...</td>
