@@ -74,41 +74,43 @@
 
 			@yield('hero')
 
-			<div class="columns is-marginless is-centered">
-				<div class="column is-7">
-					@if (count($errors) > 0)
-						<div class="notification is-warning">
-							<button class="delete"></button>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+			@if (count($errors) > 0 || Session::has('success') || Session::has('warning') || Session::has('error'))
+				<div class="columns is-marginless is-centered">
+					<div class="column is-7">
+						@if (count($errors) > 0)
+							<div class="notification is-warning">
+								<button class="delete"></button>
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+						@endif
 
-					@if (Session::has('success'))
-						<div class="notification is-success">
-							<button class="delete"></button>
-							{{ Session::get('success') }}
-						</div>
-					@endif
+						@if (Session::has('success'))
+							<div class="notification is-success">
+								<button class="delete"></button>
+								{{ Session::get('success') }}
+							</div>
+						@endif
 
-					@if (Session::has('warning'))
-						<div class="notification is-warning">
-							<button class="delete"></button>
-							{{ Session::get('warning') }}
-						</div>
-					@endif
+						@if (Session::has('warning'))
+							<div class="notification is-warning">
+								<button class="delete"></button>
+								{{ Session::get('warning') }}
+							</div>
+						@endif
 
-					@if (Session::has('error'))
-						<div class="notification is-danger">
-							<button class="delete"></button>
-							{{ Session::get('error') }}
-						</div>
-					@endif
+						@if (Session::has('error'))
+							<div class="notification is-danger">
+								<button class="delete"></button>
+								{{ Session::get('error') }}
+							</div>
+						@endif
+					</div>
 				</div>
-			</div>
+			@endif
 
 			@yield('content')
 
