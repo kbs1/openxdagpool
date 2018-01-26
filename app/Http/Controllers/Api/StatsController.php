@@ -36,7 +36,7 @@ class StatsController extends Controller
 
 			$user_stats = [
 				'user_hashrate' => $this->format->hashrate($user_hashrate),
-				'user_miners' => ($machines_count = $user->miners->sum('machines_count')) ? $machines_count : 0,
+				'user_miners' => $user->miners->sum('machines_count'),
 				'user_balance' => $this->format->balance($user_balance = $user->miners->sum('balance')),
 				'user_balance_exact' => $this->format->fullBalance($user_balance),
 				'user_earnings' => $this->format->balance($user_earnings = $user->miners->sum('earned')),

@@ -64,12 +64,12 @@
 				return self.unableToLoadStats();
 
 			$('.home-view .stats .stat').each(function(index, el) {
-				$(this).removeClass('is-loading').text(json[$(this).data('stat')] !== null || '?');
+				$(this).removeClass('is-loading').text(json[$(this).data('stat')] !== null ? json[$(this).data('stat')] : '?');
 			});
 
 			$('.home-view .stats .stat-tooltip').each(function(index, el) {
 				var prefix = $(this).data('stat-prefix') ? $(this).data('stat-prefix') : '';
-				$(this).addClass('tooltip').attr('data-tooltip', prefix + (json[$(this).data('stat')] !== null || '?'));
+				$(this).addClass('tooltip').attr('data-tooltip', prefix + (json[$(this).data('stat')] !== null ? json[$(this).data('stat')] : '?'));
 			});
 		});
 	}
