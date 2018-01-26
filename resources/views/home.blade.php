@@ -28,7 +28,7 @@
 				@if ($message)
 					<div class="notification is-info">
 						<button class="delete"></button>
-						{{ $message }}
+						{!! $message !!}
 					</div>
 				@endif
 
