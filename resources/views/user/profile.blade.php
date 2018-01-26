@@ -55,13 +55,35 @@
 						</div>
 
 						<div class="field is-horizontal">
+							<div class="field-label"></div>
+							<div class="field-body">
+								<label class="checkbox tooltip" data-tooltip="When checked, your nick is never displayed to other users.">
+									<input type="hidden" name="anonymous_profile" value="0">
+									<input type="checkbox" name="anonymous_profile" value="1"{{ $authUser->anonymous_profile ? ' checked' : '' }}>
+									anonymous profile
+								</label>
+							</div>
+						</div>
+
+						<div class="field is-horizontal">
+							<div class="field-label"></div>
+							<div class="field-body">
+								<label class="checkbox tooltip is-tooltip-multiline" data-tooltip="When checked, your hashrate is never displayed on the leaderboard.">
+									<input type="hidden" name="exclude_from_leaderboard" value="0">
+									<input type="checkbox" name="exclude_from_leaderboard" value="1"{{ $authUser->exclude_from_leaderboard ? ' checked' : '' }}>
+									exclude from leaderboard
+								</label>
+							</div>
+						</div>
+
+						<div class="field is-horizontal">
 							<div class="field-label">
 								<label class="label">E-mail</label>
 							</div>
 
 							<div class="field-body">
 								<div class="field">
-									<p class="control">
+									<p class="control tooltip" data-tooltip="Your e-mail is never displayed to anyone.">
 										<input class="input" id="email" type="email" name="email" value="{{ old('email', $authUser->email) }}" maxlength="255" required autofocus>
 									</p>
 
@@ -74,7 +96,12 @@
 							</div>
 						</div>
 
-						<p class="help">Do not type passwords if you don't want to change your current password.</p>
+						<div class="field is-horizontal">
+							<div class="field-label"></div>
+							<div class="field-body">
+								<p class="help">Do not type passwords if you don't want to change your current password.</p>
+							</div>
+						</div>
 
 						<div class="field is-horizontal">
 							<div class="field-label">

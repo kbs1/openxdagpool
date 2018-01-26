@@ -14,6 +14,7 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/leaderboard', 'LeaderboardController@index')->name('leaderboard');
 Route::get('/pages/{page}', 'PagesController@index')->name('pages')->where('page', '(.+)');
 
 Route::get('/stats', 'StatsController@index')->name('stats');

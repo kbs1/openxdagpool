@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Miners\Miner;
 use App\Payouts\Payout;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -40,7 +41,10 @@ class User extends Authenticatable
 	/* attributes */
 	public function getDisplayNickAttribute()
 	{
-		return $this->nick;
+		if (($user = Auth::user()) && ($user->isAdministrator() || !$user->anonymous_profile || $user->id === $this->id))
+			return $this->nick;
+
+		return 'anonymous';
 	}
 
 	/* methods */

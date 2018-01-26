@@ -138,7 +138,9 @@
 								<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Out of all pool users with registered miners, this is how your hashrate compares to them.">
 									<div>
 										<p class="heading">Rank</p>
-										<p class="title stat api is-loading" data-stat="user_rank"></p>
+										<p class="title">
+											<a href="{{ route('leaderboard') }}" class="stat api is-loading" data-stat="user_rank"></a>
+										</p>
 									</div>
 								</div>
 							</nav>
@@ -237,6 +239,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-01-26</span> Added leaderboard</li>
 								<li><span class="important">2018-01-25</span> Updated pool software to version 852, supports more than 1024 miners</li>
 								<li><span class="important">2018-01-24</span> Payout statistics and exports now work even for large datasets</li>
 								<li><span class="important">2018-01-23</span> Added detailed payout statistics</li>

@@ -27,6 +27,8 @@ class ProfileController extends Controller
 
 		$user->nick = $request->input('nick');
 		$user->email = $request->input('email');
+		$user->anonymous_profile = (boolean) $request->input('anonymous_profile');
+		$user->exclude_from_leaderboard = (boolean) $request->input('exclude_from_leaderboard');
 
 		if ($request->input('password'))
 			$user->password = bcrypt($request->input('password'));
