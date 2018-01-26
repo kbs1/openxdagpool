@@ -12,7 +12,7 @@
 					Leaderboard
 				</h1>
 				<h2 class="subtitle">
-					Users contributing the most hashrate
+					Registered users contributing the most hashrate
 				</h2>
 			</div>
 		</div>
