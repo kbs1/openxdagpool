@@ -63,12 +63,13 @@
 										<td colspan="2"></td>
 									</tr>
 								@endif
+							@else
+								<tr{!! isset($authUser) && $item['user']->id === $authUser->id ? ' class="is-selected"' : '' !!}>
+									<th>{{ $loop->iteration }}.</th>
+									<td>{{ $item['user']->display_nick }}</td>
+									<td>{{ $item['hashrate'] }}</td>
+								</tr>
 							@endif
-							<tr{!! isset($authUser) && $item['user']->id === $authUser->id ? ' class="is-selected"' : '' !!}>
-								<th>{{ $loop->iteration }}.</th>
-								<td>{{ $item['user']->display_nick }}</td>
-								<td>{{ $item['hashrate'] }}</td>
-							</tr>
 						@empty
 							<tr>
 								<td colspan="3">No users to show, please check back later! ;-)</td>
