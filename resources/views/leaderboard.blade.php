@@ -47,7 +47,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@php ($shown_full = false)
+						@php ($shown_full $shown_myself = false)
 						@php ($myself = $myself_rank = $myself_hashrate = null)
 						@forelse ($leaderboard as $index => $item)
 							@if ($index > 24)
@@ -56,7 +56,7 @@
 									@php ($myself_rank = $index + 1)
 									@php ($myself_hashrate = $item['hashrate'])
 								@endif
-								@if (!$shown_full)
+								@if (!$shown_full && !$shown_myself)
 									@php ($shown_full = true)
 									<tr>
 										<td>...</td>
@@ -64,6 +64,9 @@
 									</tr>
 								@endif
 							@else
+								@if (!$shown_myself && isset($authUser) && $item['user']->id === $authUser->id)
+									@php ($shown_myself = true)
+								@endif
 								<tr{!! isset($authUser) && $item['user']->id === $authUser->id ? ' class="is-selected"' : '' !!}>
 									<th>{{ $loop->iteration }}.</th>
 									<td>{{ $item['user']->display_nick }}</td>
