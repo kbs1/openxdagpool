@@ -41,7 +41,11 @@ class User extends Authenticatable
 	/* attributes */
 	public function getDisplayNickAttribute()
 	{
-		if (!$this->anonymous_profile || ($user = Auth::user() && ($user->isAdministrator() || $user->id === $this->id)))
+		if (!$this->anonymous_profile)
+			return $this->nick;
+
+		$user = Auth::user();
+		if ($user && ($user->isAdministrator() || $user->id === $this->id))
 			return $this->nick;
 
 		return 'anonymous';
