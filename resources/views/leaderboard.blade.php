@@ -43,7 +43,7 @@
 						<tr>
 							<th>Rank</th>
 							<th>Nick</th>
-							<th class="tooltip is-tooltip-multiline" data-tooltip="Current hashrate of all user's miners. Updates every 5 minutes.">Hashrate</th>
+							<th class="tooltip is-tooltip-multiline" data-tooltip="Current hashrate of all user's registered miners. Updates every 5 minutes.">Hashrate</th>
 						</tr>
 					</thead>
 					<tbody>
