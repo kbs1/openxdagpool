@@ -47,7 +47,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						@php ($shown_full $shown_myself = false)
+						@php ($shown_full = $shown_myself = false)
 						@php ($myself = $myself_rank = $myself_hashrate = null)
 						@forelse ($leaderboard as $index => $item)
 							@if ($index > 24)
