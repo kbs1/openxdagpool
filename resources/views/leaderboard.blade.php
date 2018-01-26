@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-	<div class="home-view">
+	<div class="leaderboard-view">
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
 				@if (isset($authUser) && $authUser->isActive())
@@ -89,4 +89,5 @@
 				</table>
 			</div>
 		</div>
+	</div>
 @endsection
