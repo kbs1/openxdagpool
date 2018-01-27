@@ -46,7 +46,7 @@ class StatsController extends Controller
 
 			$hashrates = [$user_hashrate];
 
-			foreach (User::where('id', '!=', $user->id)->with('miners')->get() as $user)
+			foreach (User::where('exclude_from_leaderboard', false)->where('id', '!=', $user->id)->with('miners')->get() as $user)
 				$hashrates[] = $user->miners->sum('hashrate');
 
 			$hashrates = array_values(array_unique($hashrates));
