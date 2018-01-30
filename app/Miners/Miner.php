@@ -82,7 +82,7 @@ class Miner extends Model
 	{
 		$query = $this->payouts();
 
-		if ($page) {
+		if (!$page) {
 			$count = clone $query;
 			return $query->paginate(500, ['*'], 'page', ceil($count->count('*') / 500));
 		}

@@ -63,7 +63,7 @@ class User extends Authenticatable
 		$addresses = $this->miners->pluck('address');
 		$query = Payout::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc');
 
-		if ($page) {
+		if (!$page) {
 			$count = clone $query;
 			return $query->paginate(500, ['*'], 'page', ceil($count->count('*') / 500));
 		}
