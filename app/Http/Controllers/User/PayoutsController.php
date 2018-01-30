@@ -46,7 +46,7 @@ class PayoutsController extends Controller
 		if ($user->getPayoutsCount() > 10000)
 			return $this->exportPayoutsCsv($user, $user->getPayoutsSum(), 'user', $user->display_nick);
 
-		return $this->exportPayoutsXslx($user->getPayoutsListingNonPaged(), 'user', $user->display_nick);
+		return $this->exportPayoutsXlsx($user->getPayoutsListingNonPaged(), 'user', $user->display_nick);
 	}
 
 	public function minerPayoutsGraph($uuid)
