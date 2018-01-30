@@ -52,13 +52,23 @@ class User extends Authenticatable
 	}
 
 	/* methods */
-	public function getPayoutsListing()
+	public function getPayoutsListingNonPaged()
+	{
+		$addresses = $this->miners->pluck('address');
+		return Payout::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc')->get();
+	}
+
+	public function getPayoutsListing($page = null)
 	{
 		$addresses = $this->miners->pluck('address');
 		$query = Payout::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc');
-		$count = clone $query;
 
-		return $query->paginate(500, ['*'], 'page', ceil($count->count('*') / 500));
+		if ($page)
+			$count = clone $query;
+			return $query->paginate(500, ['*'], 'page', ceil($count->count('*') / 500));
+		}
+
+		return $query->paginate(500);
 	}
 
 	public function getPayoutsSum()

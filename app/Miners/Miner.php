@@ -78,12 +78,16 @@ class Miner extends Model
 		return $hashrate;
 	}
 
-	public function getPayoutsListing()
+	public function getPayoutsListing($page = null)
 	{
 		$query = $this->payouts();
-		$count = clone $query;
 
-		return $query->paginate(500, ['*'], 'page', ceil($count->count('*') / 500));
+		if ($page)
+			$count = clone $query;
+			return $query->paginate(500, ['*'], 'page', ceil($count->count('*') / 500));
+		}
+
+		return $query->paginate(500);
 	}
 
 	public function getDailyPayouts()

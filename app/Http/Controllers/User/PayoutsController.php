@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use Auth, Excel;
 
@@ -22,10 +24,10 @@ class PayoutsController extends Controller
 		]);
 	}
 
-	public function userPayoutsListing()
+	public function userPayoutsListing(Request $request)
 	{
 		return view('user.payouts.user-payouts-listing', [
-			'payouts' => Auth::user()->getPayoutsListing(),
+			'payouts' => Auth::user()->getPayoutsListing($request->input('page')),
 			'payouts_sum' => Auth::user()->getPayoutsSum(),
 			'activeTab' => 'payouts',
 		]);
@@ -44,7 +46,7 @@ class PayoutsController extends Controller
 		if ($user->getPayoutsCount() > 10000)
 			return $this->exportPayoutsCsv($user, $user->getPayoutsSum(), 'user', $user->display_nick);
 
-		return $this->exportPayoutsListing($user->getPayoutsListing(), 'user', $user->display_nick);
+		return $this->exportPayoutsXslx($user->getPayoutsListingNonPaged(), 'user', $user->display_nick);
 	}
 
 	public function minerPayoutsGraph($uuid)
@@ -60,14 +62,14 @@ class PayoutsController extends Controller
 		]);
 	}
 
-	public function minerPayoutsListing($uuid)
+	public function minerPayoutsListing($uuid, Request $request)
 	{
 		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
 		return view('user.payouts.miner-payouts-listing', [
 			'miner' => $miner,
-			'payouts' => $miner->getPayoutsListing(),
+			'payouts' => $miner->getPayoutsListing($request->input('page')),
 			'payouts_sum' => $miner->payouts()->sum('amount'),
 			'activeTab' => 'miners',
 		]);
