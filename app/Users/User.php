@@ -57,7 +57,7 @@ class User extends Authenticatable
 		$addresses = $this->miners->pluck('address');
 		$query = Payout::whereIn('recipient', $addresses ?: ['none'])->orderBy('id', 'asc');
 
-		return $query->paginate(500, ['*'], 'page', ceil($query->getCountForPagination() / 500));
+		return $query->paginate(500, ['*'], 'page', ceil($query->query()->getCountForPagination() / 500));
 	}
 
 	public function getPayoutsSum()
