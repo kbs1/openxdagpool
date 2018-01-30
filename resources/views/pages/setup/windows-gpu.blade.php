@@ -71,7 +71,7 @@
 						<ol>
 							<li>To start the miner, simply run the <code>RUNMINER.bat</code> file.</li>
 							<li>To update your installation to the latest version, stop the miner by pressing <code>CTRL+C</code> in the miner console. Download new <code>x64</code> zip package from <a href="https://github.com/jonano614/DaggerGpuMiner/releases" target="_blank">GitHub</a>. Extract the archive into <code>C:\DaggerGpuMiner</code>, overwriting the files. Run <code>RUNMINER.bat</code> as usual.</li>
-							<li>To view your current balance at any time, execute <code>RUNWALLET.bat</code><li>, type in your wallet password, press enter, type <code>balance</code> and press enter. If you see <code>not ready to show balance</code>, wait a bit and type <code>balance</code> again, followed by enter key. When you are done, type <code>terminate</code> followed by enter to clsoe your wallet. You can also use our website to check your balance at any time on the home page, or <a href="{{ route('register') }}">register</a> your miner to automatically show it's balance, payouts, unpaid shares and more.</li>
+							<li>To view your current balance at any time, execute <code>RUNWALLET.bat</code>, type in your wallet password, press enter, type <code>balance</code> and press enter. If you see <code>not ready to show balance</code>, wait a bit and type <code>balance</code> again, followed by enter key. When you are done, type <code>terminate</code> followed by enter to clsoe your wallet. You can also use our website to check your balance at any time on the home page, or <a href="{{ route('register') }}">register</a> your miner to automatically show it's balance, payouts, unpaid shares and more.</li>
 						</ol>
 					</div>
 				</div>
