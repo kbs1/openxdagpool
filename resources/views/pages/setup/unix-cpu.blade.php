@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Unix miner setup (Ubuntu 16.04)
+	Unix CPU miner setup (Ubuntu 16.04)
 @endsection
 
 @section('hero')
@@ -9,7 +9,7 @@
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">
-					Unix miner setup
+					Unix CPU miner setup
 				</h1>
 				<h2 class="subtitle">
 					For Ubuntu 16.04
@@ -117,8 +117,8 @@ EOD</pre>
 							<li>To start the miner, simply execute <code>./xdag_run.sh</code> in your home folder, type in your wallet password.</li>
 							<li>To connect to the miner console at any time, execute <code>./xdag_console.sh</code>.</li>
 							<li>To conveniently update your installation to the latest version, stop the deamon by executing <code>./xdag_console.sh</code>, type <code>terminate</code>, press enter, run <code>./xdag_update.sh</code>, then <code>./xdag_run.sh</code> and type your wallet password again.</li>
+							<li>To view your current balance at any time, type <code>balance</code> in the miner console or use our website (register your miner to always show it's balance, or use address balance checker on the home page).</li>
 						</ol>
-						<p>To view your current balance at any time, type <code>balance</code> in the miner console.</p>
 					</div>
 				</div>
 			</nav>

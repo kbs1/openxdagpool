@@ -33,8 +33,9 @@
 
 									<hr class="navbar-divider">
 
-									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.windows' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/windows') }}">Windows miner setup</a>
-									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.unix' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/unix') }}">Unix miner setup</a>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.windows-gpu' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/windows-gpu') }}">Windows GPU miner setup</a>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.windows-cpu' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/windows-cpu') }}">Windows CPU miner setup</a>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.unix-cpu' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/unix-cpu') }}">Unix CPU miner setup</a>
 
 									<hr class="navbar-divider">
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-	Windows miner setup (Windows 10 64-bit)
+	Windows CPU miner setup (Windows 10 64-bit)
 @endsection
 
 @section('hero')
@@ -9,7 +9,7 @@
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">
-					Windows miner setup
+					Windows CPU miner setup
 				</h1>
 				<h2 class="subtitle">
 					For Windows 10 64-bit
@@ -91,9 +91,9 @@
 					<div class="content">
 						<ol>
 							<li>To start the miner, simply run the <code>RUNMINER.bat</code> file.</li>
-							<li>To update your installation to the latest version, stop the miner by typing <code>terminate</code> in the miner console, press enter. Download new <code>win64exe.zip</code> from the <a href="http://xdag.me/downloads.html" target="_blank">official website</a>. Extract the archive into <code>C:\xdag2</code>. Copy over files and folders <code>storage</code>, <code>dnet_key.dat</code>, <code>wallet.dat</code>, <code>RUNMINER.bat</code> and <code>RunAsDate.exe</code> (if applicable) from the old <code>C:\xdag</code> installation. Move <code>C:\xdag</code> into the trash. Rename <code>C:\xdag2</code> to <code>C:\xdag</code>. Run <code>RUNMINER.bat</code> as usual.</li>
+							<li>To update your installation to the latest version, stop the miner by typing <code>terminate</code> in the miner console, press enter. Download new <code>win64exe.zip</code> from the <a href="http://xdag.me/downloads.html" target="_blank">official website</a>. Extract the archive into <code>C:\xdag</code>, overwriting the files. Run <code>RUNMINER.bat</code> as usual.</li>
+							<li>To view your current balance at any time, type <code>balance</code> in the miner console or use our website (register your miner to always show it's balance, or use address balance checker on the home page).</li>
 						</ol>
-						<p>To view your current balance at any time, type <code>balance</code> in the miner console.</p>
 					</div>
 				</div>
 			</nav>
