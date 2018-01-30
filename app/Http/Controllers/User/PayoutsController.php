@@ -23,10 +23,15 @@ class PayoutsController extends Controller
 		]);
 	}
 
-	public function userPayoutsListing()
+	public function userPayoutsListing(Request $request)
 	{
+		$payouts = Auth::user()->getPayouts();
+
+		if (!$request->input('page'))
+			$payouts->setCurrentPage($posts->getLastPage());
+
 		return view('user.payouts.user-payouts-listing', [
-			'payouts' => Auth::user()->getPayouts(),
+			'payouts' => $payouts,
 			'payouts_sum' => Auth::user()->getPayoutsSum(),
 			'activeTab' => 'payouts',
 		]);
