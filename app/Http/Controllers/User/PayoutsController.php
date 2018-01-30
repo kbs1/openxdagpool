@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 use Auth, Excel;
 
 class PayoutsController extends Controller
@@ -29,7 +28,7 @@ class PayoutsController extends Controller
 		$payouts = Auth::user()->getPayouts();
 
 		if (!$request->input('page'))
-			Paginator::setCurrentPage($payouts->getLastPage());
+			$request->replace(['page' => $payouts->getLastPage()]);
 
 		return view('user.payouts.user-payouts-listing', [
 			'payouts' => $payouts,
@@ -67,7 +66,7 @@ class PayoutsController extends Controller
 		]);
 	}
 
-	public function minerPayoutsListing($uuid)
+	public function minerPayoutsListing($uuid, Request $request)
 	{
 		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
@@ -75,7 +74,7 @@ class PayoutsController extends Controller
 		$payouts = $miner->payouts()->paginate(500);
 
 		if (!$request->input('page'))
-			Paginator::setCurrentPage($payouts->getLastPage());
+			$request->replace(['page' => $payouts->getLastPage()]);
 
 		return view('user.payouts.miner-payouts-listing', [
 			'miner' => $miner,
