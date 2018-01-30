@@ -4,14 +4,27 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Auth, Excel;
 
 class PayoutsController extends Controller
 {
-	public function __construct()
+	protected $payouts_collection = null;
+
+	public function __construct(Request $request)
 	{
 		$this->middleware('auth');
 		$this->middleware('active');
+
+		Paginator::currentPageResolver(function($pageName = 'page') use ($request) {
+			$page = $request->input($pageName);
+
+			if (filter_var($page, FILTER_VALIDATE_INT) !== false && (int) $page >= 1) {
+				return (int) $page;
+			}
+
+			return $this->payouts_collection ? $this->payouts_collection->lastPage() : 1;
+		});
 	}
 
 	public function userPayoutsGraph()
@@ -23,15 +36,12 @@ class PayoutsController extends Controller
 		]);
 	}
 
-	public function userPayoutsListing(Request $request)
+	public function userPayoutsListing()
 	{
-		$payouts = Auth::user()->getPayouts();
-
-		if (!$request->input('page'))
-			$request->replace(['page' => $payouts->getLastPage()]);
+		$this->payouts_collection = Auth::user()->getPayouts();
 
 		return view('user.payouts.user-payouts-listing', [
-			'payouts' => $payouts,
+			'payouts' => $this->payouts_collection,
 			'payouts_sum' => Auth::user()->getPayoutsSum(),
 			'activeTab' => 'payouts',
 		]);
@@ -66,19 +76,16 @@ class PayoutsController extends Controller
 		]);
 	}
 
-	public function minerPayoutsListing($uuid, Request $request)
+	public function minerPayoutsListing($uuid)
 	{
 		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
-		$payouts = $miner->payouts()->paginate(500);
-
-		if (!$request->input('page'))
-			$request->replace(['page' => $payouts->getLastPage()]);
+		$this->payouts_collection = $miner->payouts()->paginate(500);
 
 		return view('user.payouts.miner-payouts-listing', [
 			'miner' => $miner,
-			'payouts' => $payouts,
+			'payouts' => $this->payouts_collection,
 			'payouts_sum' => $miner->payouts()->sum('amount'),
 			'activeTab' => 'miners',
 		]);
@@ -129,10 +136,10 @@ class PayoutsController extends Controller
 				fclose($stream);
 			}
 		}, 200, [
-			'Content-Type'          => \Storage::mimeType('public/' . $download_name),
-			'Content-Length'        => \Storage::size('public/' . $download_name),
+			'Content-Type'		  => \Storage::mimeType('public/' . $download_name),
+			'Content-Length'		=> \Storage::size('public/' . $download_name),
 			'Content-Disposition'   => 'attachment; filename="' . basename($filename) . '"',
-			'Pragma'                => 'public',
+			'Pragma'				=> 'public',
 		])->deleteFileAfterSend(true);*/
 
 		return response()->download($filename)->deleteFileAfterSend(true);
