@@ -3,28 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 use Auth, Excel;
 
 class PayoutsController extends Controller
 {
-	protected $payouts_collection = null;
-
-	public function __construct(Request $request)
+	public function __construct()
 	{
 		$this->middleware('auth');
 		$this->middleware('active');
-
-		Paginator::currentPageResolver(function($pageName = 'page') use ($request) {
-			$page = $request->input($pageName);
-
-			if (filter_var($page, FILTER_VALIDATE_INT) !== false && (int) $page >= 1) {
-				return (int) $page;
-			}
-
-			return $this->payouts_collection ? $this->payouts_collection->lastPage() : 1;
-		});
 	}
 
 	public function userPayoutsGraph()
@@ -38,10 +24,8 @@ class PayoutsController extends Controller
 
 	public function userPayoutsListing()
 	{
-		$this->payouts_collection = Auth::user()->getPayouts();
-
 		return view('user.payouts.user-payouts-listing', [
-			'payouts' => $this->payouts_collection,
+			'payouts' => Auth::user()->getPayoutsListing(),
 			'payouts_sum' => Auth::user()->getPayoutsSum(),
 			'activeTab' => 'payouts',
 		]);
@@ -60,7 +44,7 @@ class PayoutsController extends Controller
 		if ($user->getPayoutsCount() > 10000)
 			return $this->exportPayoutsCsv($user, $user->getPayoutsSum(), 'user', $user->display_nick);
 
-		return $this->exportPayoutsListing($user->getPayouts(), 'user', $user->display_nick);
+		return $this->exportPayoutsListing($user->getPayoutsListing(), 'user', $user->display_nick);
 	}
 
 	public function minerPayoutsGraph($uuid)
@@ -81,11 +65,9 @@ class PayoutsController extends Controller
 		if (($miner = Auth::user()->miners()->where('uuid', $uuid)->first()) === null)
 			return redirect()->back()->with('error', 'Miner not found.');
 
-		$this->payouts_collection = $miner->payouts()->paginate(500);
-
 		return view('user.payouts.miner-payouts-listing', [
 			'miner' => $miner,
-			'payouts' => $this->payouts_collection,
+			'payouts' => $miner->getPayoutsListing(),
 			'payouts_sum' => $miner->payouts()->sum('amount'),
 			'activeTab' => 'miners',
 		]);
