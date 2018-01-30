@@ -50,7 +50,7 @@
 							<li>Double click the <code>RUNMINER.bat</code> file, your miner will now start. Do not close the console window at any time.</li>
 						</ol>
 						<p>Done! For usage, see the next usage section.</p>
-						<p><p class="important">Note:</p> if you have more than 4 GPUs, a powerful CPU is needed in order for the system to keep feeding your GPUs with new work (i5, i7, fx8350, ryzen 5 or better). Otherwise the system might not be able to fully utilize the GPUs and may become unresponsive.</p>
+						<p><p class="important">Note: if you have more than 4 GPUs, a powerful CPU is needed in order for the system to keep feeding your GPUs with new work (i5, i7, fx8350, ryzen 5 or better). Otherwise the system might not be able to fully utilize the GPUs and may become unresponsive.</p>
 					</div>
 				</div>
 			</nav>
