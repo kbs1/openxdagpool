@@ -193,7 +193,7 @@
 						<pre class="oneline">
 							<span class="parameter">C:\DaggerGpuMiner</span>\DaggerGpuMiner.exe -G -a <span class="parameter">wallet_address</span> -p pool.xdagpool.com:13654 -t 0 -v 2 -opencl-platform <span class="parameter">platform_id</span> -opencl-devices <span class="parameter">device_nums</span>
 						</pre>
-						<p>Replace <span class="parameter">C:\DaggerGpuMiner</span> with full path to your xdag miner installation folder.</p>
+						<p class="offset">Replace <span class="parameter">C:\DaggerGpuMiner</span> with full path to your xdag miner installation folder.</p>
 						<p>Replace <span class="parameter">wallet_address</span> with your wallet address.</p>
 						<p>Replace <span class="parameter">platform_id</span> with <code>0</code> or <code>1</code>. Try with <code>0</code> first, as this is the most common platform id.</p>
 						<p>Replace <span class="parameter">device_nums</span> with <code>0</code> or <code>0 1 2 3</code> or similar based on number of GPUs you have. Always count up from <code>0</code>.</p>

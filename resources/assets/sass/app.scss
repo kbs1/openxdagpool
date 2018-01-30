@@ -66,8 +66,14 @@ pre.oneline {
 	}
 }
 
-.home-view #balanceResult {
-	display: none;
+.home-view {
+	#balanceResult {
+		display: none;
+	}
+
+	p.offset {
+		margin-top: 15px;
+	}
 }
 
 .miners-view {
