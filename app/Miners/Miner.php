@@ -81,7 +81,9 @@ class Miner extends Model
 	public function getPayoutsListing()
 	{
 		$query = $this->payouts();
-		return $query->paginate(500, ['*'], 'page', ceil($query->query()->getCountForPagination() / 500));
+		$count = clone $query;
+
+		return $query->paginate(500, ['*'], 'page', ceil($count->count('*') / 500));
 	}
 
 	public function getDailyPayouts()
