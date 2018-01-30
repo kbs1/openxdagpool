@@ -189,7 +189,19 @@
 					</header>
 
 					<div class="card-content">
-						<p>Windows (<a href="{{ route('pages', 'setup/windows') }}">detailed instructions</a>):</p>
+						<p>Windows GPU (<a href="{{ route('pages', 'setup/windows-gpu') }}">detailed instructions</a>):</p>
+						<pre class="oneline">
+							<span class="parameter">C:\DaggerGpuMiner</span>\DaggerGpuMiner.exe -G -a <span class="parameter">wallet_address</span> -p pool.xdagpool.com:13654 -t 0 -v 2 -opencl-platform <span class="parameter">platform_id</span> -opencl-devices <span class="parameter">device_nums</span>
+						</pre>
+						<p>Replace <span class="parameter">C:\DaggerGpuMiner</span> with full path to your xdag miner installation folder.</p>
+						<p>Replace <span class="parameter">wallet_address</span> with your wallet address.</p>
+						<p>Replace <span class="parameter">platform_id</span> with <code>0</code> or <code>1</code>. Try with <code>0</code> first, as this is the most common platform id.</p>
+						<p>Replace <span class="parameter">device_nums</span> with <code>0</code> or <code>0 1 2 3</code> or similar based on number of GPUs you have. Always count up from <code>0</code>.</p>
+						<p><span class="important">Note:</span> if you have more than 4 GPUs, a powerful CPU is needed in order for the system to keep feeding your GPUs with new work (i5, i7, fx8350, ryzen 5 or better). Otherwise the system might not be able to fully utilize the GPUs and may become unresponsive.</p>
+
+						<hr>
+
+						<p>Windows CPU (<a href="{{ route('pages', 'setup/windows-cpu') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
 							<span class="parameter">C:\xdag</span>\xdag.exe -d -m <span class="parameter">4</span> pool.xdagpool.com:13654
 						</pre>
@@ -199,7 +211,7 @@
 
 						<hr>
 
-						<p>Unix (<a href="{{ route('pages', 'setup/unix') }}">detailed instructions</a>):</p>
+						<p>Unix CPU (<a href="{{ route('pages', 'setup/unix-cpu') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
 							TZ=GMT ./xdag -d -m <span class="parameter">4</span> pool.xdagpool.com:13654
 						</pre>
@@ -239,6 +251,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-01-30</span> Updated mining instructions, added GPU mining instructions</li>
 								<li><span class="important">2018-01-26</span> Added leaderboard</li>
 								<li><span class="important">2018-01-25</span> Updated pool software to version 852, supports more than 1024 miners</li>
 								<li><span class="important">2018-01-24</span> Payout statistics and exports now work even for large datasets</li>

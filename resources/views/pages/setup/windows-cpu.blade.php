@@ -34,13 +34,9 @@
 						<ol>
 							<li>Download <code>win64exe.zip</code> from the <a href="http://xdag.me/downloads.html" target="_blank">official website</a>.</li>
 							<li>Extract the archive into <code>C:\xdag</code></code></li>
-							<li>Click on start, type <code>run</code>, press enter, type <code>cmd</code>, press enter.</li>
-							<li>Type <code>cd C:\xdag</code> and press enter.</li>
-							<li>Type <code>xdag -d -m 1 pool.xdagpool.com:13654</code> and press enter.</li>
-							<li>Set your wallet password, type random keys. Once the host keys are generated (might take a while), type <code>terminate</code> and press enter.</li>
 							<li>Create a new bat file <code>C:\xdag\RUNMINER.bat</code></li>
 							<li>Edit with notepad. If your system clock is already set to GMT, insert one line into the file: <pre class="oneline">C:\xdag\xdag.exe -d -m <span class="parameter">4</span> pool.xdagpool.com:13654</pre> Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads. If your system clock is not set to GMT, see the next section.</li>
-							<li>Double click the <code>RUNMINER.bat</code> file, type your wallet password, your miner will now start. Do not close the console window at any time.</li>
+							<li>Double click the <code>RUNMINER.bat</code> file, set your wallet password, type random keys (at least 3 lines of random keys). Once the host keys are generated (might take a while), miner will start. Do not close the console window at any time.</li>
 						</ol>
 						<p>Done! For usage, see the next usage section.</p>
 					</div>
@@ -63,14 +59,14 @@
 						<ol>
 							<li>Download <a href="https://www.nirsoft.net/utils/runasdate-x64.zip" target="_blank">RunAsDate.exe</a>.</li>
 							<li>Extract just the executable into the <code>C:\xdag</code> directory.</li>
-							<li>In step 8 above, paste the following line into the <code>RUNMINER.bat</code> file:
+							<li>In step 4 above, paste the following line into the <code>RUNMINER.bat</code> file:
 								<pre class="oneline">
 									runasdate /movetime /startin "C:\xdag" Hours:<span class="parameter">-1</span> "C:\xdag\xdag.exe" -d -m <span class="parameter">4</span> pool.xdagpool.com:13654
 								</pre>
 								<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
 								<p>Replace <span class="parameter">-1</span> with your current offset to GMT timezone if your machine's clock is not set to GMT.</p>
 							</li>
-							<li>Continue with step 9.</li>
+							<li>Continue with step 5.</li>
 						</ol>
 					</div>
 				</div>
@@ -92,7 +88,7 @@
 						<ol>
 							<li>To start the miner, simply run the <code>RUNMINER.bat</code> file.</li>
 							<li>To update your installation to the latest version, stop the miner by typing <code>terminate</code> in the miner console, press enter. Download new <code>win64exe.zip</code> from the <a href="http://xdag.me/downloads.html" target="_blank">official website</a>. Extract the archive into <code>C:\xdag</code>, overwriting the files. Run <code>RUNMINER.bat</code> as usual.</li>
-							<li>To view your current balance at any time, type <code>balance</code> in the miner console or use our website (register your miner to always show it's balance, or use address balance checker on the home page).</li>
+							<li>To view your current balance at any time, type <code>balance</code> in the miner console. If you want to see your wallet address, type <code>account</code> into the miner console. To copy your wallet address, select it with your mouse and press enter. You can also use our website to check your balance at any time on the home page, or <a href="{{ route('register') }}">register</a> your miner to automatically show it's balance, payouts, unpaid shares and more.</li>
 						</ol>
 					</div>
 				</div>

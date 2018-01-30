@@ -34,10 +34,10 @@
 						<ol>
 							<li><code>cd</code> to your home directory. Do not run the miner as <code>root</code>!</li>
 							<li>Execute: <code>sudo apt-get install git gcc libssl-dev build-essential git</code></li>
-							<li>Execute: <code>git clone https://github.com/cheatoshin/xdag.git</code></li>
+							<li>Execute: <code>git clone http://xdag.me/xdag.git</code></li>
 							<li>Change directory: <code> cd ./xdag/cheatcoin</code></li>
 							<li>Run <code>make</code></li>
-							<li>Run the program with <code>TZ=GMT ./xdag -d -m 1 pool.xdagpool.com:13654</code>. Set up your wallet password, type random keys. Wait until host keys are generated.</li>
+							<li>Run the program with <code>TZ=GMT ./xdag -d -m 1 pool.xdagpool.com:13654</code>. Set up your wallet password, type random keys (at least 3 lines of random keys). Wait until host keys are generated.</li>
 							<li>Execute <code>TZ=GMT ./xdag -i</code>. Type <code>terminate</code> and press enter.</li>
 							<li><code>cd</code> to your home directory</li>
 							<li>Execute:
@@ -117,7 +117,7 @@ EOD</pre>
 							<li>To start the miner, simply execute <code>./xdag_run.sh</code> in your home folder, type in your wallet password.</li>
 							<li>To connect to the miner console at any time, execute <code>./xdag_console.sh</code>.</li>
 							<li>To conveniently update your installation to the latest version, stop the deamon by executing <code>./xdag_console.sh</code>, type <code>terminate</code>, press enter, run <code>./xdag_update.sh</code>, then <code>./xdag_run.sh</code> and type your wallet password again.</li>
-							<li>To view your current balance at any time, type <code>balance</code> in the miner console or use our website (register your miner to always show it's balance, or use address balance checker on the home page).</li>
+							<li>To view your current balance at any time, type <code>balance</code> in the miner console. To show your wallet address, type <code>account</code> in the miner console. You can also use our website to check your balance at any time on the home page, or <a href="{{ route('register') }}">register</a> your miner to automatically show it's balance, payouts, unpaid shares and more.</li>
 						</ol>
 					</div>
 				</div>

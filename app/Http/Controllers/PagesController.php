@@ -6,7 +6,7 @@ class PagesController extends Controller
 {
 	public function index($page)
 	{
-		$pages = ['setup/unix', 'setup/windows'];
+		$pages = ['setup/unix-cpu', 'setup/windows-cpu', 'setup/windows-gpu'];
 
 		if (in_array($page, $pages))
 			return view('pages.' . str_replace('/', '.', $page), [
