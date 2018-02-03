@@ -14,11 +14,6 @@ class DataReader
 		return @fopen($this->getPath('MINERS'), 'r');
 	}
 
-	public function getBalances()
-	{
-		return @fopen($this->getPath('BALANCES'), 'r');
-	}
-
 	public function getPayouts()
 	{
 		return @fopen($this->getPath('PAYOUTS'), 'r');
