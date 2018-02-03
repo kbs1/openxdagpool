@@ -10,7 +10,6 @@
 /.vagrant
 /storage/miners.txt
 /storage/stats.txt
-/storage/balances.txt
 /storage/payouts.txt
 /storage/pooldata
 Homestead.json

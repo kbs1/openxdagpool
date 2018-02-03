@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Pool\{DataReader, BalancesParser};
+use App\Pool\{DataReader, BalancesChecker};
 use App\Pool\Miners\Parser as MinersParser;
 
 use App\Miners\Miner;
@@ -14,19 +14,18 @@ class SaveMinerStats extends Command
 	protected $signature = 'stats:miners';
 	protected $description = 'Updates all status fields for each registered miner and inserts miner\'s unpaid shares.';
 
-	protected $reader;
+	protected $reader, $balances;
 
-	public function __construct(DataReader $reader)
+	public function __construct(DataReader $reader, BalancesChecker $balances)
 	{
 		$this->reader = $reader;
+		$this->balances = $balances;
 		parent::__construct();
 	}
 
 	public function handle()
 	{
 		$miners_parser = new MinersParser($this->reader->getMiners());
-		$balances_parser = new BalancesParser($this->reader->getBalances());
-
 		$total_unpaid_shares = (float) $miners_parser->getTotalUnpaidShares();
 
 		Miner::unguard();
@@ -38,7 +37,7 @@ class SaveMinerStats extends Command
 					'machines_count' => 0,
 					'hashrate' => 0,
 					'unpaid_shares' => 0,
-					'balance' => (float) $balances_parser->getBalance($miner->address),
+					'balance' => (float) $this->balances->getBalance($miner->address),
 					'earned' => $miner->payouts()->sum('amount'),
 				]);
 
@@ -53,7 +52,7 @@ class SaveMinerStats extends Command
 				'machines_count' => $pool_miner->getMachinesCount(),
 				'hashrate' => $miner->getEstimatedHashrate($total_unpaid_shares),
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
-				'balance' => (float) $balances_parser->getBalance($miner->address),
+				'balance' => (float) $this->balances->getBalance($miner->address),
 				'earned' => $miner->payouts()->sum('amount'),
 			]);
 
