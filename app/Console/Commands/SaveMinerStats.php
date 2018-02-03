@@ -8,6 +8,7 @@ use App\Pool\{DataReader, BalancesChecker};
 use App\Pool\Miners\Parser as MinersParser;
 
 use App\Miners\Miner;
+use Carbon\Carbon;
 
 class SaveMinerStats extends Command
 {
@@ -52,7 +53,7 @@ class SaveMinerStats extends Command
 				'machines_count' => $pool_miner->getMachinesCount(),
 				'hashrate' => $miner->getEstimatedHashrate($total_unpaid_shares),
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
-				'balance' => (float) $this->balances->getBalance($miner->address),
+				'balance' => $miner->updated_at <= Carbon::now()->subMinutes(30) ? (float) $this->balances->getBalance($miner->address) : $miner->balance,
 				'earned' => $miner->payouts()->sum('amount'),
 			]);
 
