@@ -109,22 +109,7 @@ class PayoutsController extends Controller
 		if (!$file) return redirect()->back()->with('error', 'Unable to export your payouts, please try again later.');
 
 		fputcsv($file, ['', '', '', '']);
-		fputcsv($file, [ucfirst($for_label) . ':', $for, '', '']);
-		fputcsv($file, ['', '', '', '']);
-		fputcsv($file, ['', '', 'Total:', sprintf('%.09f', $sum)]);
-
-		/*return response()->stream(function() use ($filename) {
-			$stream = \Storage::readStream($filename);
-			fpassthru($stream);
-			if (is_resource($stream)) {
-				fclose($stream);
-			}
-		}, 200, [
-			'Content-Type'		  => \Storage::mimeType('public/' . $download_name),
-			'Content-Length'		=> \Storage::size('public/' . $download_name),
-			'Content-Disposition'   => 'attachment; filename="' . basename($filename) . '"',
-			'Pragma'				=> 'public',
-		])->deleteFileAfterSend(true);*/
+		fputcsv($file, [ucfirst($for_label) . ':', $for, 'Total:', sprintf('%.09f', $sum)]);
 
 		return response()->download($filename)->deleteFileAfterSend(true);
 	}
