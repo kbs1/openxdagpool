@@ -32,7 +32,7 @@ class MinersController extends Controller
 			'note' => $request->input('note'),
 		]);
 
-		return redirect()->back()->with('success', 'Miner successfully added.');
+		return redirect()->back()->with('success', 'Miner successfully added. Status, hashrate, unpaid shares and balance will update in 5 minutes.');
 	}
 
 	public function delete(CreateMiner $request)
