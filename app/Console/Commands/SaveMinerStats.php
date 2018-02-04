@@ -31,6 +31,13 @@ class SaveMinerStats extends Command
 
 		Miner::unguard();
 		foreach (Miner::all() as $miner) {
+			$balance = $miner->balance;
+
+			if (!$miner->balance_updated_at || $miner->balance_updated_at <= Carbon::now()->subMinutes(30)) {
+				$balance = (float) $this->balances->getBalance($miner->address);
+				$miner->balance_updated_at = Carbon::now();
+			}
+
 			if (($pool_miner = $miners_parser->getMiner($miner->address)) === null) {
 				$miner->fill([
 					'status' => 'offline',
@@ -38,7 +45,7 @@ class SaveMinerStats extends Command
 					'machines_count' => 0,
 					'hashrate' => 0,
 					'unpaid_shares' => 0,
-					'balance' => (float) $this->balances->getBalance($miner->address),
+					'balance' => $balance,
 					'earned' => $miner->payouts()->sum('amount'),
 				]);
 
@@ -53,7 +60,7 @@ class SaveMinerStats extends Command
 				'machines_count' => $pool_miner->getMachinesCount(),
 				'hashrate' => $miner->getEstimatedHashrate($total_unpaid_shares),
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
-				'balance' => $miner->updated_at <= Carbon::now()->subMinutes(30) ? (float) $this->balances->getBalance($miner->address) : $miner->balance,
+				'balance' => $balance,
 				'earned' => $miner->payouts()->sum('amount'),
 			]);
 

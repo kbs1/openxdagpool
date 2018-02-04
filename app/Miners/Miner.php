@@ -15,6 +15,7 @@ class Miner extends Model
 	use \App\Support\HasUuid;
 
 	protected $fillable = ['address', 'note', 'email_alerts'];
+	protected $dates = ['created_at', 'updated_at', 'balance_updated_at'];
 
 	/* relations */
 	public function user()
