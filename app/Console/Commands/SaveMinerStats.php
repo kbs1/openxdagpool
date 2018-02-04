@@ -66,9 +66,13 @@ class SaveMinerStats extends Command
 
 			$miner->save();
 
-			$miner->unpaidShares()->create([
-				'unpaid_shares' => $miner->unpaid_shares,
-			]);
+			try {
+				$miner->unpaidShares()->create([
+					'unpaid_shares' => $miner->unpaid_shares,
+				]);
+			} catch (\Illuminate\Database\QueryException $ex) {
+				// the miner might have been deleted just now in web UI, silence the exception and continue with the loop
+			}
 		}
 
 		$this->info('SaveMinerStats completed successfully.');
