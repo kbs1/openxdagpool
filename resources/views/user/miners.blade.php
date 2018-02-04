@@ -80,9 +80,11 @@
 					</a>
 				</form>
 				<hr>
+				<p><span class="important">Note:</span> statuses, hash rates and unpaid shares update every 5 minutes.</p>
+				<hr>
 				<p><span class="important">Note:</span> hash rate calculation is purely informational, it does not represent 'what the pool sees', or your real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching your real speed over a longer period of time (usually 6 hours). You are always mining at full speed reported by typing <code>stats</code> into your CPU miner console or by observing the speed that your GPU miner shows.</p>
 				<hr>
-				<p><span class="important">Note:</span> address balances update approximately every 30 minutes, earnings / payouts update approximately every 4 hours. Like hash rate, this display is meant for a quick check on your miners once or twice a day, to see how they are doing. Always check your real time balance using the <code>balance</code> command in your wallet console if you need a precise value.</p>
+				<p><span class="important">Note:</span> address balances update approximately every 30 minutes. Earnings / payouts update approximately every 4 hours. Like hash rate, this display is meant for a quick check on your miners once or twice a day, to see how they are doing. Always check your real time balance using the <code>balance</code> command in your wallet console if you need a precise value.</p>
 			</div>
 		</div>
 
