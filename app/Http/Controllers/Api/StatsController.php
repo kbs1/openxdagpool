@@ -51,7 +51,7 @@ class StatsController extends Controller
 
 			$hashrates = array_values(array_unique($hashrates));
 			rsort($hashrates);
-			$user_stats['user_rank'] = '#' . (array_search($user_hashrate, $hashrates) + 1);
+			$user_stats['user_rank'] = '#' . (array_search($user_hashrate, $hashrates) + 2);
 		}
 
 		$pool_stat = PoolStat::orderBy('id', 'desc')->first();
