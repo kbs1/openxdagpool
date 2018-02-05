@@ -58,8 +58,8 @@ class HashrateController extends Controller
 			$stats = $model->getLatestHashrate();
 
 		foreach ($stats as $stat) {
-			$graph['x'][] = $stat->date;
-			$graph['Hashrate (Mh/s)'][] = $stat->hashrate / 1000000;
+			$graph['x'][] = is_array($stat) ? $stat['date'] : $stat->date;
+			$graph['Hashrate (Mh/s)'][] = (is_array($stat) ? $stat['hashrate'] : $stat->hashrate) / 1000000;
 		}
 
 		return json_encode($graph);
