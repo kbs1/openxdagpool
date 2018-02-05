@@ -251,6 +251,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-02-05</span> Updated hashrate calculation algorithm, should be more precise now</li>
 								<li><span class="important">2018-02-05</span> Added hashrate history for users and miners</li>
 								<li><span class="important">2018-02-04</span> Updated pool software</li>
 								<li><span class="important">2018-02-03</span> Faster miner balances updating, every 30 minutes</li>
