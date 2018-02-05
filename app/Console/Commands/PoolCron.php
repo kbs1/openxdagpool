@@ -12,8 +12,8 @@ class PoolCron extends Command
 	public function handle()
 	{
 		$this->call('pool:download-data');
-		$this->call('stats:miners');
 		$this->call('stats:pool');
+		$this->call('stats:miners');
 		$this->call('alerts:miners');
 		$this->info('PoolCron completed successfully.');
 	}

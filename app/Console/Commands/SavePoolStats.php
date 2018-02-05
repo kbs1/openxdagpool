@@ -29,6 +29,7 @@ class SavePoolStats extends Command
 
 		$stat = new Stat([
 			'pool_hashrate' => $stats->getPoolHashrate(),
+			'total_unpaid_shares' => (float) $miners->getTotalUnpaidShares(),
 			'network_hashrate' => $stats->getNetworkHashrate(),
 			'active_miners' => $miners->getNumberOfActiveMiners(),
 		]);

@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Users\User;
 use App\Payouts\Payout;
-
 use App\Pool\Statistics\Stat as PoolStat;
-use Carbon\Carbon;
 
 class Miner extends Model
 {
@@ -45,38 +43,25 @@ class Miner extends Model
 	}
 
 	/* methods */
-	public function getAverageUnpaidSharesAttribute()
+	public function getEstimatedHashrate(PoolStat $when = null)
 	{
-		return $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>', Carbon::now()->subHours(6))->groupBy('miner_id')->pluck('average')->first();
+		$when = $when ?? PoolStat::orderBy('id', 'desc')->first();
 
-		/*$sum = $count = $last = 0;
-		$shares = $this->unpaidShares()->where('created_at', '>', Carbon::now()->subHours(24))->orderBy('id', 'asc')->get();
+		if (!$when || $when->total_unpaid_shares == 0)
+			return 0;
 
-		foreach ($shares as $share) {
-			$diff = $share->unpaid_shares - $last;
+		$from = clone $when->created_at;
+		$to = clone $when->created_at;
+		$from->subHours(6);
 
-			if ($diff >= 0) {
-				$sum += $diff;
-				$count++;
-			}
+		$avg_pool_hashrate = PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->pluck('avg_pool_hashrate')->first();
+		$avg_miner_shares = $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->groupBy('miner_id')->pluck('average')->first();
+		$proportion = $avg_miner_shares / $when->total_unpaid_shares;
 
-			$last = $share->unpaid_shares;
-		}
+		if (is_nan($proportion) || is_infinite($proportion))
+			return 0;
 
-		return $count ? $sum / $count : 0;*/
-	}
-
-	public function getEstimatedHashrate($total_unpaid_shares)
-	{
-		$hashrate = 0;
-		if ($total_unpaid_shares > 0) {
-			$unpaid_proportion = $this->average_unpaid_shares / $total_unpaid_shares;
-			if (!is_nan($unpaid_proportion) && !is_infinite($unpaid_proportion)) {
-				$hashrate = $unpaid_proportion * PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>', Carbon::now()->subHours(6))->pluck('avg_pool_hashrate')->first();
-			}
-		}
-
-		return $hashrate;
+		return $proportion * $avg_pool_hashrate;
 	}
 
 	public function getPayoutsListing($page = null)

@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use App\Pool\{DataReader, BalancesChecker};
 use App\Pool\Miners\Parser as MinersParser;
+use App\Pool\Statistics\Stat as PoolStat;
 
 use App\Miners\Miner;
 use Carbon\Carbon;
@@ -26,8 +27,11 @@ class SaveMinerStats extends Command
 
 	public function handle()
 	{
+		$stat = PoolStat::orderBy('id', 'desc')->first();
+		if (!$stat)
+			return;
+
 		$miners_parser = new MinersParser($this->reader->getMiners());
-		$total_unpaid_shares = (float) $miners_parser->getTotalUnpaidShares();
 
 		Miner::unguard();
 		foreach (Miner::all() as $miner) {
@@ -54,25 +58,25 @@ class SaveMinerStats extends Command
 				continue;
 			}
 
+			try {
+				$miner->unpaidShares()->create([
+					'unpaid_shares' => $pool_miner->getUnpaidShares(),
+				]);
+			} catch (\Illuminate\Database\QueryException $ex) {
+				// the miner might have been deleted just now in web UI, silence the exception and continue with the loop
+			}
+
 			$miner->fill([
 				'status' => $pool_miner->getStatus(),
 				'ip_and_port' => $pool_miner->getIpsAndPort(),
 				'machines_count' => $pool_miner->getMachinesCount(),
-				'hashrate' => $miner->getEstimatedHashrate($total_unpaid_shares),
+				'hashrate' => $miner->getEstimatedHashrate($stat),
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
 				'balance' => $balance,
 				'earned' => $miner->payouts()->sum('amount'),
 			]);
 
 			$miner->save();
-
-			try {
-				$miner->unpaidShares()->create([
-					'unpaid_shares' => $miner->unpaid_shares,
-				]);
-			} catch (\Illuminate\Database\QueryException $ex) {
-				// the miner might have been deleted just now in web UI, silence the exception and continue with the loop
-			}
 		}
 
 		$this->info('SaveMinerStats completed successfully.');

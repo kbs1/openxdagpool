@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Stat extends Model
 {
 	protected $table = 'stats';
-	protected $fillable = ['pool_hashrate', 'network_hashrate', 'active_miners'];
+	protected $fillable = ['pool_hashrate', 'total_unpaid_shares', 'network_hashrate', 'active_miners'];
 }
