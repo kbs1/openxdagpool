@@ -37,7 +37,7 @@
 				<h5 class="title is-5">Current hashrate: {{ $hashrate }}</h5>
 
 				<hr>
-				<p><span class="important">Note:</span> Hash rates update every 5 minutes. hash rate calculation is purely informational, it does not represent 'what the pool sees', or your real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching your real speed over a longer period of time (usually 6 hours). You are always mining at full speed reported by typing <code>stats</code> into your CPU miner console or by observing the speed that your GPU miner shows.</p>
+				<p><span class="important">Note:</span> Hash rates update every 5 minutes. Hash rate calculation is purely informational, it does not represent 'what the pool sees', or your real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching your real speed over a longer period of time (usually 6 hours). You are always mining at full speed reported by typing <code>stats</code> into your CPU miner console or by observing the speed that your GPU miner shows.</p>
 				<hr>
 				<p><span class="important">Note:</span> If you delete any of your miners, the miner's hashrate data will be permanently lost. Hashrate history is stored only for registered miners, from the time of registration.</p>
 			</div>
