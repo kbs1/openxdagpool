@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Auth;
 
 class CreateMiner extends FormRequest
 {
@@ -24,7 +26,7 @@ class CreateMiner extends FormRequest
 	public function rules()
 	{
 		return [
-			'address' => 'required|string|regex:/^[a-z0-9\/+]{32}$/siu|not_in:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+			'address' => ['required', 'string', Rule::unique('miners')->where('user_id', Auth::user()->id), 'regex:/^[a-z0-9\/+]{32}$/siu', 'not_in:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'],
 		];
 	}
 }
