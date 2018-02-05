@@ -251,6 +251,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-02-04</span> Updated pool software</li>
 								<li><span class="important">2018-02-03</span> Faster miner balances updating, every 30 minutes</li>
 								<li><span class="important">2018-01-30</span> Updated mining instructions, added GPU mining instructions</li>
 								<li><span class="important">2018-01-26</span> Added leaderboard</li>
