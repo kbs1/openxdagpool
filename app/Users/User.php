@@ -104,7 +104,7 @@ class User extends Authenticatable
 
 	public function getHashrateSum()
 	{
-		return $this->miners()->sum('amount');
+		return $this->miners()->sum('hashrate');
 	}
 
 	public function getDailyHashrate()
