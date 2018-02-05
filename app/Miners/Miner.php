@@ -84,9 +84,9 @@ class Miner extends Model
 
 	public function exportPayoutsToCsv($filename)
 	{
-		return \DB::statement('(SELECT "Date and time" made_at, "Sender" sender, "Recipient" recipient, "Amount" amount)
-			UNION ALL (SELECT made_at, sender, recipient, amount FROM payouts WHERE recipient = ?
-			ORDER BY id ASC)
+		return \DB::statement('SELECT "Date and time" made_at, "Sender" sender, "Recipient" recipient, "Amount" amount
+			UNION ALL SELECT CONCAT(made_at, ".", LPAD(made_at_milliseconds, 3, "0")) made_at, sender, recipient, amount FROM payouts WHERE recipient = ?
+			ORDER BY made_at ASC
 			INTO OUTFILE ' . \DB::getPdo()->quote($filename) . ' FIELDS TERMINATED BY "," ENCLOSED BY \'"\' LINES TERMINATED BY "\n"', [$this->address]);
 	}
 
