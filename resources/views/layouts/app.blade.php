@@ -57,6 +57,7 @@
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'profile' ? ' is-active' : '' !!}" href="{{ route('profile') }}">Profile</a>
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'miners' ? ' is-active' : '' !!}" href="{{ route('miners') }}">Miners</a>
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'payouts' ? ' is-active' : '' !!}" href="{{ route('user.payouts.graph') }}">Payouts</a>
+										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'hashrate' ? ' is-active' : '' !!}" href="{{ route('user.hashrate.graph', 'latest') }}">Hashrate</a>
 
 										<hr class="navbar-divider">
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Users\User;
 use App\Payouts\Payout;
 use App\Pool\Statistics\Stat as PoolStat;
+use Carbon\Carbon;
 
 class Miner extends Model
 {
@@ -21,9 +22,9 @@ class Miner extends Model
 		return $this->belongsTo(User::class);
 	}
 
-	public function unpaidShares()
+	public function stats()
 	{
-		return $this->hasMany(UnpaidShare::class);
+		return $this->hasMany(MinerStat::class);
 	}
 
 	public function payouts()
@@ -55,7 +56,7 @@ class Miner extends Model
 		$from->subHours(6);
 
 		$avg_pool_hashrate = PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->pluck('avg_pool_hashrate')->first();
-		$avg_miner_shares = $this->unpaidShares()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->groupBy('miner_id')->pluck('average')->first();
+		$avg_miner_shares = $this->stats()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->groupBy('miner_id')->pluck('average')->first();
 		$proportion = $avg_miner_shares / $when->total_unpaid_shares;
 
 		if (is_nan($proportion) || is_infinite($proportion))
@@ -78,13 +79,24 @@ class Miner extends Model
 
 	public function getDailyPayouts()
 	{
-		return Payout::selectRaw('sum(amount) total, DATE_FORMAT(made_at, "%Y-%m-%d") date')->where('recipient', $this->address)->groupBy('date')->get();
+		return Payout::selectRaw('sum(amount) total, DATE_FORMAT(made_at, "%Y-%m-%d") date')->where('recipient', $this->address)->groupBy('date')->orderBy('date')->get();
 	}
 
 	public function exportPayoutsToCsv($filename)
 	{
 		return \DB::statement('SELECT "Date and time" made_at, "Sender" sender, "Recipient" recipient, "Amount" amount
 			UNION ALL SELECT made_at, sender, recipient, amount FROM payouts WHERE recipient = ?
+			ORDER BY id ASC
 			INTO OUTFILE ' . \DB::getPdo()->quote($filename) . ' FIELDS TERMINATED BY "," ENCLOSED BY \'"\' LINES TERMINATED BY "\n"', [$this->address]);
+	}
+
+	public function getDailyHashrate()
+	{
+		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d") date')->where('miner_id', $this->id)->groupBy('date')->orderBy('date')->get();
+	}
+
+	public function getLatestHashrate()
+	{
+		return $this->stats()->selectRaw('miner_stats.*, DATE_FORMAT(miner_stats.created_at, "%Y-%m-%d %H:%i") date')->where('created_at', '>=', Carbon::now()->subDays(3))->orderBy('id')->get();
 	}
 }

@@ -5,8 +5,10 @@ namespace App\Users;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\Miners\Miner;
+use App\Miners\{Miner, MinerStat};
 use App\Payouts\Payout;
+
+use Carbon\Carbon;
 use Auth;
 
 class User extends Authenticatable
@@ -86,7 +88,7 @@ class User extends Authenticatable
 	public function getDailyPayouts()
 	{
 		$addresses = $this->miners->pluck('address');
-		return Payout::selectRaw('sum(amount) total, DATE_FORMAT(made_at, "%Y-%m-%d") date')->whereIn('recipient', $addresses ?: ['none'])->groupBy('date')->get();
+		return Payout::selectRaw('sum(amount) total, DATE_FORMAT(made_at, "%Y-%m-%d") date')->whereIn('recipient', $addresses ?: ['none'])->groupBy('date')->orderBy('date')->get();
 	}
 
 	public function exportPayoutsToCsv($filename)
@@ -96,7 +98,25 @@ class User extends Authenticatable
 
 		return \DB::statement('SELECT "Date and time" made_at, "Sender" sender, "Recipient" recipient, "Amount" amount
 			UNION ALL SELECT made_at, sender, recipient, amount FROM payouts WHERE recipient IN (' . implode(', ', $in_clause) . ')
+			ORDER BY id ASC
 			INTO OUTFILE ' . \DB::getPdo()->quote($filename) . ' FIELDS TERMINATED BY "," ENCLOSED BY \'"\' LINES TERMINATED BY "\n"', $addresses->toArray());
+	}
+
+	public function getHashrateSum()
+	{
+		return $this->miners()->sum('amount');
+	}
+
+	public function getDailyHashrate()
+	{
+		$miner_ids = $this->miners->pluck('id');
+		return MinerStat::selectRaw('sum(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d") date')->whereIn('miner_id', $miner_ids ?: [0])->groupBy('date')->orderBy('date')->get();
+	}
+
+	public function getLatestHashrate()
+	{
+		$miner_ids = $this->miners->pluck('id');
+		return MinerStat::selectRaw('sum(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:%i") date')->whereIn('miner_id', $miner_ids ?: [0])->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
 	}
 
 	public function isActive()

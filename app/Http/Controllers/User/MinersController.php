@@ -43,7 +43,7 @@ class MinersController extends Controller
 		if (!$miner)
 			return redirect()->back()->with('error', 'Miner not found.');
 
-		$miner->unpaidShares()->delete();
+		$miner->stats()->delete();
 		$miner->delete();
 
 		return redirect()->back()->with('success', 'Miner successfully deleted.');

@@ -7,6 +7,7 @@ window.homeView = require('./views/home');
 window.minersView = require('./views/miners');
 window.statsView = require('./views/stats');
 window.payoutsView = require('./views/payouts');
+window.hashrateView = require('./views/hashrate');
 
 window.c3 = require('c3');
 window.d3 = require("d3");

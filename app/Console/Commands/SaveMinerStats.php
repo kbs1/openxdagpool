@@ -14,7 +14,7 @@ use Carbon\Carbon;
 class SaveMinerStats extends Command
 {
 	protected $signature = 'stats:miners';
-	protected $description = 'Updates all status fields for each registered miner and inserts miner\'s unpaid shares.';
+	protected $description = 'Updates all status / info fields for each registered miner and inserts it\'s statistics.';
 
 	protected $reader, $balances;
 
@@ -55,28 +55,42 @@ class SaveMinerStats extends Command
 
 				$miner->save();
 
+				try {
+					$miner->stats()->create([
+						'unpaid_shares' => 0,
+						'hashrate' => 0,
+					]);
+				} catch (\Illuminate\Database\QueryException $ex) {
+					// the miner might have been deleted just now in web UI, silence the exception and continue with the loop
+				}
+
 				continue;
 			}
 
 			try {
-				$miner->unpaidShares()->create([
+				$miner_stat = $miner->stats()->create([
 					'unpaid_shares' => $pool_miner->getUnpaidShares(),
+					'hashrate' => $miner->hashrate,
 				]);
 			} catch (\Illuminate\Database\QueryException $ex) {
 				// the miner might have been deleted just now in web UI, silence the exception and continue with the loop
+				continue;
 			}
 
 			$miner->fill([
 				'status' => $pool_miner->getStatus(),
 				'ip_and_port' => $pool_miner->getIpsAndPort(),
 				'machines_count' => $pool_miner->getMachinesCount(),
-				'hashrate' => $miner->getEstimatedHashrate($stat),
+				'hashrate' => $hashrate = $miner->getEstimatedHashrate($stat),
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
 				'balance' => $balance,
 				'earned' => $miner->payouts()->sum('amount'),
 			]);
 
 			$miner->save();
+
+			$miner_stat->hashrate = $hashrate;
+			$miner_stat->save();
 		}
 
 		$this->info('SaveMinerStats completed successfully.');

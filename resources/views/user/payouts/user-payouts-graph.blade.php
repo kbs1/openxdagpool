@@ -20,7 +20,7 @@
 @endsection
 
 @section('content')
-	<div class="miners-view">
+	<div class="payouts-graph-view">
 		<div class="columns is-marginless is-centered">
 			<div class="column is-7">
 				<h4 class="title is-4">{{ $authUser->display_nick }}'s earnings</h4>

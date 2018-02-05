@@ -54,6 +54,10 @@
 											<span class="icon"><i class="fa fa-money"></i></span>
 										</a>
 
+										<a class="button tooltip" href="{{ route('miners.hashrate.graph', [$miner->uuid, 'latest']) }}" data-tooltip="Hashrate history">
+											<span class="icon"><i class="fa fa-bar-chart"></i></span>
+										</a>
+
 										<a class="button is-danger tooltip delete-miner" href="#" data-tooltip="Delete miner">
 											<span class="icon"><i class="fa fa-trash-o"></i></span>
 										</a>
@@ -156,7 +160,7 @@
 					<input type="hidden" name="_method" value="delete">
 					{{ csrf_field() }}
 					<section class="modal-card-body">
-						<p>Are you sure you want to delete this miner from your list?</p>
+						<p>Are you sure you want to delete this miner from your list? This will permanently delete miner's hashrate history.</p>
 
 						<div class="column">
 							<div class="field is-horizontal">

@@ -28,6 +28,7 @@ Route::get('/user/miners/{address}/payouts-graph', 'User\PayoutsController@miner
 Route::get('/user/miners/{address}/payouts-listing', 'User\PayoutsController@minerPayoutsListing')->name('miners.payouts.listing');
 Route::get('/user/miners/{address}/payouts-graph/export', 'User\PayoutsController@exportMinerPayoutsGraph')->name('miners.payouts.export-graph');
 Route::get('/user/miners/{address}/payouts-listing/export', 'User\PayoutsController@exportMinerPayoutsListing')->name('miners.payouts.export-listing');
+Route::get('/user/miners/{address}/hashrate-graph/{type}', 'User\HashrateController@minerGraph')->name('miners.hashrate.graph');
 
 Route::get('/user/profile', 'User\ProfileController@index')->name('profile');
 Route::post('/user/profile', 'User\ProfileController@update')->name('profile.update');
@@ -35,6 +36,7 @@ Route::get('/user/payouts-graph', 'User\PayoutsController@userPayoutsGraph')->na
 Route::get('/user/payouts-listging', 'User\PayoutsController@userPayoutsListing')->name('user.payouts.listing');
 Route::get('/user/payouts-graph/export', 'User\PayoutsController@exportUserPayoutsGraph')->name('user.payouts.export-graph');
 Route::get('/user/payouts-listing/export', 'User\PayoutsController@exportUserPayoutsListing')->name('user.payouts.export-listing');
+Route::get('/user/hashrate-graph/{type}', 'User\HashrateController@userGraph')->name('user.hashrate.graph');
 
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
