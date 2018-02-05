@@ -29,7 +29,7 @@ class HashrateController extends Controller
 
 		return view('user.hashrate.miner-graph', [
 			'miner' => $miner,
-			'hashrate' => $this->format->hashrate($miner->getHashrateSum),
+			'hashrate' => $this->format->hashrate($miner->hashrate),
 			'graph_data' => $this->getGraphData($miner, $type),
 			'type' => $type,
 			'activeTab' => 'miners',
@@ -41,7 +41,7 @@ class HashrateController extends Controller
 		$user = Auth::user();
 
 		return view('user.hashrate.user-graph', [
-		'hashrate' => $this->format->hashrate($user->hashrate),
+		'hashrate' => $this->format->hashrate($user->getHashrateSum()),
 			'graph_data' => $this->getGraphData($user, $type),
 			'type' => $type,
 			'activeTab' => 'hashrate',
