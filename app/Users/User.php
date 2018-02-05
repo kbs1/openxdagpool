@@ -96,9 +96,9 @@ class User extends Authenticatable
 		$addresses = $this->miners->pluck('address');
 		$in_clause = array_fill(0, count($addresses), '?');
 
-		return \DB::statement('SELECT "Date and time" made_at, "Sender" sender, "Recipient" recipient, "Amount" amount
-			UNION ALL SELECT made_at, sender, recipient, amount FROM payouts WHERE recipient IN (' . implode(', ', $in_clause) . ')
-			ORDER BY id ASC
+		return \DB::statement('(SELECT "Date and time" made_at, "Sender" sender, "Recipient" recipient, "Amount" amount)
+			UNION ALL (SELECT made_at, sender, recipient, amount FROM payouts WHERE recipient IN (' . implode(', ', $in_clause) . ')
+			ORDER BY id ASC)
 			INTO OUTFILE ' . \DB::getPdo()->quote($filename) . ' FIELDS TERMINATED BY "," ENCLOSED BY \'"\' LINES TERMINATED BY "\n"', $addresses->toArray());
 	}
 
