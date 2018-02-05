@@ -55,11 +55,11 @@ class Miner extends Model
 		$to = clone $when->created_at;
 		$from->subHours(6);
 
-		$avg_unpaid_shares = PoolStat::selectRaw('avg(total_unpaid_shares) avg_unpaid_shares')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->pluck('avg_unpaid_shares')->first();
+		$avg_unpaid_shares = (float) PoolStat::selectRaw('avg(total_unpaid_shares) avg_unpaid_shares')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('total_unpaid_shares', '>', 0)->pluck('avg_unpaid_shares')->first();
 		if ($avg_unpaid_shares == 0)
 			return $this->hashrate;
 
-		$avg_pool_hashrate = PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->pluck('avg_pool_hashrate')->first();
+		$avg_pool_hashrate = (float) PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('avg_pool_hashrate')->first();
 		$avg_miner_shares = (float) $this->stats()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('unpaid_shares', '>', 0)->groupBy('miner_id')->pluck('average')->first();
 
 		$proportion = $avg_miner_shares / $avg_unpaid_shares;
