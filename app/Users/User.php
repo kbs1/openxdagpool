@@ -98,7 +98,7 @@ class User extends Authenticatable
 
 		return \DB::statement('SELECT "Date and time" made_at, "Sender" sender, "Recipient" recipient, "Amount" amount
 			UNION ALL SELECT CONCAT(made_at, ".", LPAD(made_at_milliseconds, 3, "0")) made_at, sender, recipient, amount FROM payouts WHERE recipient IN (' . implode(', ', $in_clause) . ')
-			ORDER BY id ASC
+			ORDER BY made_at ASC
 			INTO OUTFILE ' . \DB::getPdo()->quote($filename) . ' FIELDS TERMINATED BY "," ENCLOSED BY \'"\' LINES TERMINATED BY "\n"', $addresses->toArray());
 	}
 
