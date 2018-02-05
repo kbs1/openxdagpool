@@ -13,7 +13,7 @@ class LeaderboardController extends Controller
 
 		foreach (User::where('exclude_from_leaderboard', false)->with('miners')->get() as $user)
 			$leaderboard[] = [
-				'hashrate' => $format->hashrate($hashrate = $user->miners->sum('hashrate')),
+				'hashrate' => $format->hashrate($hashrate = $user->miners->pluck('hashrate', 'address')->sum('hashrate')),
 				'hashrate_exact' => $hashrate,
 				'user' => $user
 			];
