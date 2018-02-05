@@ -5,7 +5,7 @@ namespace App\Users;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\Miners\{Miner, MinerStat};
+use App\Miners\Miner;
 use App\Payouts\Payout;
 
 use Carbon\Carbon;
@@ -110,13 +110,13 @@ class User extends Authenticatable
 	public function getDailyHashrate()
 	{
 		$miner_ids = $this->miners->pluck('id');
-		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d") date')->whereIn('miner_id', $miner_ids ?: [0])->groupBy('date')->orderBy('date')->get();
+		return \DB::select('select sum(hashrate) hashrate, date from (select avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d") date from miner_stats where miner_id in (' . implode(', ', $miner_ids ?: [0]) . ') group by miner_id, date order by date) ums group by date')->get();
 	}
 
 	public function getLatestHashrate()
 	{
 		$miner_ids = $this->miners->pluck('id');
-		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:00") date')->whereIn('miner_id', $miner_ids ?: [0])->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
+		return \DB::select('select sum(hashrate) hashrate, date from (select avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:00") date from miner_stats where miner_id in (' . implode(', ', $miner_ids ?: [0]) . ') group by miner_id, date order by date) ums group by date')->get();
 	}
 
 	public function isActive()
