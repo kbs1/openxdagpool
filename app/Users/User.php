@@ -116,7 +116,7 @@ class User extends Authenticatable
 	public function getLatestHashrate()
 	{
 		$miner_ids = $this->miners->pluck('id');
-		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H") date')->whereIn('miner_id', $miner_ids ?: [0])->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
+		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:00") date')->whereIn('miner_id', $miner_ids ?: [0])->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
 	}
 
 	public function isActive()
