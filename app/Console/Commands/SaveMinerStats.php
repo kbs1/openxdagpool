@@ -70,7 +70,7 @@ class SaveMinerStats extends Command
 			try {
 				$miner_stat = $miner->stats()->create([
 					'unpaid_shares' => $pool_miner->getUnpaidShares(),
-					'hashrate' => $miner->hashrate,
+					'hashrate' => 0,
 				]);
 			} catch (\Illuminate\Database\QueryException $ex) {
 				// the miner might have been deleted just now in web UI, silence the exception and continue with the loop
