@@ -113,8 +113,9 @@ class Miner extends Model
 			if ($diff >= 0) { // probably due to this
 				$sum += $diff;
 				$count++; // and this
-				$last = $stat->unpaid_shares; // should do always or only in this if?
 			}
+
+			$last = $stat->unpaid_shares; // should do always or only in above if? much lower hashrates if placed in above if only
 		}
 
 		$shares = $count ? $sum / $count : 0; // over here
