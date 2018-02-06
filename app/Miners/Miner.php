@@ -127,27 +127,26 @@ class Miner extends Model
 		return $proportion * $when->pool_hashrate;
 	}
 
-	// produces low hashrates, multiplied by 2 gives kind of correct result (why?), but still low for more powerful miners
+	// produces low hashrates, multiplied by ~2 gives kind of correct result (why?), but still low for more powerful miners
 	protected function getAveragingHashrate_1(PoolStat $when)
 	{
 		$from = clone $when->created_at;
 		$to = clone $when->created_at;
 		$from->subHours(3);
 
-		/*$avg_unpaid_shares = (float) PoolStat::selectRaw('avg(total_unpaid_shares) avg_unpaid_shares')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('total_unpaid_shares', '>', 0)->pluck('avg_unpaid_shares')->first();
+		$avg_unpaid_shares = (float) PoolStat::selectRaw('avg(total_unpaid_shares) avg_unpaid_shares')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('total_unpaid_shares', '>', 0)->pluck('avg_unpaid_shares')->first();
 		if ($avg_unpaid_shares == 0)
 			return $this->hashrate;
-		*/
 
 		$avg_pool_hashrate = (float) PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('avg_pool_hashrate')->first();
 		$avg_miner_shares = (float) $this->stats()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('unpaid_shares', '>', 0)->groupBy('miner_id')->pluck('average')->first();
 
-		$proportion = $avg_miner_shares / $when->total_unpaid_shares; //$avg_unpaid_shares;
+		$proportion = $avg_miner_shares / $avg_unpaid_shares;
 
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		return $proportion * $avg_pool_hashrate;
+		return $proportion * $avg_pool_hashrate * 1.5; // WHY? luck factor?
 	}
 
 	public function getPayoutsListing($page = null)
