@@ -110,7 +110,7 @@ class Miner extends Model
 		foreach ($stats as $stat) {
 			$diff = $stat->unpaid_shares - $last;
 
-			if ($diff >= 0) { // probably due to this
+			if ($diff > 0) { // probably due to this
 				$sum += $diff;
 				$count++; // and this
 			}
@@ -118,7 +118,7 @@ class Miner extends Model
 			$last = $stat->unpaid_shares;
 		}
 
-		$shares = $sum;//$count ? $sum / $count : 0; // over here
+		$shares = $count ? $sum / $count : 0; // over here
 		$proportion = $shares / $when->total_unpaid_shares; // this is also NOW, current pool stat
 
 		if (is_nan($proportion) || is_infinite($proportion))
