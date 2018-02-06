@@ -49,8 +49,74 @@ class Miner extends Model
 		$when = $when ?? PoolStat::orderBy('id', 'desc')->first();
 
 		if (!$when)
-			return 0;
+			return $miner->hashrate;
 
+		$algo = env('HASHRATE_ALGORITHM', 'realtime');
+
+		if ($algo == 'averaging2')
+			return $this->getAveragingHashrate_2($when);
+		else if ($algo == 'averaging1')
+			return $this->getAveragingHashrate_1($when);
+
+		return $this->getRealtimeHashrate($when);
+	}
+
+	protected function getRealtimeHashrate(PoolStat $when)
+	{
+		if (!$when->total_unpaid_shares)
+			return $this->hashrate;
+
+		$from = clone $when->created_at;
+		$to = clone $when->created_at;
+		$from->subMinutes(4);
+
+		$stat = $this->stats()->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'asc')->first();
+
+		if (!$stat)
+			return $this->hashrate;
+
+		$proportion = $stat->unpaid_shares / $when->total_unpaid_shares;
+
+		if (is_nan($proportion) || is_infinite($proportion))
+			return $this->hashrate;
+
+		return $proportion * $when->pool_hashrate;
+	}
+
+	protected function getAveragingHashrate_2(PoolStat $when)
+	{
+		if (!$when->total_unpaid_shares)
+			return $this->hashrate;
+
+		$from = clone $when->created_at;
+		$to = clone $when->created_at;
+		$from->subHours(6);
+
+		$sum = $count = $last = 0;
+		$stats = $this->stats()->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'asc')->get();
+
+		foreach ($stats as $stat) {
+			$diff = $stat->unpaid_shares - $last;
+
+			if ($diff >= 0) {
+				$sum += $diff;
+				$count++;
+			}
+
+			$last = $stat->unpaid_shares;
+		}
+
+		$shares = $count ? $sum / $count : 0;
+		$proportion = $shares / $when->total_unpaid_shares;
+
+		if (is_nan($proportion) || is_infinite($proportion))
+			return $this->hashrate;
+
+		return $proportion * $when->pool_hashrate;
+	}
+
+	protected function getAveragingHashrate_1(PoolStat $when)
+	{
 		$from = clone $when->created_at;
 		$to = clone $when->created_at;
 		$from->subHours(6);
@@ -67,7 +133,7 @@ class Miner extends Model
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		return $proportion * $avg_pool_hashrate * 1.5; // account for luck
+		return $proportion * $avg_pool_hashrate;
 	}
 
 	public function getPayoutsListing($page = null)
