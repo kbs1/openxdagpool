@@ -61,7 +61,7 @@ class Miner extends Model
 		return $this->getRealtimeHashrate($when);
 	}
 
-	// produces results that jump up and down with pool hashrate estimation from the daemon, but usually low hashrate (40% of miner speed or so...)
+	// produces results that jump up and down with pool hashrate estimation from the daemon, but usually low hashrate (40% of miner speed or so... based on luck factor)
 	protected function getRealtimeHashrate(PoolStat $when)
 	{
 		if (!$when->total_unpaid_shares)
@@ -87,6 +87,14 @@ class Miner extends Model
 	}
 
 	// produces extremely low hashrates
+	/* When miner sends a share, its difficulty converted into nopaid_share value and added to existing nopaid_shares for this miner.
+	 * When the payment occurs, it is divided into parts in proportion to nopaid_shares and then nopaid_shares is zeroed (if two payments
+	 * come in short interval then nopaid_shares is partially zeroed). I assume that hashrate of miner is in proportion to his average
+	 * difficulty of shares. This is not true, but approximately true for a long time period. So you may collect nopaid_shares periodically
+	 * and put them into queue, for example day-long queue. When next value comes to queue, the oldest go away. Or, may be better not put
+	 * current value of nopaid_shares, but the difference between current and previous, if this difference >= 0. So you always have the
+	 * queue for last day. Then just sum its values.
+	 */
 	protected function getAveragingHashrate_2(PoolStat $when)
 	{
 		if (!$when->total_unpaid_shares)
@@ -110,7 +118,7 @@ class Miner extends Model
 			$last = $stat->unpaid_shares;
 		}
 
-		$shares = $count ? $sum / $count : 0; // over here
+		$shares = $sum;//$count ? $sum / $count : 0; // over here
 		$proportion = $shares / $when->total_unpaid_shares; // this is also NOW, current pool stat
 
 		if (is_nan($proportion) || is_infinite($proportion))
