@@ -61,6 +61,7 @@ class Miner extends Model
 		return $this->getRealtimeHashrate($when);
 	}
 
+	// produces results that jump up and down with pool hashrate estimation from the daemon...
 	protected function getRealtimeHashrate(PoolStat $when)
 	{
 		if (!$when->total_unpaid_shares)
@@ -70,7 +71,7 @@ class Miner extends Model
 		$to = clone $when->created_at;
 		$from->subMinutes(4);
 
-		$stat = $this->stats()->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'asc')->first();
+		$stat = $this->stats()->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'desc')->first();
 
 		if (!$stat)
 			return $this->hashrate;
@@ -83,6 +84,7 @@ class Miner extends Model
 		return $proportion * $when->pool_hashrate;
 	}
 
+	// produces extremely low hashrates
 	protected function getAveragingHashrate_2(PoolStat $when)
 	{
 		if (!$when->total_unpaid_shares)
@@ -98,16 +100,16 @@ class Miner extends Model
 		foreach ($stats as $stat) {
 			$diff = $stat->unpaid_shares - $last;
 
-			if ($diff >= 0) {
+			if ($diff >= 0) { // probably due to this
 				$sum += $diff;
-				$count++;
+				$count++; // and this
 			}
 
 			$last = $stat->unpaid_shares;
 		}
 
-		$shares = $count ? $sum / $count : 0;
-		$proportion = $shares / $when->total_unpaid_shares;
+		$shares = $count ? $sum / $count : 0; // over here
+		$proportion = $shares / $when->total_unpaid_shares; // this is also NOW, current pool stat
 
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
@@ -115,6 +117,7 @@ class Miner extends Model
 		return $proportion * $when->pool_hashrate;
 	}
 
+	// produces low hashrates, multiplied by 2 gived kind of correct result (why?), but still low for more powerful miners
 	protected function getAveragingHashrate_1(PoolStat $when)
 	{
 		$from = clone $when->created_at;
