@@ -16,7 +16,7 @@ class RemoveInactiveMinersHistory extends Command
 
 	public function handle()
 	{
-		foreach (Miner::all() as $miner) {
+		foreach (Miner::where('status', 'offline')->get() as $miner) {
 			if ($miner->stats()->where('created_at', '>=', Carbon::now()->subDays(3))->where('unpaid_shares', '>', 0)->count() == 0)
 				$miner->stats()->delete();
 		}
