@@ -61,7 +61,7 @@ class Miner extends Model
 		return $this->getRealtimeHashrate($when);
 	}
 
-	// produces results that jump up and down with pool hashrate estimation from the daemon...
+	// produces results that jump up and down with pool hashrate estimation from the daemon, but usually low hashrate (40% of miner speed or so...)
 	protected function getRealtimeHashrate(PoolStat $when)
 	{
 		if (!$when->total_unpaid_shares)
@@ -69,7 +69,9 @@ class Miner extends Model
 
 		$from = clone $when->created_at;
 		$to = clone $when->created_at;
+
 		$from->subMinutes(4);
+		$to->addMinutes(4);
 
 		$stat = $this->stats()->where('created_at', '>=', $from)->where('created_at', '<=', $to)->orderBy('id', 'desc')->first();
 
