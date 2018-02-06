@@ -34,7 +34,8 @@ class Parser extends BaseParser
 		$total = 0;
 
 		$this->forEachMinerLine(function($parts) use (&$total) {
-			$total += $parts[5];
+			if ($parts[2] === 'active')
+				$total += $parts[5];
 		});
 
 		return $total;
