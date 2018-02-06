@@ -144,7 +144,7 @@ class Miner extends Model
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		$pool_hashrate = (float) PoolStat::selectRaw('max(pool_hashrate) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('value')->first();
+		$pool_hashrate = (float) PoolStat::selectRaw('avg(pool_hashrate) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('value')->first();
 
 		return $proportion * $pool_hashrate;
 	}
