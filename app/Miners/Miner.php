@@ -147,7 +147,7 @@ class Miner extends Model
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		return $proportion * $when->pool_hashrate;//$avg_pool_hashrate;
+		return $proportion * $when->pool_hashrate * 2.25; // WHY?? luck factor? //$avg_pool_hashrate;
 	}
 
 	public function getPayoutsListing($page = null)
