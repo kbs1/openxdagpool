@@ -132,7 +132,7 @@ class Miner extends Model
 	{
 		$from = clone $when->created_at;
 		$to = clone $when->created_at;
-		$from->subHours(6);
+		$from->subHours(2 /* 6 */);
 
 		/*$avg_unpaid_shares = (float) PoolStat::selectRaw('avg(total_unpaid_shares) avg_unpaid_shares')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('total_unpaid_shares', '>', 0)->pluck('avg_unpaid_shares')->first();
 		if ($avg_unpaid_shares == 0)
