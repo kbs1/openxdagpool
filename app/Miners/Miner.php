@@ -127,7 +127,7 @@ class Miner extends Model
 		return $proportion * $when->pool_hashrate;
 	}
 
-	// produces low hashrates, multiplied by 2-2.5 gives kind of correct result (why?), but still low for more powerful miners
+	// produces low hashrates, multiplied by 2 gives kind of correct result (why?), but still low for more powerful miners
 	protected function getAveragingHashrate_1(PoolStat $when)
 	{
 		$from = clone $when->created_at;
@@ -147,7 +147,7 @@ class Miner extends Model
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		return $proportion * $when->pool_hashrate * 2.25; // WHY?? luck factor? //$avg_pool_hashrate;
+		return $proportion * $when->pool_hashrate * 2; // WHY?? luck factor? //$avg_pool_hashrate;
 	}
 
 	public function getPayoutsListing($page = null)
