@@ -132,7 +132,7 @@ class Miner extends Model
 	{
 		$from = clone $when->created_at;
 		$to = clone $when->created_at;
-		$from->subHours(2 /* 6 */);
+		$from->subHours(1 /* 6 */);
 
 		/*$avg_unpaid_shares = (float) PoolStat::selectRaw('avg(total_unpaid_shares) avg_unpaid_shares')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('total_unpaid_shares', '>', 0)->pluck('avg_unpaid_shares')->first();
 		if ($avg_unpaid_shares == 0)
@@ -147,7 +147,7 @@ class Miner extends Model
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		return $proportion * $when->pool_hashrate * 2; // WHY?? luck factor? //$avg_pool_hashrate;
+		return $proportion * $when->pool_hashrate; // WHY?? luck factor? //$avg_pool_hashrate;
 	}
 
 	public function getPayoutsListing($page = null)
