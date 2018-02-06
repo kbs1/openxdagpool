@@ -39,7 +39,7 @@
 				<hr>
 				<p><span class="important">Note:</span> Hash rates update every 5 minutes. Hash rate calculation is purely informational, it does not represent 'what the pool sees', or your real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching your real speed over a longer period of time (usually 6 hours). You are always mining at full speed reported by typing <code>stats</code> into your CPU miner console or by observing the speed that your GPU miner shows.</p>
 				<hr>
-				<p><span class="important">Note:</span> If you delete your miner, hashrate data will be permanently lost. Hashrate history is stored only for registered miners, from the time of registration.</p>
+				<p><span class="important">Note:</span> If you delete your miner or it becomes offline for more than 3 days, it's hashrate data will be permanently lost. Hashrate history is stored only for registered active miners, from the time of registration.</p>
 			</div>
 		</div>
 	</div>

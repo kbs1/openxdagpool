@@ -251,6 +251,7 @@
 					<div class="card-content">
 						<div class="content">
 							<ul>
+								<li><span class="important">2018-02-06</span> Hashrate history for miners that are offline for more than 3 days is now deleted</li>
 								<li><span class="important">2018-02-05</span> Updated pool config to 0.5% - 1% - 1% - 0.5% for more consitent payouts</li>
 								<li><span class="important">2018-02-05</span> Updated hashrate calculation algorithm, should be more precise now</li>
 								<li><span class="important">2018-02-05</span> Added hashrate history for users and miners</li>

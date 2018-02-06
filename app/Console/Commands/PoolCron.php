@@ -15,6 +15,7 @@ class PoolCron extends Command
 		$this->call('stats:pool');
 		$this->call('stats:miners');
 		$this->call('alerts:miners');
+		$this->call('miners:remove-inactive-history');
 		$this->info('PoolCron completed successfully.');
 	}
 }
