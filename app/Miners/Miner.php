@@ -110,12 +110,11 @@ class Miner extends Model
 		foreach ($stats as $stat) {
 			$diff = $stat->unpaid_shares - $last;
 
-			if ($diff > 0) { // probably due to this
+			if ($diff >= 0) { // probably due to this
 				$sum += $diff;
 				$count++; // and this
+				$last = $stat->unpaid_shares; // should do always or only in this if?
 			}
-
-			$last = $stat->unpaid_shares;
 		}
 
 		$shares = $count ? $sum / $count : 0; // over here
