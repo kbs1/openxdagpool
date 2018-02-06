@@ -134,19 +134,19 @@ class Miner extends Model
 		$to = clone $when->created_at;
 		$from->subHours(1);
 
-		$avg_unpaid_shares = (float) PoolStat::selectRaw('avg(total_unpaid_shares) avg_unpaid_shares')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('total_unpaid_shares', '>', 0)->pluck('avg_unpaid_shares')->first();
-		if ($avg_unpaid_shares == 0)
+		$pool_unpaid_shares = (float) PoolStat::selectRaw('avg(total_unpaid_shares) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('total_unpaid_shares', '>', 0)->pluck('value')->first();
+		if ($pool_unpaid_shares == 0)
 			return $this->hashrate;
 
-		$avg_pool_hashrate = (float) PoolStat::selectRaw('avg(pool_hashrate) avg_pool_hashrate')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('avg_pool_hashrate')->first();
-		$avg_miner_shares = (float) $this->stats()->selectRaw('miner_id, avg(unpaid_shares) average')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('unpaid_shares', '>', 0)->groupBy('miner_id')->pluck('average')->first();
-
-		$proportion = $avg_miner_shares / $avg_unpaid_shares;
+		$miner_unpaid_shares = (float) $this->stats()->selectRaw('miner_id, avg(unpaid_shares) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('unpaid_shares', '>', 0)->groupBy('miner_id')->pluck('value')->first();
+		$proportion = $miner_unpaid_shares / $pool_unpaid_shares;
 
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		return $proportion * $avg_pool_hashrate * 2; // WHY? luck factor?
+		$pool_hashrate = (float) PoolStat::selectRaw('max(pool_hashrate) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('value')->first();
+
+		return $proportion * $pool_hashrate;
 	}
 
 	public function getPayoutsListing($page = null)
