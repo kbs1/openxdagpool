@@ -35,7 +35,7 @@ class MinersController extends Controller
 		return redirect()->back()->with('success', 'Miner successfully added. Status, hashrate, unpaid shares and balance will update in 5 minutes.');
 	}
 
-	public function delete(CreateMiner $request)
+	public function delete(Request $request)
 	{
 		$user = Auth::user();
 		$miner = $user->miners()->where('address', $request->input('address'))->first();
