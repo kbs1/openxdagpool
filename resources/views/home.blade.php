@@ -52,7 +52,7 @@
 
 					<div class="card-content stats">
 						<nav class="level is-mobile pool-stats">
-							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past 4 hours hashrate. Click for details.">
 								<div>
 									<p class="heading">Hashrate</p>
 									<p class="title">
@@ -82,7 +82,7 @@
 							</div>
 						</nav>
 						<nav class="level is-mobile network-stats inactive-tab-stats">
-							<div class="level-item has-text-centered tooltip" data-tooltip="Past hour hashrate. Click for details.">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Past 4 hours hashrate. Click for details.">
 								<div>
 									<p class="heading">Hashrate</p>
 									<p class="title">

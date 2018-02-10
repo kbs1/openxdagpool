@@ -78,8 +78,8 @@ class Parser extends BaseParser
 
 	protected function parse()
 	{
-		$this->pool_hashrate = $this->getValue('hour hashrate MHs') * 1000000;
-		$this->network_hashrate = $this->getValue('hour hashrate MHs', true) * 1000000;
+		$this->pool_hashrate = $this->getValue('4 hr hashrate MHs') * 1000000;
+		$this->network_hashrate = $this->getValue('4 hr hashrate MHs', true) * 1000000;
 		$this->blocks = $this->getValue('blocks');
 		$this->main_blocks = $this->getValue('main blocks');
 		$this->difficulty = $this->getValue('chain difficulty');
