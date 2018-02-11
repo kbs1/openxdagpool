@@ -102,7 +102,7 @@
 				<form id="addMinerForm" method="post" action="{{ route('miners.create') }}">
 					{{ csrf_field() }}
 					<section class="modal-card-body">
-						<p>You can find your miner address by typing <code>account</code> in miner console.</p>
+						<p>You can find your miner address by typing <code>account</code> in wallet console.</p>
 
 						<div class="column">
 							<div class="field is-horizontal">
