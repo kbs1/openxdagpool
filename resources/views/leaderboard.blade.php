@@ -38,6 +38,13 @@
 					</div>
 				@endif
 
+				@if (isset($authUser) && $authUser->isAdministrator())
+					<div class="notification is-info">
+						<button class="delete"></button>
+						You are an administrator, all user nicks are visible. Log out to see the leaderboard as other users.
+					</div>
+				@endif
+
 				<table class="table is-fullwidth is-striped">
 					<thead>
 						<tr>
