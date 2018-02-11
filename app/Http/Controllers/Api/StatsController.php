@@ -32,10 +32,11 @@ class StatsController extends Controller
 		$user_stats = [];
 
 		if ($user = Auth::user()) {
-			$user_hashrate = $user->miners->sum('hashrate') . '-' . str_pad($user->id, 10, '0');
+			$user_hashrate_exact = $user->miners->sum('hashrate');
+			$user_hashrate = str_pad($user_hashrate_exact, 100, '0', STR_PAD_LEFT) . '-' . str_pad($user->id, 10, '0', STR_PAD_LEFT);
 
 			$user_stats = [
-				'user_hashrate' => $this->format->hashrate($user_hashrate),
+				'user_hashrate' => $this->format->hashrate($user_hashrate_exact),
 				'user_miners' => $user->miners->sum('machines_count'),
 				'user_balance' => $this->format->balance($user_balance = $user->miners->sum('balance')),
 				'user_balance_exact' => $this->format->fullBalance($user_balance),
@@ -44,14 +45,13 @@ class StatsController extends Controller
 				'user_rank' => '#1',
 			];
 
-			$hashrates = [$user_hashrate];
+			$hashrates = [$user_hashrate_exact];
 
 			foreach (User::where('exclude_from_leaderboard', false)->where('id', '!=', $user->id)->with('miners')->get() as $user)
-				$hashrates[] = $user->miners->sum('hashrate') . '-' . str_pad($user->id, 10, '0');
+				$hashrates[] = str_pad($user->miners->sum('hashrate'), 100, '0', STR_PAD_LEFT) . '-' . str_pad($user->id, 10, '0', STR_PAD_LEFT);
 
-			$hashrates = array_values($hashrates);
 			rsort($hashrates);
-			$user_stats['user_rank'] = '#' . (array_search($user_hashrate, $hashrates) + 2);
+			$user_stats['user_rank'] = '#' . (array_search($user_hashrate_exact, $hashrates) + 1);
 		}
 
 		$pool_stat = PoolStat::orderBy('id', 'desc')->first();
