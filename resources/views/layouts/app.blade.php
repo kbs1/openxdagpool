@@ -127,7 +127,7 @@
 				<div class="content">
 					<hr>
 					<a href="#" id="footer" class="is-pulled-right">
-						OpenXDAGPool,
+						<span class="tooltip" data-tooltip="Powered by OpenXDAGPool">{{ Setting::get('website_domain') }}</span>,
 						@php
 							echo date('Y');
 						@endphp
