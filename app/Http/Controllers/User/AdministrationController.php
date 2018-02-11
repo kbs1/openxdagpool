@@ -5,7 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Users\User;
 use App\Pool\Formatter;
-use App\Http\Requests\UpdateUser;
+use App\Http\Requests\{UpdateUser, SaveSettings};
+use Setting;
 
 class AdministrationController extends Controller
 {
@@ -54,5 +55,23 @@ class AdministrationController extends Controller
 		$user->save();
 
 		return redirect()->route('user.admin.users')->with('success', 'User successfully updated.');
+	}
+
+	public function poolSettings()
+	{
+		return view('user.admin.settings', [
+			'section' => 'settings',
+		]);
+	}
+
+	public function savePoolSettings(SaveSettings $request)
+	{
+		Setting::set('fees_percent', $request->input('fees_percent'));
+		Setting::set('reward_percent', $request->input('reward_percent'));
+		Setting::set('direct_percent', $request->input('direct_percent'));
+		Setting::set('fund_percent', $request->input('fund_percent'));
+		Setting::save();
+
+		return redirect()->back()->with('success', 'Settings successfuly updated.');
 	}
 }

@@ -4,8 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ff1f4206df9ac9001ce150275a8592e",
+    "content-hash": "6fa71f16f9d2b788d53d2c1deb4113e9",
     "packages": [
+        {
+            "name": "anlutro/l4-settings",
+            "version": "0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anlutro/laravel-settings.git",
+                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anlutro/laravel-settings/zipball/48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
+                "reference": "48c9adb5c6c0736f7ace44c29c48759fc1163e0b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.1 <6.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "illuminate/database": ">=4.1 <6.0",
+                "illuminate/filesystem": ">=4.1 <6.0",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": ">=4.8, <6"
+            },
+            "suggest": {
+                "illuminate/database": "Save settings to a database table.",
+                "illuminate/filesystem": "Save settings to a JSON file."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Setting": "anlutro\\LaravelSettings\\Facade"
+                    },
+                    "providers": [
+                        "anlutro\\LaravelSettings\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "anlutro\\LaravelSettings\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Lutro",
+                    "email": "anlutro@gmail.com"
+                }
+            ],
+            "description": "Persistent settings in Laravel.",
+            "time": "2017-11-08T18:16:13+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -1193,6 +1250,7 @@
                 "xls",
                 "xlsx"
             ],
+            "abandoned": "phpoffice/phpspreadsheet",
             "time": "2015-05-01T07:00:55+00:00"
         },
         {

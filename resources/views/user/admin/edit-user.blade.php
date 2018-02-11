@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('title')
-	Users
+	{{ $user->nick }}'s profile
 @endsection
 
 @section('hero')

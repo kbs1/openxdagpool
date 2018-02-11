@@ -83,7 +83,7 @@
 
 			@if (count($errors) > 0 || Session::has('success') || Session::has('warning') || Session::has('error'))
 				<div class="columns is-marginless is-centered">
-					<div class="column is-7">
+					<div class="column is-@yield('flashMessagesWidth', '7')">
 						@if (count($errors) > 0)
 							<div class="notification is-warning">
 								<button class="delete"></button>

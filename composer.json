@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "anlutro/l4-settings": "^0.6.0",
         "fideloper/proxy": "~3.3",
         "laravel-frontend-presets/bulma": "^1.5",
         "laravel/framework": "5.5.*",

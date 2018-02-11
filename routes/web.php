@@ -41,6 +41,8 @@ Route::get('/user/hashrate-graph/{type}', 'User\HashrateController@userGraph')->
 Route::get('/user/admin/users', 'User\AdministrationController@users')->name('user.admin.users');
 Route::get('/user/admin/users/{id}', 'User\AdministrationController@editUser')->name('user.admin.edit-user');
 Route::post('/user/admin/users/{id}', 'User\AdministrationController@updateUser')->name('user.admin.update-user');
+Route::get('/user/admin/settings', 'User\AdministrationController@poolSettings')->name('user.admin.settings');
+Route::post('/user/admin/settings', 'User\AdministrationController@savePoolSettings')->name('user.admin.settings.save');
 
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
