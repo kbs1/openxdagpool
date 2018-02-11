@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="csrf-token" content="{{ csrf_token() }}">
-		<title>@yield('title', 'Pool') | {{ config('app.name', 'Laravel') }}</title>
+		<title>@yield('title', 'Pool') | {{ Setting::get('pool_name', 'OpenXDAGPool') }}</title>
 		<link href="{{ mix('css/app.css') }}" rel="stylesheet">
 	</head>
 	<body>
@@ -127,7 +127,7 @@
 				<div class="content">
 					<hr>
 					<a href="#" id="footer" class="is-pulled-right">
-						XDAGpool.com,
+						OpenXDAGPool,
 						@php
 							echo date('Y');
 						@endphp
@@ -143,7 +143,8 @@
 						<a class="delete close-modal" aria-label="close" href="#"></a>
 					</header>
 					<section class="modal-card-body">
-						<p>Questions, comments, or suggestions? Contact us at <span id="contactEmail"></span></p>
+						<p>Questions, comments, or suggestions? Contact us at <span id="contactEmail" data-transform-applied="false">{{ base64_encode(str_replace(['@', '.'], ['&', '*'], str_rot13($contactEmail))) }}</span></p>
+						<p>View the OpenXDAGPool project at <a href="https://github.com/kbs1/openxdagpool" taget="_blank">Github</a>.</p>
 					</section>
 					<footer class="modal-card-foot">
 						<button type="button" class="button close-modal">Close</button>

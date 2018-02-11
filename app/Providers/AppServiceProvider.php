@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Auth;
 use Carbon\Carbon;
+use Setting;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
 			}
 
 			$view->with('authUser', $user);
+			$view->with('contactEmail', Setting::get('contact_email'));
 		});
 	}
 }

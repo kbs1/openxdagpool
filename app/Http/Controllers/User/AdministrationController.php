@@ -70,6 +70,20 @@ class AdministrationController extends Controller
 		Setting::set('reward_percent', $request->input('reward_percent'));
 		Setting::set('direct_percent', $request->input('direct_percent'));
 		Setting::set('fund_percent', $request->input('fund_percent'));
+
+		Setting::set('pool_name', $request->input('pool_name'));
+		Setting::set('pool_tagline', $request->input('pool_tagline'));
+		Setting::set('pool_tooltip', $request->input('pool_tooltip'));
+
+		Setting::set('pool_domain', $request->input('pool_domain'));
+		Setting::set('pool_port', $request->input('pool_port'));
+		Setting::set('website_domain', $request->input('website_domain'));
+
+		Setting::set('contact_email', $request->input('contact_email'));
+		Setting::set('important_message_html', $request->input('important_message_html'));
+		Setting::set('important_message_until', $request->input('important_message_until'));
+		Setting::set('pool_news_html', $request->input('pool_news_html'));
+
 		Setting::save();
 
 		return redirect()->back()->with('success', 'Settings successfuly updated.');

@@ -1,5 +1,6 @@
 try {
     window.$ = window.jQuery = require('jquery');
+    require('jquery-ui/ui/widgets/datepicker');
 } catch (e) {}
 
 window.appView = require('./views/app');
@@ -8,8 +9,7 @@ window.minersView = require('./views/miners');
 window.statsView = require('./views/stats');
 window.payoutsView = require('./views/payouts');
 window.hashrateView = require('./views/hashrate');
+window.adminSettingsView = require('./views/admin-settings');
 
+window.d3 = require('d3');
 window.c3 = require('c3');
-window.d3 = require("d3");
-
-// require('./bulma-extensions');

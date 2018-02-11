@@ -1,3 +1,4 @@
+// list of basic bulma extensions
 
 require('bulma-extensions/bulma-accordion/accordion');
 require('bulma-extensions/bulma-calendar/datepicker');

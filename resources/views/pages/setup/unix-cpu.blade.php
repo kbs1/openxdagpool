@@ -37,7 +37,7 @@
 							<li>Execute: <code>git clone http://xdag.me/xdag.git</code></li>
 							<li>Change directory: <code> cd ./xdag/cheatcoin</code></li>
 							<li>Run <code>make</code></li>
-							<li>Run the program with <code>TZ=GMT ./xdag -d -m 1 pool.xdagpool.com:13654</code>. Set up your wallet password, type random keys (at least 3 lines of random keys). Wait until host keys are generated.</li>
+							<li>Run the program with <code>TZ=GMT ./xdag -d -m 1 {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}</code>. Set up your wallet password, type random keys (at least 3 lines of random keys). Wait until host keys are generated.</li>
 							<li>Execute <code>TZ=GMT ./xdag -i</code>. Type <code>terminate</code> and press enter.</li>
 							<li><code>cd</code> to your home directory</li>
 							<li>Execute:
@@ -70,7 +70,7 @@ if [ "$?" -eq 0 ]; then
 fi
 
 echo Starting daemon...
-(cd ./xdag/cheatcoin &amp;&amp; TZ=GMT ./xdag -d -m <span class="parameter">4</span> pool.xdagpool.com:13654)
+(cd ./xdag/cheatcoin &amp;&amp; TZ=GMT ./xdag -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }})
 echo -n "Daemon PIDs: "
 pidof xdag
 EOD</pre>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads. You can control this later by typing <code>mining N</code> in the XDAG console, where <span class="parameter">N</span> is the number of mining threads you want to run.

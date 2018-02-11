@@ -9,11 +9,11 @@
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">
-					XDAG - Dagger pool
+					{{ Setting::get('pool_name') }}
 				</h1>
 				<h2 class="subtitle">
-					<span class="tooltip" data-tooltip="Location: Slovakia, Europe">
-						High availability mining pool
+					<span class="tooltip" data-tooltip="{{ Setting::get('pool_tooltip') }}">
+						{{ Setting::get('pool_tagline') }}
 					</span>
 				</h2>
 			</div>
@@ -191,7 +191,7 @@
 					<div class="card-content">
 						<p>Windows GPU (<a href="{{ route('pages', 'setup/windows-gpu') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
-							<span class="parameter">C:\DaggerGpuMiner</span>\DaggerGpuMiner.exe -G -a <span class="parameter">wallet_address</span> -p pool.xdagpool.com:13654 -t 0 -v 2 -opencl-platform <span class="parameter">platform_id</span> -opencl-devices <span class="parameter">device_nums</span>
+							<span class="parameter">C:\DaggerGpuMiner</span>\DaggerGpuMiner.exe -G -a <span class="parameter">wallet_address</span> -p {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }} -t 0 -v 2 -opencl-platform <span class="parameter">platform_id</span> -opencl-devices <span class="parameter">device_nums</span>
 						</pre>
 						<p class="offset">Replace <span class="parameter">C:\DaggerGpuMiner</span> with full path to your xdag miner installation folder.</p>
 						<p>Replace <span class="parameter">wallet_address</span> with your wallet address.</p>
@@ -203,7 +203,7 @@
 
 						<p>Windows CPU (<a href="{{ route('pages', 'setup/windows-cpu') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
-							<span class="parameter">C:\xdag</span>\xdag.exe -d -m <span class="parameter">4</span> pool.xdagpool.com:13654
+							<span class="parameter">C:\xdag</span>\xdag.exe -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
 						</pre>
 						<p>Replace <span class="parameter">C:\xdag</span> with full path to your xdag installation folder.</p>
 						<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
@@ -213,7 +213,7 @@
 
 						<p>Unix CPU (<a href="{{ route('pages', 'setup/unix-cpu') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
-							TZ=GMT ./xdag -d -m <span class="parameter">4</span> pool.xdagpool.com:13654
+							TZ=GMT ./xdag -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
 						</pre>
 						<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
 					</div>
@@ -250,27 +250,7 @@
 
 					<div class="card-content">
 						<div class="content">
-							<ul>
-								<li><span class="important">2018-02-10</span> Updated pool software</li>
-								<li><span class="important">2018-02-06</span> Hashrate history for miners that are offline for more than 3 days is now deleted</li>
-								<li><span class="important">2018-02-05</span> Updated pool config to 0.5% - 1% - 1% - 0.5% for more consitent payouts</li>
-								<li><span class="important">2018-02-05</span> Updated hashrate calculation algorithm, should be more precise now</li>
-								<li><span class="important">2018-02-05</span> Added hashrate history for users and miners</li>
-								<li><span class="important">2018-02-04</span> Updated pool software</li>
-								<li><span class="important">2018-02-03</span> Faster miner balances updating, every 30 minutes</li>
-								<li><span class="important">2018-01-30</span> Updated mining instructions, added GPU mining instructions</li>
-								<li><span class="important">2018-01-26</span> Added leaderboard</li>
-								<li><span class="important">2018-01-25</span> Updated pool software to version 852, supports more than 1024 miners</li>
-								<li><span class="important">2018-01-24</span> Payout statistics and exports now work even for large datasets</li>
-								<li><span class="important">2018-01-23</span> Added detailed payout statistics</li>
-								<li><span class="important">2018-01-22</span> Updated pool software</li>
-								<li><span class="important">2018-01-21</span> Support for "went offline" and "back online" miner alerts</li>
-								<li><span class="important">2018-01-20</span> Updated pool software, added wallet balance checker</li>
-								<li><span class="important">2018-01-19</span> Added user's stats on the homepage</li>
-								<li><span class="important">2018-01-17</span> Added detailed network graphs</li>
-								<li><span class="important">2018-01-16</span> Added option to register your miners, updated pool software</li>
-								<li><span class="important">2018-01-15</span> Pool launched</li>
-							</ul>
+							{!! Setting::get('pool_news_html') !!}
 						</div>
 					</div>
 				</nav>

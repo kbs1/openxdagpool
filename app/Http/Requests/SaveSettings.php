@@ -30,6 +30,17 @@ class SaveSettings extends FormRequest
 			'reward_percent' => 'required|numeric|min:0|max:100',
 			'direct_percent' => 'required|numeric|min:0|max:100',
 			'fund_percent' => 'required|numeric|min:0|max:100',
+
+			'pool_name' => 'required',
+			'pool_tagline' => 'required',
+			'pool_tooltip' => 'required',
+
+			'pool_domain' => 'required',
+			'pool_port' => 'required|numeric|min:1|max:65535',
+			'website_domain' => 'required',
+
+			'contact_email' => 'required|email',
+			'important_message_until' => 'nullable|date',
 		];
 	}
 }

@@ -14,7 +14,7 @@
 	{
 		$('.navbar-burger').click(this.handleMobileMenu);
 		$('.notification .delete').click(this.handleNotifications);
-		$('#footer').click(this.showContactUsModal);
+		$('#footer').click(this.showContactUsModal.bind(this));
 		$('.close-modal').click(this.closeModal);
 	}
 
@@ -36,19 +36,15 @@
 
 	View.prototype.showContactUsModal = function()
 	{
-		var email = 'gjddm5a@QCzOdmmx.Ym0';
-		var key = '6ZiA9a3McHgCBUmDFjlJS81PyzvbYeO4np0hErx2qwfTGkLtRXWKsdVNo5QuI7';
-		var shift = email.length;
-		var result = '';
+		var el = $('#contactEmail');
 
-		for (var i = 0; i < email.length; i++) {
-			if (key.indexOf(email.charAt(i)) == -1)
-				result += email.charAt(i);
-			else
-				result += key.charAt((key.indexOf(email.charAt(i)) - shift + key.length) % key.length);
+		if (!$(el).data('transformApplied')) {
+			var email = new Buffer($(el).text(), 'base64').toString('ascii');
+			email = email.replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}); //rot13
+			email = email.replace(/&/g, '@').replace(/\*/g, '.');
+			$('#contactEmail').html('<a href="mailto:' + email + '" target="_blank">' + email + '</a>').data('transformApplied', true);
 		}
 
-		$('#contactEmail').html('<a href="mailto:' + result + '" target="_blank">' + result + '</a>');
 		$('#contactUsModal').addClass('is-active');
 
 		return false;

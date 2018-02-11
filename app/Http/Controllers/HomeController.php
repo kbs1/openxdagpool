@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Setting;
 
 class HomeController extends Controller
 {
 	public function index()
 	{
-		$message = env('IMPORTANT_MESSAGE');
+		$message = Setting::get('important_message_html');
 
 		try {
-			$until = env('IMPORTANT_MESSAGE_UNTIL') ? new Carbon(env('IMPORTANT_MESSAGE_UNTIL')) : null;
+			$until = Setting::get('important_message_until') ? new Carbon(Setting::get('important_message_until')) : null;
+			$until->hour(23)->minute(59)->second(59);
 		} catch (\Exception $ex) {
 			$until = Carbon::now();
 		}

@@ -35,7 +35,7 @@
 							<li>Download <code>win64exe.zip</code> from the <a href="http://xdag.me/downloads.html" target="_blank">official website</a>.</li>
 							<li>Extract the archive into <code>C:\xdag</code></code></li>
 							<li>Create a new bat file <code>C:\xdag\RUNMINER.bat</code></li>
-							<li>Edit with notepad. If your system clock is already set to GMT, insert one line into the file: <pre class="oneline">C:\xdag\xdag.exe -d -m <span class="parameter">4</span> pool.xdagpool.com:13654</pre> Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads. If your system clock is not set to GMT, see the next section.</li>
+							<li>Edit with notepad. If your system clock is already set to GMT, insert one line into the file: <pre class="oneline">C:\xdag\xdag.exe -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}</pre> Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads. If your system clock is not set to GMT, see the next section.</li>
 							<li>Double click the <code>RUNMINER.bat</code> file, set your wallet password, type random keys (at least 3 lines of random keys). Once the host keys are generated (might take a while), miner will start. Do not close the console window at any time.</li>
 						</ol>
 						<p>Done! For usage, see the next usage section.</p>
@@ -61,7 +61,7 @@
 							<li>Extract just the executable into the <code>C:\xdag</code> directory.</li>
 							<li>In step 4 above, paste the following line into the <code>RUNMINER.bat</code> file:
 								<pre class="oneline">
-									runasdate /movetime /startin "C:\xdag" Hours:<span class="parameter">-1</span> "C:\xdag\xdag.exe" -d -m <span class="parameter">4</span> pool.xdagpool.com:13654
+									runasdate /movetime /startin "C:\xdag" Hours:<span class="parameter">-1</span> "C:\xdag\xdag.exe" -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
 								</pre>
 								<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
 								<p>Replace <span class="parameter">-1</span> with your current offset to GMT timezone if your machine's clock is not set to GMT.</p>
