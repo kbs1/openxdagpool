@@ -32,7 +32,7 @@ class StatsController extends Controller
 		$user_stats = [];
 
 		if ($user = Auth::user()) {
-			$user_hashrate = $user->miners->sum('hashrate');
+			$user_hashrate = $user->miners->sum('hashrate') . '-' . str_pad($user->id, 10, '0');
 
 			$user_stats = [
 				'user_hashrate' => $this->format->hashrate($user_hashrate),
@@ -47,9 +47,9 @@ class StatsController extends Controller
 			$hashrates = [$user_hashrate];
 
 			foreach (User::where('exclude_from_leaderboard', false)->where('id', '!=', $user->id)->with('miners')->get() as $user)
-				$hashrates[] = $user->miners->sum('hashrate');
+				$hashrates[] = $user->miners->sum('hashrate') . '-' . str_pad($user->id, 10, '0');
 
-			$hashrates = array_values(array_unique($hashrates));
+			$hashrates = array_values($hashrates);
 			rsort($hashrates);
 			$user_stats['user_rank'] = '#' . (array_search($user_hashrate, $hashrates) + 2);
 		}
