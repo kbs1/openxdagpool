@@ -89,7 +89,7 @@
 				</table>
 
 				<hr>
-				<p><span class="important">Note:</span> Hash rates update every 5 minutes. Hash rate calculation is purely informational, it does not represent 'what the pool sees', or user's real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching user's real speed over a longer period of time (usually 6 hours).</p>
+				<p><span class="important">Note:</span> Hash rates update every 5 minutes. Hash rate calculation is purely informational, it does not represent 'what the pool sees', or user's real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching user's real speed over a longer period of time (usually 6 hours). Displayed hash rate does not affect payouts at all.</p>
 			</div>
 		</div>
 	</div>
