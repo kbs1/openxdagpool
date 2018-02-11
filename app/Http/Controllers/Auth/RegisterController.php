@@ -67,6 +67,7 @@ class RegisterController extends Controller
 			'nick' => $data['nick'],
 			'email' => $data['email'],
 			'password' => bcrypt($data['password']),
+			'administrator' => User::count() == 0,
 		]);
 
 		$user->active = true;
