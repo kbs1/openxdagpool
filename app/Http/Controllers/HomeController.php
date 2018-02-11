@@ -13,7 +13,8 @@ class HomeController extends Controller
 
 		try {
 			$until = Setting::get('important_message_until') ? new Carbon(Setting::get('important_message_until')) : null;
-			$until->hour(23)->minute(59)->second(59);
+			if ($until)
+				$until->hour(23)->minute(59)->second(59);
 		} catch (\Exception $ex) {
 			$until = Carbon::now();
 		}
