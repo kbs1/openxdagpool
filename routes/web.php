@@ -38,6 +38,10 @@ Route::get('/user/payouts-graph/export', 'User\PayoutsController@exportUserPayou
 Route::get('/user/payouts-listing/export', 'User\PayoutsController@exportUserPayoutsListing')->name('user.payouts.export-listing');
 Route::get('/user/hashrate-graph/{type}', 'User\HashrateController@userGraph')->name('user.hashrate.graph');
 
+Route::get('/user/admin/users', 'User\AdministrationController@users')->name('user.admin.users');
+Route::get('/user/admin/users/{id}', 'User\AdministrationController@editUser')->name('user.admin.edit-user');
+Route::post('/user/admin/users/{id}', 'User\AdministrationController@updateUser')->name('user.admin.update-user');
+
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
 Route::get('/api/pool/stats', 'Api\StatsController@index')->name('api.stats');

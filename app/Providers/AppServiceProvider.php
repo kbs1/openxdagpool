@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Auth;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,12 @@ class AppServiceProvider extends ServiceProvider
 	public function register()
 	{
 		view()->composer('*', function($view) {
-			$view->with('authUser', Auth::user());
+			if ($user = Auth::user()) {
+				$user->last_seen_at = Carbon::now();
+				$user->save();
+			}
+
+			$view->with('authUser', $user);
 		});
 	}
 }

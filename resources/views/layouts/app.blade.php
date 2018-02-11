@@ -59,6 +59,11 @@
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'payouts' ? ' is-active' : '' !!}" href="{{ route('user.payouts.graph') }}">Payouts</a>
 										<a class="navbar-item{!! isset($activeTab) && $activeTab == 'hashrate' ? ' is-active' : '' !!}" href="{{ route('user.hashrate.graph', 'latest') }}">Hashrate</a>
 
+										@if ($authUser->isAdministrator())
+											<hr class="navbar-divider">
+											<a class="navbar-item{!! isset($activeTab) && $activeTab == 'admin' ? ' is-active' : '' !!}" href="{{ route('user.admin.users') }}">Admin</a>
+										@endif
+
 										<hr class="navbar-divider">
 
 										<a class="navbar-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>

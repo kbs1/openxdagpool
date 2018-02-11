@@ -16,23 +16,9 @@ class User extends Authenticatable
 	use Notifiable;
 	use \App\Support\HasUuid;
 
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
-	protected $fillable = [
-		'nick', 'email', 'password',
-	];
-
-	/**
-	 * The attributes that should be hidden for arrays.
-	 *
-	 * @var array
-	 */
-	protected $hidden = [
-		'password', 'remember_token',
-	];
+	protected $fillable = ['nick', 'email', 'password'];
+	protected $hidden = ['password', 'remember_token'];
+	protected $dates = ['created_at', 'updated_at', 'last_seen_at'];
 
 	/* relations */
 	public function miners()
