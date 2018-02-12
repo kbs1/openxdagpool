@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 use App\Miners\Miner;
+use Setting;
 
 class MinerBackOnline extends Mailable
 {
@@ -23,9 +24,11 @@ class MinerBackOnline extends Mailable
 	public function build()
 	{
 		$miner = $this->miner;
-		$subject = config('app.name') . ': miner ' . $miner->short_address . ($miner->note ? ' (' . $miner->short_note . ')' : '') . ' back online';
+		$subject = Setting::get('pool_name') . ': miner ' . $miner->short_address . ($miner->note ? ' (' . $miner->short_note . ')' : '') . ' back online';
 		return $this->subject($subject)->markdown('emails.miner-back-online')->with([
 			'miner' => $miner,
+			'pool_name' => Setting::get('pool_name'),
+			'pool_domain' => Setting::get('pool_domain'),
 		]);
 	}
 }

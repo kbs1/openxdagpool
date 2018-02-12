@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-use Auth, Excel;
+use Auth, Excel, Setting;
 
 class PayoutsController extends Controller
 {
@@ -96,7 +96,7 @@ class PayoutsController extends Controller
 
 	protected function exportPayoutsCsv($model, $sum, $for_label, $for)
 	{
-		$download_name = $this->sanitizeFileName(config('app.name') . ' - payouts listing for ' . $for_label . ' ' . $for . ' ' . rand() . '.csv');
+		$download_name = $this->sanitizeFileName(Setting::get('pool_name') . ' - payouts listing for ' . $for_label . ' ' . $for . ' ' . rand() . '.csv');
 		$filename = public_path('payouts/' . $download_name);
 
 		try {
@@ -131,7 +131,7 @@ class PayoutsController extends Controller
 		$export[] = ['', '', '', ''];
 		$export[] = ['', '', 'Total:', sprintf('%.09f', $total)];
 
-		return Excel::create($this->sanitizeFileName(config('app.name') . ' - payouts listing for ' . $for_label . ' ' . $for . ' ' . rand()), function($excel) use ($export) {
+		return Excel::create($this->sanitizeFileName(Setting::get('pool_name') . ' - payouts listing for ' . $for_label . ' ' . $for . ' ' . rand()), function($excel) use ($export) {
 			$excel->sheet('Payouts listing', function($sheet) use ($export) {
 				$sheet->fromArray($export, null, 'A1', false, false);
 			});
@@ -155,7 +155,7 @@ class PayoutsController extends Controller
 		$export[] = ['', ''];
 		$export[] = ['Total:', sprintf('%.09f', $total)];
 
-		return Excel::create($this->sanitizeFileName(config('app.name') . ' - daily payouts for ' . $for_label . ' ' . $for . ' ' . rand()), function($excel) use ($export) {
+		return Excel::create($this->sanitizeFileName(Setting::get('pool_name') . ' - daily payouts for ' . $for_label . ' ' . $for . ' ' . rand()), function($excel) use ($export) {
 			$excel->sheet('Daily payouts', function($sheet) use ($export) {
 				$sheet->fromArray($export, null, 'A1', false, false);
 			});
