@@ -197,7 +197,7 @@
 						<p>Replace <span class="parameter">wallet_address</span> with your wallet address.</p>
 						<p>Replace <span class="parameter">platform_id</span> with <code>0</code>, <code>1</code> or <code>2</code>. Try with <code>0</code> first, as this is the most common platform id.</p>
 						<p>Replace <span class="parameter">device_nums</span> with <code>0</code> or <code>0 1 2 3</code> or similar based on number of GPUs you have. Always count up from <code>0</code>.</p>
-						<p><span class="important">Note:</span> if you have more than 4 GPUs, a powerful CPU is needed in order for the system to keep feeding your GPUs with new work (Intel i5, i7, AMD FX8350, AMD Ryzen 5 or better). Otherwise the system might not be able to fully utilize the GPUs and may become unresponsive.</p>
+						<p><span class="important">Note:</span> if you are using nvidia GPUs, make sure you add <code>-nvidia-fix</code> at the end of the command line to prevent high system CPU usage and increase your hashrate.</p>
 
 						<hr>
 

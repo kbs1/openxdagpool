@@ -50,7 +50,7 @@
 							<li>Double click the <code>RUNMINER.bat</code> file, your miner will now start. Do not close the console window at any time.</li>
 						</ol>
 						<p>Done! For usage, see the next usage section.</p>
-						<p><span class="important">Note:</span> if you have more than 4 GPUs, a powerful CPU is needed in order for the system to keep feeding your GPUs with new work (Intel i5, i7, AMD FX8350, AMD Ryzen 5 or better). Otherwise the system might not be able to fully utilize the GPUs and may become unresponsive.</p>
+						<p><span class="important">Note:</span> if you are using nvidia GPUs, make sure you add <code>-nvidia-fix</code> at the end of the command line in step 15 to prevent high system CPU usage and increase your hashrate.</p>
 					</div>
 				</div>
 			</nav>
