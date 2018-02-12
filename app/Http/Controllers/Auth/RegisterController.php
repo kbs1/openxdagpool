@@ -69,7 +69,7 @@ class RegisterController extends Controller
 			'password' => bcrypt($data['password']),
 		]);
 
-		$user->administrator => User::count() == 0;
+		$user->administrator = User::count() == 0;
 		$user->active = true;
 		$user->save();
 
