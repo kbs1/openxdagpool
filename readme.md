@@ -65,4 +65,4 @@ Perform the following steps in order to get the website up and running:
 15. visit the administration interface to set up your pool settings.
 16. payouts exports of large datasets require the mysql files privilege. Edit `/etc/mysql/mysql.conf.d/mysqld.cnf` and in the `[mysqld]` section, add `secure-file-priv=/var/www/default/public/payouts/`. Then execute `GRANT FILE ON *.* TO 'pool'@'localhost';`. Restart the mysql daemon using `service mysql restart`.
 
-Done! Happy usage from OpenXDAGPool! :)
+Done! Enjoy your new OpenXDAGPool instance! ;-)
