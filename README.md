@@ -53,7 +53,7 @@ Perform the following steps in order to get the website up and running:
 3. install nginx and set up a PHP FPM pool running as chosen user.
 4. clone this project into `/var/www/default`. Proceed as `www-data` or other user that the PHP FPM pool runs as
 5. configure nginx to properly execute this website
-6. install [https://getcomposer.org/download/](composer) and [https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions](npm 8.x)
+6. install [composer](https://getcomposer.org/download/) and [npm 8.x](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
 7. `cp .env.example .env`
 8. edit `.env` and set up correct values, read the comments for help. Mail settings are required for miner alerts to work properly.
 9. in `/var/www/default`, run `composer install`
