@@ -56,7 +56,7 @@ Perform the following steps in order to get the website up and running:
 6. install composer and npm 8.x
 7. `cp .env.example .env`
 8. edit `.env` and set up correct values, read the comments for help. Mail settings are required for miner alerts to work properly.
-9. in `/var/www`, run `composer install`
+9. in `/var/www/default`, run `composer install`
 10. run `php artisan key:generate`
 11. run `php artisan migrate`
 12. run `npm install` and ten `npm run production`
