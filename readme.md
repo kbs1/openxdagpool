@@ -1,58 +1,66 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# OpenXDAGPool
+This software allows you to easily open a Dagger (XDAG) pool with a nice, comfortable UI available to your users.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+# Features
+- detailed pool and network statistics, including graphs (hashrate, active miners, difficulty, ...)
+- address balance checker tool
+- leaderboard
+- detailed guides on how to set-up miners
+- rich administration interface allowing to customise many aspects of the website
+- independent of 3rd party services (all data is exported / queried on local pool software)
+- secure, with clean code and expandability in mind
+- optional registration allows users to manage their miners in one place
+- detailed payouts (exportable) and hashrate history for registered miners
+- miner offline / miner back online alerts for registered miners
 
-## About Laravel
+# Planned features
+- ability to check payouts history for non-registered miners by entering miner's address, this is possible as whole pool's payment history from the beginning of operation is stored in the database
+- ability to approximate earnings based on hashrate
+- ability to record and plot all times, when the pool found a block
+- utilize new 'block' command in pool software, now it's not used at all
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+# Required skills
+- in order to run the pool you should be fluent in Unix / Linux administration skills and have basic understanding of computer programming
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Pull requests
+Please submit your pull requests with new features, improvements and / or bugfixes. Utilize the github issue tracker if necessary. Please note that in order to develop the pool,
+good Laravel 5, webpack, mix, blade, sasa, javascript and bulma experience is needed. Please do not be offended if I don't accept your pull requests or have comments / questions about them.
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+# Dependencies
+- pool version at least T13.895
+- nginx, php7+, mariadb or mysql, npm
 
-## Learning Laravel
+# How the pool works
+The pool website periodically fetches exported data from the pool daemon. Pool daemon-side scripts are in a [https://github.com/kbs1/openxdagpool-scripts](separate repository).
+This data is stored locally and then processed.
+Data flow is one way only, from pool daemon (exports) to the pool website. Only exception is balance checking, which calls `/balance.php` on pool-daemon server.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+Processed results are most often stored in a database. The pool re-reads imported text files whenever necessary.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+This means the pool website is totally independent of the pool itself. Should the pool software die, or it's cron tasks stop, the pool website would just endlessly display the last exported information
+from the pool daemon.
 
-## Laravel Sponsors
+# Scope of this readme
+This readme gives an overview on how to get the pool website up and running. It can't go in-depth on every step, only overview is provided.
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+# Installation
+This giude expects the pool software with required scripts ([https://github.com/kbs1/openxdagpool-scripts](separate repository)) is up and running, either on this server or on a different server.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+Perform the following steps in order to get the website up and running:
+1. Install all PHP7.0 requirements, including PDO and MySQL drivers, OpCache
+2. Install mysql 5.7 or mariadb and create new user, `pooldb` for example
+3. Install nginx and set up a PHP FPM pool.
+4. clone this project into `/var/www`. Proceed as `www-data` or other user that the PHP FPM pool runs as
+5. configure nginx to properly execute this website
+6. install composer and npm 8.x
+7. `cp .env.example .env`
+8. edit `.env` and set up correct values, read the comments for help
+9. in `/var/www`, run `composer install`
+10. run `php artisan key:generate`
+11. run `php artisan migrate`
+12. run `npm run production`
+13. install a letsencrypt certificate or similar (optional)
+14. visit the web site, and register. First registered user is an administrator.
+15. visit the administration interface to set up your pool settings.
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Done! Happy usage from OpenXDAGPool! :)

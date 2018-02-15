@@ -144,7 +144,7 @@
 					</header>
 					<section class="modal-card-body">
 						<p>Questions, comments, or suggestions? Contact us at <span id="contactEmail" data-transform-applied="false">{{ base64_encode(str_replace(['@', '.'], ['&', '*'], str_rot13($contactEmail))) }}</span>.</p>
-						<p>View the OpenXDAGPool project at <a href="https://github.com/kbs1/openxdagpool" taget="_blank">Github</a>.</p>
+						<p>View the OpenXDAGPool project at <a href="https://github.com/kbs1/openxdagpool" taget="_blank">GitHub</a>.</p>
 					</section>
 					<footer class="modal-card-foot">
 						<button type="button" class="button close-modal">Close</button>
