@@ -207,13 +207,12 @@
 						</pre>
 						<p>Replace <span class="parameter">C:\xdag</span> with full path to your xdag installation folder.</p>
 						<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
-						<p><span class="important">WARNING:</span> if your machine's clock is not set to GMT timezone, follow detailed windows instructions.</p>
 
 						<hr>
 
 						<p>Unix CPU (<a href="{{ route('pages', 'setup/unix-cpu') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
-							TZ=GMT ./xdag -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
+							./xdag -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
 						</pre>
 						<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
 					</div>

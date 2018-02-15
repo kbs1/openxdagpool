@@ -50,35 +50,6 @@
 			<nav class="card">
 				<header class="card-header">
 					<p class="card-header-title">
-						For machines outside the GMT timezone
-					</p>
-				</header>
-
-				<div class="card-content">
-					<div class="content">
-						<ol>
-							<li>Download <a href="https://www.nirsoft.net/utils/runasdate-x64.zip" target="_blank">RunAsDate.exe</a>.</li>
-							<li>Extract just the executable into the <code>C:\xdag</code> directory.</li>
-							<li>In step 4 above, paste the following line into the <code>RUNMINER.bat</code> file:
-								<pre class="oneline">
-									runasdate /movetime /startin "C:\xdag" Hours:<span class="parameter">-1</span> "C:\xdag\xdag.exe" -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
-								</pre>
-								<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
-								<p>Replace <span class="parameter">-1</span> with your current offset to GMT timezone if your machine's clock is not set to GMT.</p>
-							</li>
-							<li>Continue with step 5.</li>
-						</ol>
-					</div>
-				</div>
-			</nav>
-		</div>
-	</div>
-
-	<div class="columns is-marginless is-centered">
-		<div class="column is-7">
-			<nav class="card">
-				<header class="card-header">
-					<p class="card-header-title">
 						Usage
 					</p>
 				</header>
