@@ -42,11 +42,9 @@ Processed results are most often stored in a database. The pool re-reads importe
 This means the pool website is totally independent of the pool itself. Should the pool software side cron tasks stop, the pool website would just endlessly display the last exported information
 from the pool daemon.
 
-# Scope of this readme
-This readme gives an overview on how to get the pool website up and running. It can't go in-depth on every step, however all important details are provided.
-
 # Installation
-This giude expects the pool software with required scripts ([openxdagpool-scripts](https://github.com/kbs1/openxdagpool-scripts)) is up and running, either on this server or on a different server.
+This giude expects the pool software with required scripts ([openxdagpool-scripts](https://github.com/kbs1/openxdagpool-scripts)) is up and running, either on website server or on a different server.
+Installation guide gives an overview on how to get the pool website up and running. It can't go in-depth on every step, however all important details are listed.
 
 Perform the following steps in order to get the website up and running:
 1. Install all PHP7.0 requirements (bcmath, bz2, cli, common, curl, fpm, gd, imap, intl, json, ldap, mbstring, mcrypt, mysql, opcache, readline, soap, sqlite3, xml, xmlrpc, zip) and configure `php.ini` to your preference
@@ -64,6 +62,7 @@ Perform the following steps in order to get the website up and running:
 13. install a letsencrypt certificate or similar (optional)
 14. visit the web site, and register. First registered user is an administrator.
 15. visit the administration interface to set up your pool settings.
-16. payouts exports of large datasets require the mysql files privilege. Edit `/etc/mysql/mysql.conf.d/mysqld.cnf` and in the `[mysqld]` section, add `secure-file-priv=/var/www/default/public/payouts/`. Then execute `GRANT FILE ON *.* TO 'pool'@'localhost';`. Restart the mysql daemon using `service mysql restart`.
+16. payouts exports of large datasets require the mysql files privilege. Edit `/etc/mysql/mysql.conf.d/mysqld.cnf` and in the `[mysqld]` section, add `secure-file-priv=/var/www/default/public/payouts/`. Then execute `GRANT FILE ON *.* TO 'pool'@'localhost';`. Restart the mysql daemon using `service mysql-server restart`.
+17. as the same user as the PHP FPM pool runs as, execute `crontab -e` and enter one cron line: `* * * * * php /var/www/default/artisan schedule:run >> /dev/null 2>&1`
 
 Done! Enjoy your new OpenXDAGPool instance! ;-)
