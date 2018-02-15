@@ -59,7 +59,7 @@ Perform the following steps in order to get the website up and running:
 9. in `/var/www/default`, run `composer install`
 10. run `php artisan key:generate`
 11. run `php artisan migrate`
-12. run `npm install` and ten `npm run production`
+12. run `npm install` and then `npm run production`
 13. install a letsencrypt certificate or similar (optional)
 14. visit the web site, and register. First registered user is an administrator.
 15. visit the administration interface to set up your pool settings.
