@@ -28,7 +28,7 @@
 								<a class="navbar-link" href="{{ route('stats') }}">Resources</a>
 
 								<div class="navbar-dropdown">
-									<a class="navbar-item" href="http://xdag.me" target="_blank">XDAG website</a>
+									<a class="navbar-item" href="http://xdag.org" target="_blank">XDAG website</a>
 									<a class="navbar-item" href="https://bitcointalk.org/index.php?topic=2552368" target="_blank">Bitcointalk thread</a>
 
 									<hr class="navbar-divider">

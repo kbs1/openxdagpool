@@ -34,7 +34,7 @@
 						<ol>
 							<li><code>cd</code> to your home directory. Do not run the miner as <code>root</code>!</li>
 							<li>Execute: <code>sudo apt-get install git gcc libssl-dev build-essential git</code></li>
-							<li>Execute: <code>git clone http://xdag.me/xdag.git</code></li>
+							<li>Execute: <code>git clone https://github.com/XDagger/xdag.git</code></li>
 							<li>Change directory: <code> cd ./xdag/cheatcoin</code></li>
 							<li>Run <code>make</code></li>
 							<li>Run the program with <code>./xdag -d -m 1 {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}</code>. Set up your wallet password, type random keys (at least 3 lines of random keys). Wait until host keys are generated.</li>

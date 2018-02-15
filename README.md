@@ -19,6 +19,7 @@ This software allows you to easily open a Dagger (XDAG) pool with a nice, comfor
 - ability to record and plot all times, when the pool found a block
 - utilize new 'block' command in pool software, now it's not used at all
 - mobile friendly design tweaks
+- translations and languages support, support for a simple CMS (setup pages, other pool documents and similar)
 
 # Required skills
 In order to run the pool you should be fluent in Unix / Linux administration and have basic understanding of computer programming.
