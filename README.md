@@ -22,7 +22,7 @@ This software allows you to easily open a Dagger (XDAG) pool with a nice, comfor
 - translations and languages support, support for a simple CMS (setup pages, other pool documents and similar)
 - code refactoring, mainly `PayoutsController`, use repository and presenters for models, other improvements
 
-# Required skills
+# Expected skills
 In order to run the pool you should be fluent in Unix / Linux administration and have basic understanding of computer programming.
 
 # Pull requests
@@ -33,10 +33,12 @@ good Laravel 5, webpack, mix, blade, sass, javascript and bulma experience is ne
 - pool version at least T13.895 (previous versions printed network hashrate as an average over one hour, since 895 it is averaged over 4 hours)
 - nginx, php7+, mariadb or mysql, npm 8.x
 
-# How the pool works
+# How the pool website works
 The pool website periodically fetches exported data from the pool daemon. Pool daemon-side scripts are in a [separate repository](https://github.com/kbs1/openxdagpool-scripts).
 This data is stored locally and then processed.
-Data flow is one way only, from pool daemon (exports) to the pool website. Only exception is balance checking, which calls `/balance.php` on pool-daemon server.
+Data flow is one way only, from pool daemon (exports) to the pool website. Only exception is balance checking, which calls `/balance.php`
+on pool-daemon server, but this URL is configurable in `.env`. You can use any other balance checker that *contains* compatible output (`Balance: x.xxxxxxxxx XDAG`) and
+can accept XDAG address in question as a GET / route parameter.
 
 Processed results are most often stored in a database. The pool re-reads imported text files whenever necessary.
 
