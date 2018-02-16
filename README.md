@@ -50,7 +50,7 @@ This giude expects that the pool software with required scripts ([openxdagpool-s
 This installation guide gives an overview on how to get the pool website up and running. It can't go in-depth on every step, however all important details are provided.
 
 Perform the following steps in order to get the website up and running:
-1. install all PHP7.0 requirements, for Ubuntu 16.04, preix all listed with `php70-`: bcmath, cli, common, fpm, json, mbstring, mcrypt, mysql, opcache, readline, sqlite3, xml, zip. Next configure `php.ini` to your preference. Set memory limit to at least `256M`.
+1. install all PHP7.0 requirements, for Ubuntu 16.04, prefix all listed with `php70-`: bcmath, cli, common, fpm, json, mbstring, mcrypt, mysql, opcache, readline, sqlite3, xml, zip. Next configure `php.ini` to your preference. Set memory limit to at least `256M`.
 2. install mysql 5.7 or mariadb and create new user, `pool` for example. Create new database, for example `pool`, with `CHARACTER SET utf8mb4 COLLATE utg8mb4_unicode_ci`. Grant all privileges to pool user.
 3. install nginx and set up a PHP FPM pool running as chosen user.
 4. clone this project into `/var/www/default`. Proceed as `www-data` or other user that the PHP FPM pool runs as
