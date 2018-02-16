@@ -37,7 +37,7 @@ good Laravel 5, webpack, mix, blade, sass, javascript and bulma experience is ne
 The pool website periodically fetches exported data from the pool daemon. Pool daemon-side scripts are in a [separate repository](https://github.com/kbs1/openxdagpool-scripts).
 This data is stored locally and then processed.
 Data flow is one way only, from pool daemon (exports) to the pool website. Only exception is balance checking, which calls `/balance.php`
-on pool-daemon server, but this URL is configurable in `.env`. You can use any other balance checker that *contains* compatible output (`Balance: x.xxxxxxxxx XDAG`) and
+on pool-daemon server, but this URL is configurable in `.env`. You can use any other balance checker that *contains* compatible output (`x.xxxxxxxxx` - the address in question balance with 9 decimal places) and
 can accept XDAG address in question as a GET / route parameter.
 
 Processed results are most often stored in a database. The pool re-reads imported text files whenever necessary.
