@@ -206,9 +206,9 @@
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip is-tooltip-multiline" data-tooltip="DNS domain name of your pool. This is not necessarily the same as website DNS domain name, you can enter for example pool.mypool.com, which would allow you to move the pool independently from the website. This DNS domain name will be used in all miner setup guides.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="DNS domain name of your pool. This is not necessarily the same as website DNS domain name, you can enter for example pool.myxdagpool.com, which would allow you to move the pool independently of the website. This DNS domain name will be used in all miner setup guides.">
 							<p class="control">
-								<input class="input" type="text" name="pool_domain" value="{{ old('pool_domain', Setting::get('pool_domain', 'pool.mypool.com')) }}" required>
+								<input class="input" type="text" name="pool_domain" value="{{ old('pool_domain', Setting::get('pool_domain', 'pool.myxdagpool.com')) }}" required>
 							</p>
 
 							@if ($errors->has('pool_domain'))
@@ -248,7 +248,7 @@
 					<div class="field-body">
 						<div class="field tooltip" data-tooltip="DNS domain name of your website.">
 							<p class="control">
-								<input class="input" type="text" name="website_domain" value="{{ old('website_domain', Setting::get('website_domain', 'mypool.com')) }}" required>
+								<input class="input" type="text" name="website_domain" value="{{ old('website_domain', Setting::get('website_domain', 'myxdagpool.com')) }}" required>
 							</p>
 
 							@if ($errors->has('website_domain'))
@@ -266,9 +266,9 @@
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip is-tooltip-multiline" data-tooltip="Contact e-mail presented when user click link in the footer.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Contact e-mail presented when user clicks the link in the footer.">
 							<p class="control">
-								<input class="input" type="email" name="contact_email" value="{{ old('contact_email', Setting::get('contact_email', 'admin@mypoool.com')) }}" required>
+								<input class="input" type="email" name="contact_email" value="{{ old('contact_email', Setting::get('contact_email', 'admin@myxdagpool.com')) }}" required>
 							</p>
 
 							@if ($errors->has('contact_email'))

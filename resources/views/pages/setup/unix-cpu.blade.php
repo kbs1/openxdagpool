@@ -33,7 +33,7 @@
 					<div class="content">
 						<ol>
 							<li><code>cd</code> to your home directory. Do not run the miner as <code>root</code>!</li>
-							<li>Execute: <code>sudo apt-get install git gcc libssl-dev build-essential git</code></li>
+							<li>Execute: <code>sudo apt-get install gcc libssl-dev build-essential git</code></li>
 							<li>Execute: <code>git clone https://github.com/XDagger/xdag.git</code></li>
 							<li>Change directory: <code> cd ./xdag/cheatcoin</code></li>
 							<li>Run <code>make</code></li>
