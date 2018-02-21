@@ -35,7 +35,7 @@ good Laravel 5, webpack, mix, blade, sass, javascript and bulma experience is ne
 - nginx, php7+, mariadb or mysql, npm 8.x
 
 # How the pool website works
-The pool website periodically fetches exported data from the pool daemon. Pool daemon-side scripts are in a [separate repository](https://github.com/XDagger/openxdagpool-scripts).
+The pool website periodically fetches exported data from the pool daemon. Pool daemon-side scripts are in a [separate repository](https://github.com/kbs1/openxdagpool-scripts).
 This data is stored locally and then processed.
 Data flow is one way only, from pool daemon (exports) to the pool website. Only exception is balance checking, which calls `/balance.php`
 on pool-daemon server, but this URL is configurable in `.env`. You can use any other balance checker that *contains* compatible output (`x.xxxxxxxxx` - the address in question balance with 9 decimal places) and
@@ -47,7 +47,7 @@ This means the pool website is totally independent of the pool itself. Should th
 from the pool daemon.
 
 # Installation
-This giude expects that the pool software with required scripts ([openxdagpool-scripts](https://github.com/XDagger/openxdagpool-scripts)) is up and running, either on website server or on a different server.
+This giude expects that the pool software with required scripts ([openxdagpool-scripts](https://github.com/kbs1/openxdagpool-scripts)) is up and running, either on website server or on a different server.
 This installation guide gives an overview on how to get the pool website up and running. It can't go in-depth on every step, however all important details are provided.
 
 Perform the following steps in order to get the website up and running:
