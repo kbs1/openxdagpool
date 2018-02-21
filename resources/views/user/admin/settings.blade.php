@@ -186,7 +186,7 @@
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip" data-tooltip="Tooltip when users hover over the tagline. Shows additional info, for example location or server settings.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Tooltip when users hover over the tagline. Shows additional info, for example location or server settings.">
 							<p class="control">
 								<input class="input" type="text" name="pool_tooltip" value="{{ old('pool_tooltip', Setting::get('pool_tooltip', '1Gbit/s connection')) }}" required>
 							</p>
