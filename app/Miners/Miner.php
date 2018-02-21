@@ -127,7 +127,9 @@ class Miner extends Model
 		return $proportion * $when->pool_hashrate;
 	}
 
-	// produces low hashrates, multiplied by ~2 gives kind of correct result (why?), but still low for more powerful miners
+	// produces best hashrates, but when an extemely powerful miner is connected in respect to other miners,
+	// large miner is appoximated OK, smaller miners are underestimated. If there are no extremely large miners,
+	// produces OK results, overshot a bit most of the time (depends on pool hashrate and pool luck)
 	protected function getAveragingHashrate_1(PoolStat $when)
 	{
 		$from = clone $when->created_at;
@@ -144,7 +146,8 @@ class Miner extends Model
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		$pool_hashrate = (float) PoolStat::selectRaw('max(pool_hashrate) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('value')->first();
+		// change this avg to MAX, helps when extremely powerful miner is connected
+		$pool_hashrate = (float) PoolStat::selectRaw('avg(pool_hashrate) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('value')->first();
 
 		return $proportion * $pool_hashrate;
 	}
