@@ -27,7 +27,7 @@ class AddLastSeenAtToUsersTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::table('user', function (Blueprint $table) {
+		Schema::table('users', function (Blueprint $table) {
 			$table->dropColumn('last_seen_at');
 		});
 	}
