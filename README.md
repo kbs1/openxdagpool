@@ -52,7 +52,7 @@ This installation guide gives an overview on how to get the pool website up and 
 
 Perform the following steps in order to get the website up and running:
 1. install all PHP7.0 requirements, for Ubuntu 16.04, use `apt-get install php7.0-bcmath php7.0-cli php7.0-common php7.0-fpm php7.0-json php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-opcache php7.0-readline php7.0-sqlite3 php7.0-xml php7.0-zip`. Next configure `php.ini` to your preference. Set `memory_limit` to at least `256M`, `expose_php` to `Off`, set `error_reporting` to `E_ALL`.
-2. install mysql 5.7 or mariadb. Create new database, for example `openxdagpool`, with `CREATE DATABASE openxdagpool CHARACTER SET utf8mb4 COLLATE utg8mb4_unicode_ci` run as mysql's `root` user. Grant all privileges to a new user: `GRANT ALL ON openxdagpool.* TO openxdagpool@'%' IDENTIFIED BY 'PWD!!!!'`. Choose your own password!
+2. install mysql 5.7 or mariadb. Create new database, for example `openxdagpool`, with `CREATE DATABASE openxdagpool CHARACTER SET utf8mb4 COLLATE utg8mb4_unicode_ci;` run as mysql's `root` user. Grant all privileges to a new user: `GRANT ALL ON openxdagpool.* TO openxdagpool@'%' IDENTIFIED BY 'PWD!!!!';`. Choose your own password!
 3. install nginx and set up a PHP FPM pool running as user of your choice.
 4. configure nginx to properly execute this website
 5. install [composer](https://getcomposer.org/download/) and [npm 8.x](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
@@ -66,7 +66,7 @@ Perform the following steps in order to get the website up and running:
 13. install a letsencrypt certificate or other https certificate (optional)
 14. visit the web site, and register. First registered user is an administrator.
 15. visit the administration interface to set up your pool settings.
-16. payouts exports of large datasets require the mysql files privilege. Edit `/etc/mysql/mysql.conf.d/mysqld.cnf` and in the `[mysqld]` section, add `secure-file-priv=/var/www/openxdagpool/public/payouts/`. Then execute `GRANT FILE ON *.* TO 'pool'@'localhost';` as mysql `root` user. Restart the mysql daemon using `service mysql restart` as `root`.
+16. payouts exports of large datasets require the mysql files privilege. Edit `/etc/mysql/mysql.conf.d/mysqld.cnf` and in the `[mysqld]` section, add `secure-file-priv=/var/www/openxdagpool/public/payouts/`. Then execute `GRANT FILE ON *.* TO openxdagpool@'%';` as mysql's `root` user. Restart the mysql daemon using `service mysql restart` as `root`.
 17. as the PHP FPM pool user, execute `crontab -e` and enter one cron line: `* * * * * php /var/www/openxdagpool/artisan schedule:run >> /dev/null 2>&1`
 
 Done! Enjoy your new OpenXDAGPool instance! ;-)
