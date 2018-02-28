@@ -5,7 +5,10 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Users\User;
 use App\Pool\Formatter;
-use App\Http\Requests\{UpdateUser, SaveSettings};
+use App\Http\Requests\{UpdateUser, SaveSettings, SendMassEmail};
+use App\Mail\UserMessage;
+
+use Illuminate\Support\Facades\Mail;
 use Setting;
 
 class AdministrationController extends Controller
@@ -87,5 +90,28 @@ class AdministrationController extends Controller
 		Setting::save();
 
 		return redirect()->back()->with('success', 'Settings successfuly updated.');
+	}
+
+	public function massEmail()
+	{
+		return view('user.admin.mass-email', [
+			'section' => 'mass-email',
+		]);
+	}
+
+	public function sendMassEmail(SendMassEmail $request)
+	{
+		if ($request->input('active'))
+			$users = User::where('active', true)->whereHas('miners', function ($query) {
+				$query->where('status', 'active');
+			})->get();
+		else
+			$users = User::where('active', true)->get();
+
+
+		foreach ($users as $user)
+			Mail::to($user->email, $user->nick)->send(new UserMessage($user, $request->input('subject'), $request->input('content')));
+
+		return redirect()->back()->with('success', 'E-mail successfully sent to ' . count($users) . ' users.');
 	}
 }

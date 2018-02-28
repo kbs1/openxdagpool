@@ -43,6 +43,8 @@ Route::get('/user/admin/users/{id}', 'User\AdministrationController@editUser')->
 Route::post('/user/admin/users/{id}', 'User\AdministrationController@updateUser')->name('user.admin.update-user');
 Route::get('/user/admin/settings', 'User\AdministrationController@poolSettings')->name('user.admin.settings');
 Route::post('/user/admin/settings', 'User\AdministrationController@savePoolSettings')->name('user.admin.settings.save');
+Route::get('/user/admin/mass-email', 'User\AdministrationController@massEmail')->name('user.admin.mass-email');
+Route::post('/user/admin/mass-email', 'User\AdministrationController@sendMassEmail')->name('user.admin.mass-email.send');
 
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
