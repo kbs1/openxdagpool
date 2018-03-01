@@ -8,12 +8,17 @@ class Uptime
 	{
 		$names = ['y', 'm', 'w', 'd', 'h', 'm', 's'];
 		$parts = $this->parseSystemUptime();
+		$result = [];
 
-		foreach ($parts as $key => $part)
-			if ($part > 0)
-				return sprintf('%d' . $names[$key], $part);
+		foreach ($parts as $key => $part) {
+			if ($part > 0 || count($result) > 0)
+				$result[] = sprintf('%d' . $names[$key], $part);
 
-		return '0s';
+			if (count($result) >= 2)
+				break;
+		}
+
+		return $result ? implode('', $result) : '0s';
 	}
 
 	public function getExactUptime()
