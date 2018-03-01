@@ -5,7 +5,7 @@ Hi {{ $user->nick }},
 
 {!! nl2br(e($message)) !!}
 
-@component('mail::button', ['url' => 'http://' . $pool_domain])
+@component('mail::button', ['url' => 'http://' . $website_domain])
 Visit the pool
 @endcomponent
 

@@ -30,7 +30,7 @@ class UserMessage extends Mailable
 			'subject' => $this->mail_subject,
 			'message' => $this->content,
 			'pool_name' => Setting::get('pool_name'),
-			'pool_domain' => Setting::get('pool_domain'),
+			'website_domain' => Setting::get('website_domain'),
 		]);
 	}
 }

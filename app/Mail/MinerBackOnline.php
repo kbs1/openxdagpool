@@ -28,7 +28,7 @@ class MinerBackOnline extends Mailable
 		return $this->subject($subject)->markdown('emails.miner-back-online')->with([
 			'miner' => $miner,
 			'pool_name' => Setting::get('pool_name'),
-			'pool_domain' => Setting::get('pool_domain'),
+			'website_domain' => Setting::get('website_domain'),
 		]);
 	}
 }
