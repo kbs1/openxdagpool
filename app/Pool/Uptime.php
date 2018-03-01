@@ -45,13 +45,13 @@ class Uptime
 			$data = '0 0';
 
 		$data = explode(' ', $data);
-		$seconds = floor($data[0]);
+		$seconds = floor($data[0]) + max(0, (int) env('UPTIME_OFFSET'));
 
-		$years = floor($seconds / 217728000); // approximate years
-		$months = floor(($seconds - $years * 217728000) / 18144000); // approximate months
-		$weeks = floor(($seconds - $years * 217728000 - $months * 18144000) / 604800);
-		$days = floor(($seconds - $years * 217728000 - $months * 18144000 - $weeks * 604800) / 86400);
-		$hours = floor(($seconds - $years * 217728000 - $months * 18144000 - $weeks * 604800 - $days * 86400) / 3600);
+		$years = floor($seconds / 31536000); // approximate years
+		$months = floor(($seconds - $years * 31536000) / 2592000); // approximate months
+		$weeks = floor(($seconds - $years * 31536000 - $months * 2592000) / 604800);
+		$days = floor(($seconds - $years * 31536000 - $months * 2592000 - $weeks * 604800) / 86400);
+		$hours = floor(($seconds - $years * 31536000 - $months * 2592000 - $weeks * 604800 - $days * 86400) / 3600);
 		$minutes = floor($seconds / 60 % 60);
 		$seconds = floor($seconds % 60);
 
