@@ -34,6 +34,7 @@ class ReferenceHashrate
 			return $this->resetCoefficient();
 
 		Setting::set('reference_miner_coefficient', $this->target_hashrate / $miner_hashrate);
+		Setting::save();
 	}
 
 	public function getCoefficient()
@@ -43,7 +44,8 @@ class ReferenceHashrate
 
 	public function resetCoefficient()
 	{
-		return Setting::set('reference_miner_coefficient', 1);
+		Setting::set('reference_miner_coefficient', 1);
+		Setting::save();
 	}
 
 	protected function shouldBeUsed()
