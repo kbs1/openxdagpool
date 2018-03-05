@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Pool\{DataReader, BalancesChecker};
 use App\Pool\Miners\Parser as MinersParser;
 use App\Pool\Statistics\Stat as PoolStat;
+use App\Miners\ReferenceHashrate;
 
 use App\Miners\Miner;
 use Carbon\Carbon;
@@ -32,6 +33,8 @@ class SaveMinerStats extends Command
 			return;
 
 		$miners_parser = new MinersParser($this->reader->getMiners());
+		$reference = new ReferenceHashrate();
+		$reference->compute($miners_parser, $stat);
 
 		Miner::unguard();
 		foreach (Miner::all() as $miner) {
@@ -81,7 +84,7 @@ class SaveMinerStats extends Command
 				'status' => $pool_miner->getStatus(),
 				'ip_and_port' => $pool_miner->getIpsAndPort(),
 				'machines_count' => $pool_miner->getMachinesCount(),
-				'hashrate' => $hashrate = $miner->getEstimatedHashrate($stat),
+				'hashrate' => $hashrate = $miner->getEstimatedHashrate($stat, $pool_miner->getStatus() === 'active'),
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
 				'balance' => $balance,
 				'earned' => $miner->payouts()->sum('amount'),

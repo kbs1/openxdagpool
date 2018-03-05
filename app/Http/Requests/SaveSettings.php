@@ -41,6 +41,9 @@ class SaveSettings extends FormRequest
 
 			'contact_email' => 'required|email',
 			'important_message_until' => 'nullable|date',
+
+			'reference_miner_address' => 'nullable|regex:/^[a-z0-9\/+]{32}$/siu|not_in:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+			'reference_miner_hashrate' => 'nullable|numeric|min:0',
 		];
 	}
 }

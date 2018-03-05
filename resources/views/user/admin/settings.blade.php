@@ -341,6 +341,50 @@
 				</div>
 
 				<div class="field is-horizontal">
+					<p>Reference miner settings.</p>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
+						<label class="label">Miner address</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="If you know a reference miner connected to this pool and it's hashrate, enter the details here. Reference miner must be registerd and active to be used. This setting will be used to augment every other pool miner's hashrate to correct levels whenever necessary.">
+							<p class="control">
+								<input class="input" type="text" name="reference_miner_address" maxlength="32" value="{{ old('reference_miner_address', Setting::get('reference_miner_address')) }}">
+							</p>
+
+							@if ($errors->has('reference_miner_address'))
+								<p class="help is-danger">
+									{{ $errors->first('reference_miner_address') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
+						<label class="label">Miner hashrate (Gh/s)</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip" data-tooltip="Enter referene miner's hashrate in Gh/s.">
+							<p class="control">
+								<input class="input" type="number" min="0.00" step="0.01" name="reference_miner_hashrate" value="{{ old('reference_miner_hashrate', Setting::get('reference_miner_hashrate')) }}">
+							</p>
+
+							@if ($errors->has('reference_miner_hashrate'))
+								<p class="help is-danger">
+									{{ $errors->first('reference_miner_hashrate') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
 					<div class="field-label"></div>
 
 					<div class="field-body">

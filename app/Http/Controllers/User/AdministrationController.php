@@ -87,6 +87,9 @@ class AdministrationController extends Controller
 		Setting::set('important_message_until', $request->input('important_message_until'));
 		Setting::set('pool_news_html', $request->input('pool_news_html'));
 
+		Setting::set('reference_miner_address', $request->input('reference_miner_address'));
+		Setting::set('reference_miner_hashrate', $request->input('reference_miner_hashrate'));
+
 		Setting::save();
 
 		return redirect()->back()->with('success', 'Settings successfuly updated.');
