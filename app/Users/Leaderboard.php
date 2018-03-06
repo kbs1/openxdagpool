@@ -42,7 +42,7 @@ class Leaderboard
 			if ($a['hashrate_exact'] == $b['hashrate_exact'])
 				return ($a['user']->id > $b['user']->id) ? -1 : 1;
 
-			return ($a['hashrate_exact'] > $b['hashrate_exact']) ? 1 : -1;
+			return ($a['hashrate_exact'] < $b['hashrate_exact']) ? 1 : -1;
 		});
 
 		return array_values($leaderboard);
