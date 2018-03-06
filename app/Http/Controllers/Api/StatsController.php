@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Pool\{DataReader, Config, Uptime, Formatter};
 use App\Pool\Statistics\{Parser as StatisticsParser, Presenter as StatisticsPresenter, Stat as PoolStat};
 
-use App\Users\User;
+use App\Users\Leaderboard;
 use App\Miners\Miner;
 
 use Carbon\Carbon;
@@ -25,7 +25,7 @@ class StatsController extends Controller
 		$this->format = $format;
 	}
 
-	public function index()
+	public function index(Leaderboard $leaderboard)
 	{
 		$stats_presenter = new StatisticsPresenter($stats_parser = new StatisticsParser($this->reader->getStatistics()));
 		$pool_hashrate = (float) $stats_parser->getPoolHashrate();
@@ -33,7 +33,6 @@ class StatsController extends Controller
 
 		if ($user = Auth::user()) {
 			$user_hashrate_exact = $user->miners->sum('hashrate');
-			$user_hashrate = str_pad($user_hashrate_exact, 100, '0', STR_PAD_LEFT) . '-' . str_pad($user->id, 10, '0', STR_PAD_LEFT);
 
 			$user_stats = [
 				'user_hashrate' => $this->format->hashrate($user_hashrate_exact),
@@ -42,16 +41,15 @@ class StatsController extends Controller
 				'user_balance_exact' => $this->format->fullBalance($user_balance),
 				'user_earnings' => $this->format->balance($user_earnings = $user->miners->sum('earned')),
 				'user_earnings_exact' => $this->format->fullBalance($user_earnings),
-				'user_rank' => '#1',
+				'user_rank' => 'N/A',
 			];
 
-			$hashrates = [$user_hashrate_exact];
-
-			foreach (User::where('exclude_from_leaderboard', false)->where('id', '!=', $user->id)->with('miners')->get() as $user)
-				$hashrates[] = str_pad($user->miners->sum('hashrate'), 100, '0', STR_PAD_LEFT) . '-' . str_pad($user->id, 10, '0', STR_PAD_LEFT);
-
-			rsort($hashrates);
-			$user_stats['user_rank'] = '#' . (array_search($user_hashrate_exact, $hashrates) + 1);
+			foreach ($leaderboard->get() as $position => $entry) {
+				if ($entry['user']->id === $user->id) {
+					$user_stats['user_rank'] = '#' . ($position + 1);
+					break;
+				}
+			}
 		}
 
 		$pool_stat = PoolStat::orderBy('id', 'desc')->first();
