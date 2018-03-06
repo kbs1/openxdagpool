@@ -27,6 +27,7 @@ class Leaderboard
 				if (in_array($miner->address, $miners))
 					continue;
 
+				$miners[] = $miner->address;
 				$hashrate += $miner->hashrate;
 			}
 
