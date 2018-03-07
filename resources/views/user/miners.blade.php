@@ -42,7 +42,7 @@
 								<tr class="miner" data-uuid="{{ $miner->uuid }}" data-address="{{ $miner->address }}" data-note="{{ $miner->note }}">
 									<td class="miner-address tooltip is-tooltip-multiline" data-tooltip="{{ $miner->note ? $miner->address . ', ' . $miner->note : $miner->address }}"><a href="#" class="update-miner">{{ $miner->short_address }}</a></td>
 									<td class="miner-status api is-loading"></td>
-									<td class="miner-hashrate api is-loading"></td>
+									<td class="miner-average-hashrate api is-loading"></td>
 									<td class="miner-unpaid-shares api is-loading"></td>
 									<td class="miner-balance api is-loading is-tooltip-multiline"></td>
 									<td>

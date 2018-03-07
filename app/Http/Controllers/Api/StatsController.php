@@ -32,7 +32,7 @@ class StatsController extends Controller
 		$user_stats = [];
 
 		if ($user = Auth::user()) {
-			$user_hashrate_exact = $user->miners->sum('hashrate');
+			$user_hashrate_exact = $user->miners->sum('average_hashrate');
 
 			$user_stats = [
 				'user_hashrate' => $this->format->hashrate($user_hashrate_exact),
@@ -88,8 +88,8 @@ class StatsController extends Controller
 			$active_miners['x'][] = $datetime;
 			$network_hashrate['x'][] = $datetime;
 
-			$pool_hashrate['Pool hashrate (Gh/s)'][] = $stat->pool_hashrate / 1000000000;
-			$network_hashrate['Network hashrate (Gh/s)'][] = $stat->network_hashrate / 1000000000;
+			$pool_hashrate['Pool hashrate (Gh/s)'][] = $stat->pool_hashrate / 1024 / 1024 / 1024;
+			$network_hashrate['Network hashrate (Gh/s)'][] = $stat->network_hashrate / 1024 / 1024 / 1024;
 
 			$active_miners['Active pool miners'][] = $stat->active_miners;
 		}

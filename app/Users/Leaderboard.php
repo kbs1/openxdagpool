@@ -28,7 +28,7 @@ class Leaderboard
 					continue;
 
 				$miners[] = $miner->address;
-				$hashrate += $miner->hashrate;
+				$hashrate += $miner->average_hashrate;
 			}
 
 			$leaderboard[] = [

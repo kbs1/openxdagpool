@@ -29,7 +29,8 @@ class HashrateController extends Controller
 
 		return view('user.hashrate.miner-graph', [
 			'miner' => $miner,
-			'hashrate' => $this->format->hashrate($miner->hashrate),
+			'current_hashrate' => $this->format->hashrate($miner->hashrate),
+			'average_hashrate' => $this->format->hashrate($miner->average_hashrate),
 			'graph_data' => $this->getGraphData($miner, $type),
 			'type' => $type,
 			'activeTab' => 'miners',
@@ -41,7 +42,8 @@ class HashrateController extends Controller
 		$user = Auth::user();
 
 		return view('user.hashrate.user-graph', [
-		'hashrate' => $this->format->hashrate($user->getHashrateSum()),
+			'current_hashrate' => $this->format->hashrate($user->getHashrateSum()),
+			'average_hashrate' => $this->format->hashrate($user->getAverageHashrateSum()),
 			'graph_data' => $this->getGraphData($user, $type),
 			'type' => $type,
 			'activeTab' => 'hashrate',
@@ -59,7 +61,7 @@ class HashrateController extends Controller
 
 		foreach ($stats as $stat) {
 			$graph['x'][] = is_array($stat) ? $stat['date'] : $stat->date;
-			$graph['Hashrate (Mh/s)'][] = (is_array($stat) ? $stat['hashrate'] : $stat->hashrate) / 1000000;
+			$graph['Hashrate (Mh/s)'][] = (is_array($stat) ? $stat['hashrate'] : $stat->hashrate) / 1024 / 1024;
 		}
 
 		return json_encode($graph);

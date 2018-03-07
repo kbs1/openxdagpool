@@ -44,12 +44,22 @@ class Miner extends Model
 	}
 
 	/* methods */
+	public function getAverageHashrate(PoolStat $when = null)
+	{
+		$when = $when ?? PoolStat::orderBy('id', 'desc')->first();
+
+		if (!$when)
+			return $this->hashrate;
+
+		return MinerStat::selectRaw('avg(hashrate) hashrate')->where('miner_id', $this->id)->where('created_at', '>=', Carbon::now()->subHours(4))->pluck('value');
+	}
+
 	public function getEstimatedHashrate(PoolStat $when = null, $augment = true)
 	{
 		$when = $when ?? PoolStat::orderBy('id', 'desc')->first();
 
 		if (!$when)
-			return $miner->hashrate;
+			return $this->hashrate;
 
 		$reference = new ReferenceHashrate();
 		$coefficient = $augment ? $reference->getCoefficient() : 1;
@@ -186,6 +196,6 @@ class Miner extends Model
 
 	public function getLatestHashrate()
 	{
-		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:00") date')->where('created_at', '>=', Carbon::now()->subDays(3))->where('miner_id', $this->id)->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
+		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:00") date')->where('miner_id', $this->id)->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
 	}
 }
