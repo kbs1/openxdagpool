@@ -51,7 +51,12 @@ class Miner extends Model
 		if (!$when)
 			return $this->hashrate;
 
-		return (float) MinerStat::selectRaw('avg(hashrate) hashrate')->where('miner_id', $this->id)->where('created_at', '>=', Carbon::now()->subHours(4))->pluck('value');
+		$from = clone $when->created_at;
+		$to = clone $when->created_at;
+
+		$from->subHours(4);
+
+		return (float) MinerStat::selectRaw('avg(hashrate) hashrate')->where('miner_id', $this->id)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->pluck('value');
 	}
 
 	public function getEstimatedHashrate(PoolStat $when = null, $augment = true)
