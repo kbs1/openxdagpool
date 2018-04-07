@@ -3,6 +3,7 @@
 namespace App\Users;
 
 use App\Pool\Formatter;
+use Auth;
 
 class Leaderboard
 {
@@ -18,7 +19,13 @@ class Leaderboard
 		$leaderboard = [];
 		$miners = [];
 
-		foreach (User::where('exclude_from_leaderboard', false)->with('miners')->orderBy('id', 'desc')->get() as $user) {
+		$user = Auth::user();
+		if ($user && $user->isAdministrator())
+			$users = User::with('miners')->orderBy('id', 'desc')->get();
+		else
+			$users = User::where('exclude_from_leaderboard', false)->with('miners')->orderBy('id', 'desc')->get();
+
+		foreach ($users as $user) {
 			if (!count($user->miners))
 				continue;
 
