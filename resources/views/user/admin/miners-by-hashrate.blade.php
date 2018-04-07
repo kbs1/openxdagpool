@@ -32,8 +32,8 @@
 		<tbody>
 			@foreach ($miners as $miner)
 				<tr>
-					<td>{{ $miner->getAddress() }}</td>
-					<td class="tooltip is-tooltip-multiline is-tooltip-right" data-tooltip="{{ $miner->getIpsAndPort() }}">{{ $miner->getMachinesCount() }}</td>
+					<td><a href="#" class="miner-details">{{ $miner->getAddress() }}</a></td>
+					<td class="tooltip is-tooltip-multiline is-tooltip-right ips-and-port" data-tooltip="{{ $miner->getIpsAndPort() }}">{{ $miner->getMachinesCount() }}</td>
 					<td>{{ $format->hashrate($miner->getHashrate()) }}</td>
 					<td>
 						@forelse ($miner->getUsers() as $user)
@@ -47,5 +47,59 @@
 		</tbody>
 	</table>
 
+	<div class="modal" id="minerDetailsModal">
+			<div class="modal-background"></div>
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">Miner details</p>
+					<a class="delete close-modal" aria-label="close" href="#"></a>
+				</header>
+				<section class="modal-card-body">
+					<div class="column">
+						<div class="field is-horizontal">
+							<div class="field-label">
+								<label class="label">Address</label>
+							</div>
+
+							<div class="field-body">
+								<div class="field">
+									<p class="control has-icons-left has-icons-right">
+										<input class="input is-disabled" type="text" name="address" readonly>
+										<span class="icon is-small is-left">
+											<i class="fa fa-address-card-o"></i>
+										</span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="column">
+						<div class="field is-horizontal">
+							<div class="field-label">
+								<label class="label">Machines</label>
+							</div>
+
+							<div class="field-body">
+								<div class="field">
+									<textarea class="textarea is-disabled" name="ips_and_port" rows="8" readonly></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<footer class="modal-card-foot">
+					<button type="button" class="button close-modal">Close</button>
+				</footer>
+			</div>
+		</div>
+	</div>
+
 	{{ $miners->links() }}
+@endsection
+
+@section('scripts')
+	<script>
+		var adminMinersByHashrateView = new adminMinersByHashrateView();
+	</script>
 @endsection
