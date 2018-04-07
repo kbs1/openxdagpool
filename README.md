@@ -31,7 +31,7 @@ Please submit your pull requests with new features, improvements and / or bugfix
 good Laravel 5, webpack, mix, blade, sass, javascript and bulma experience is needed. All pull requests must have reasonable code quality and security.
 
 # Dependencies
-- pool version at least T13.895 (previous versions printed network hashrate as an average over one hour, since 895 it is averaged over 4 hours)
+- pool version at least 0.2.0 (previous versions printed network hashrate as an average over one hour, it is now averaged over 4 hours)
 - nginx, php7+, mariadb or mysql, npm 8.x
 
 # How the pool website works
@@ -52,7 +52,7 @@ This installation guide gives an overview on how to get the pool website up and 
 
 Perform the following steps in order to get the website up and running:
 1. install all PHP7.0 requirements, for Ubuntu 16.04, use `apt-get install php7.0-bcmath php7.0-cli php7.0-common php7.0-fpm php7.0-json php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-opcache php7.0-readline php7.0-sqlite3 php7.0-xml php7.0-zip`. Next configure `php.ini` to your preference. Set `memory_limit` to at least `256M`, `expose_php` to `Off`, set `error_reporting` to `E_ALL`.
-2. install mysql 5.7 or mariadb. Create new database, for example `openxdagpool`, with `CREATE DATABASE openxdagpool CHARACTER SET utf8mb4 COLLATE utg8mb4_unicode_ci;` run as mysql's `root` user. Grant all privileges to a new user: `GRANT ALL ON openxdagpool.* TO openxdagpool@'%' IDENTIFIED BY 'PWD!!!!';`. Choose your own password!
+2. install mysql 5.7 or mariadb. Create new database, for example `openxdagpool`, with `CREATE DATABASE openxdagpool CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;` run as mysql's `root` user. Grant all privileges to a new user: `GRANT ALL ON openxdagpool.* TO openxdagpool@'%' IDENTIFIED BY 'PWD!!!!';`. Choose your own password!
 3. install nginx and set up a PHP FPM pool running as user of your choice.
 4. configure nginx to properly execute this website
 5. install [composer](https://getcomposer.org/download/) and [npm 8.x](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
