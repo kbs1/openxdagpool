@@ -79,8 +79,8 @@ class Miner
 		$users = [];
 
 		foreach ($miners as $miner)
-			if (!isset($users[(string) $miner->user->id]))
-				$users[(string) $miner->user->id] = $miner->user;
+			if (!isset($users['x' . $miner->user->nick]))
+				$users['x' . $miner->user->nick] = $miner->user;
 
 		return $users;
 	}
