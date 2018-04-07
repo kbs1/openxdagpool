@@ -4,11 +4,16 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Users\User;
-use App\Pool\Formatter;
+use App\Pool\{DataReader, Formatter};
+use App\Pool\Miners\Parser as MinersParser;
+use App\Pool\Statistics\Parser as StatsParser;
 use App\Http\Requests\{UpdateUser, SaveSettings, SendMassEmail};
 use App\Mail\UserMessage;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Setting;
 
 class AdministrationController extends Controller
@@ -116,5 +121,37 @@ class AdministrationController extends Controller
 			Mail::to($user->email, $user->nick)->send(new UserMessage($user, $request->input('subject'), $request->input('content')));
 
 		return redirect()->back()->with('success', 'E-mail successfully sent to ' . count($users) . ' users.');
+	}
+
+	public function minersByIp(Request $request, DataReader $reader, Formatter $format)
+	{
+		$miners_parser = new MinersParser($reader->getMiners());
+		$stats_parser = new StatsParser($reader->getStatistics());
+		$ips = new Collection($miners_parser->getMinersByIp());
+		$page = $request->input('page', 1);
+		$ips = new LengthAwarePaginator($ips->forPage($page, 20), count($ips), 20, $page, ['path' => route('user.admin.miners-by-ip')]);
+
+		return view('user.admin.miners-by-ip', [
+			'section' => 'miners-by-ip',
+			'ips' => $ips,
+			'format' => $format,
+			'pool_unpaid_shares' => $miners_parser->getTotalUnpaidShares(),
+			'pool_hashrate' => $stats_parser->getPoolHashrate(),
+		]);
+	}
+
+	public function minersByHashrate(Request $request, DataReader $reader, Formatter $format)
+	{
+		$miners_parser = new MinersParser($reader->getMiners());
+		$stats_parser = new StatsParser($reader->getStatistics());
+		$miners = new Collection($miners_parser->getMinersByHashrate($stats_parser->getPoolHashrate()));
+		$page = $request->input('page', 1);
+		$miners = new LengthAwarePaginator($miners->forPage($page, 20), count($miners), 20, $page, ['path' => route('user.admin.miners-by-hashrate')]);
+
+		return view('user.admin.miners-by-hashrate', [
+			'section' => 'miners-by-hashrate',
+			'miners' => $miners,
+			'format' => $format,
+		]);
 	}
 }

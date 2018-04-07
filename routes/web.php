@@ -45,6 +45,8 @@ Route::get('/user/admin/settings', 'User\AdministrationController@poolSettings')
 Route::post('/user/admin/settings', 'User\AdministrationController@savePoolSettings')->name('user.admin.settings.save');
 Route::get('/user/admin/mass-email', 'User\AdministrationController@massEmail')->name('user.admin.mass-email');
 Route::post('/user/admin/mass-email', 'User\AdministrationController@sendMassEmail')->name('user.admin.mass-email.send');
+Route::get('/user/admin/miners-by-ip', 'User\AdministrationController@minersByIp')->name('user.admin.miners-by-ip');
+Route::get('/user/admin/miners-by-hashrate', 'User\AdministrationController@minersByHashrate')->name('user.admin.miners-by-hashrate');
 
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');

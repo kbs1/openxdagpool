@@ -91,3 +91,7 @@ pre.oneline {
 .payouts-listing-view .links {
 	margin-top: 20px;
 }
+
+.admin-view .miners-grouped .tooltip:hover::after {
+	white-space: pre-line;
+}

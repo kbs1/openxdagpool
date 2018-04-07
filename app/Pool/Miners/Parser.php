@@ -62,6 +62,92 @@ class Parser extends BaseParser
 		return $miner;
 	}
 
+	public function getMinersByHashrate($pool_hashrate)
+	{
+		$miners = [];
+
+		$this->forEachMinerLine(function($parts) use (&$miners) {
+			if (!isset($miners[$parts[1]])) {
+				$miners[$parts[1]] = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
+			} else {
+				$miners[$parts[1]]->addIpAndPort($parts[3]);
+				$miners[$parts[1]]->addUnpaidShares($parts[5]);
+
+				if ($miners[$parts[1]]->getStatus() !== 'active' && $parts[2] === 'active')
+					$miners[$parts[1]]->setStatus($parts[2]);
+			}
+		});
+
+		foreach ($miners as $address => $miner) {
+			if ($miner->getStatus() == 'free') {
+				unset($miners[$address]);
+				continue;
+			}
+
+			$hashrate = 0;
+			if ($this->getTotalUnpaidShares() > 0)
+				$hashrate = ($miner->getUnpaidShares() / $this->getTotalUnpaidShares()) * $pool_hashrate;
+
+			$miner->setHashrate($hashrate);
+		}
+
+		uasort($miners, function ($a, $b) {
+			if ($a->getHashrate() == $b->getHashrate())
+				return 0;
+
+			return $a->getHashrate() < $b->getHashrate() ? 1 : -1;
+		});
+
+		return $miners;
+	}
+
+	public function getMinersByIp()
+	{
+		$miners = [];
+
+		$this->forEachMinerLine(function($parts) use (&$miners) {
+			list($ip, $port) = explode(':', $parts[3]);
+
+			if (!isset($miners[$ip]))
+				$miners[$ip] = [];
+
+			if (!isset($miners[$ip][$parts[1]])) {
+				$miners[$ip][$parts[1]] = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
+			} else {
+				$miners[$ip][$parts[1]]->addIpAndPort($parts[3]);
+				$miners[$ip][$parts[1]]->addUnpaidShares($parts[5]);
+
+				if ($miners[$ip][$parts[1]]->getStatus() !== 'active' && $parts[2] === 'active')
+					$miners[$ip][$parts[1]]->setStatus($parts[2]);
+			}
+		});
+
+		foreach ($miners as $ip => $list) {
+			$miners[$ip]['machines'] = $miners[$ip]['unpaid_shares'] = 0;
+			foreach ($list as $address => $miner) {
+				if ($miner->getStatus() == 'free') {
+					unset($miners[$ip][$address]);
+					continue;
+				}
+
+				$miners[$ip]['machines'] += $miner->getMachinesCount();
+				$miners[$ip]['unpaid_shares'] += $miner->getUnpaidShares();
+			}
+
+			if (count($miners[$ip]) == 2)
+				unset($miners[$ip]);
+		}
+
+		uasort($miners, function ($a, $b) {
+			if ($a['machines'] == $b['machines'])
+				return 0;
+
+			return $a['machines'] < $b['machines'] ? 1 : -1;
+		});
+
+		return $miners;
+	}
+
 	protected function forEachMinerLine(callable $callback, $skip = 0)
 	{
 		$this->forEachLine(function($line) use ($callback) {
