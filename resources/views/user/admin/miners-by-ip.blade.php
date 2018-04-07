@@ -33,7 +33,7 @@
 			@foreach ($ips as $ip => $data)
 				<tr>
 					<td>{{ $ip }}</td>
-					<td class="tooltip is-tooltip-multiline" data-tooltip="@foreach ($data as $key => $miner)
+					<td class="tooltip is-tooltip-multiline is-tooltip-right" data-tooltip="@foreach ($data as $key => $miner)
 						@if ($key == 'machines' || $key == 'unpaid_shares')
 							@continue
 						@endif

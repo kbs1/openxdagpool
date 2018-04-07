@@ -33,7 +33,7 @@
 			@foreach ($miners as $miner)
 				<tr>
 					<td>{{ $miner->getAddress() }}</td>
-					<td class="tooltip is-tooltip-multiline" data-tooltip="{{ $miner->getIpsAndPort() }}">{{ $miner->getMachinesCount() }}</td>
+					<td class="tooltip is-tooltip-multiline is-tooltip-right" data-tooltip="{{ $miner->getIpsAndPort() }}">{{ $miner->getMachinesCount() }}</td>
 					<td>{{ $format->hashrate($miner->getHashrate()) }}</td>
 					<td>
 						@forelse ($miner->getUsers() as $user)
