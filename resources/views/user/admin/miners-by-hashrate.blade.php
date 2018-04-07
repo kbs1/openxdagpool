@@ -50,50 +50,49 @@
 	{{ $miners->links() }}
 
 	<div class="modal" id="minerDetailsModal">
-			<div class="modal-background"></div>
-			<div class="modal-card">
-				<header class="modal-card-head">
-					<p class="modal-card-title">Miner details</p>
-					<a class="delete close-modal" aria-label="close" href="#"></a>
-				</header>
-				<section class="modal-card-body">
-					<div class="column">
-						<div class="field is-horizontal">
-							<div class="field-label">
-								<label class="label">Address</label>
-							</div>
+		<div class="modal-background"></div>
+		<div class="modal-card">
+			<header class="modal-card-head">
+				<p class="modal-card-title">Miner details</p>
+				<a class="delete close-modal" aria-label="close" href="#"></a>
+			</header>
+			<section class="modal-card-body">
+				<div class="column">
+					<div class="field is-horizontal">
+						<div class="field-label">
+							<label class="label">Address</label>
+						</div>
 
-							<div class="field-body">
-								<div class="field">
-									<p class="control has-icons-left has-icons-right">
-										<input class="input is-disabled" type="text" name="address" readonly>
-										<span class="icon is-small is-left">
-											<i class="fa fa-address-card-o"></i>
-										</span>
-									</p>
-								</div>
+						<div class="field-body">
+							<div class="field">
+								<p class="control has-icons-left has-icons-right">
+									<input class="input is-disabled" type="text" name="address" readonly>
+									<span class="icon is-small is-left">
+										<i class="fa fa-address-card-o"></i>
+									</span>
+								</p>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div class="column">
-						<div class="field is-horizontal">
-							<div class="field-label">
-								<label class="label">Machines</label>
-							</div>
+				<div class="column">
+					<div class="field is-horizontal">
+						<div class="field-label">
+							<label class="label">Machines</label>
+						</div>
 
-							<div class="field-body">
-								<div class="field">
-									<textarea class="textarea is-disabled" name="ips_and_port" rows="8" readonly></textarea>
-								</div>
+						<div class="field-body">
+							<div class="field">
+								<textarea class="textarea is-disabled" name="ips_and_port" rows="8" readonly></textarea>
 							</div>
 						</div>
 					</div>
-				</section>
-				<footer class="modal-card-foot">
-					<button type="button" class="button close-modal">Close</button>
-				</footer>
-			</div>
+				</div>
+			</section>
+			<footer class="modal-card-foot">
+				<button type="button" class="button close-modal">Close</button>
+			</footer>
 		</div>
 	</div>
 @endsection
