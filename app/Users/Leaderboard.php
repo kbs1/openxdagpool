@@ -23,7 +23,7 @@ class Leaderboard
 		if ($user && $user->isAdministrator())
 			$users = User::with('miners')->orderBy('id', 'desc')->get();
 		else
-			$users = User::where('exclude_from_leaderboard', false)->with('miners')->orderBy('id', 'desc')->get();
+			$users = User::where('active', true)->where('exclude_from_leaderboard', false)->with('miners')->orderBy('id', 'desc')->get();
 
 		foreach ($users as $user) {
 			if (!count($user->miners))
