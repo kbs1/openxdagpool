@@ -47,6 +47,8 @@
 		</tbody>
 	</table>
 
+	{{ $miners->links() }}
+
 	<div class="modal" id="minerDetailsModal">
 			<div class="modal-background"></div>
 			<div class="modal-card">
@@ -94,8 +96,6 @@
 			</div>
 		</div>
 	</div>
-
-	{{ $miners->links() }}
 @endsection
 
 @section('scripts')
