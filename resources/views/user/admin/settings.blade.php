@@ -380,6 +380,9 @@
 									{{ $errors->first('reference_miner_hashrate') }}
 								</p>
 							@endif
+							@if ($coefficient)
+								<p class="help">Currently used coefficient: {{ $coefficient }}</p>
+							@endif
 						</div>
 					</div>
 				</div>

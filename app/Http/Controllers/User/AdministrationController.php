@@ -69,6 +69,7 @@ class AdministrationController extends Controller
 	{
 		return view('user.admin.settings', [
 			'section' => 'settings',
+			'coefficient' => Setting::get('reference_miner_coefficient'),
 		]);
 	}
 
@@ -115,7 +116,6 @@ class AdministrationController extends Controller
 			})->get();
 		else
 			$users = User::where('active', true)->get();
-
 
 		foreach ($users as $user)
 			Mail::to($user->email, $user->nick)->send(new UserMessage($user, $request->input('subject'), $request->input('content')));

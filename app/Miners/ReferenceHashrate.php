@@ -26,9 +26,6 @@ class ReferenceHashrate
 			return $this->resetCoefficient();
 
 		$miner = Miner::where('address', $this->miner_address)->first();
-		if (!$miner)
-			return $this->resetCoefficient();
-
 		$miner_hashrate = $miner->getEstimatedHashrate($when, false);
 		if ($miner_hashrate <= 0)
 			return $this->resetCoefficient();
@@ -48,8 +45,8 @@ class ReferenceHashrate
 		Setting::save();
 	}
 
-	protected function shouldBeUsed()
+	public function shouldBeUsed()
 	{
-		return $this->miner_address && $this->target_hashrate > 0;
+		return Miner::where('address', $this->miner_address)->exists() && $this->miner_address && $this->target_hashrate > 0;
 	}
 }
