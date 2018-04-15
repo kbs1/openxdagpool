@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
 		Commands\SaveMinerStats::class,
 		Commands\SavePoolStats::class,
 		Commands\SendMinerAlerts::class,
+		Commands\SendAdminAlerts::class,
 		Commands\RemoveInactiveMinersHistory::class,
 	];
 
