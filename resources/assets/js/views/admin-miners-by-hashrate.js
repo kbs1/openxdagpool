@@ -17,7 +17,8 @@
 
 	View.prototype.minerDetails = function()
 	{
-		$('#minerDetailsModal input').val($(this).text());
+		$('#minerDetailsModal input[name=address]').val($(this).text());
+		$('#minerDetailsModal input[name=unpaid_shares]').val($(this).data('unpaidShares'));
 		$('#minerDetailsModal textarea').val($('.ips-and-port', $(this).closest('tr')).data('tooltip'));
 		$('#minerDetailsModal').addClass('is-active');
 

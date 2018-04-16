@@ -25,6 +25,7 @@
 			<tr>
 				<th>Miner address</th>
 				<th>Machines</th>
+				<th>Unpaid shares</th>
 				<th class="tooltip is-tooltip-multiline" data-tooltip="Current estimated hashrate. The value is not averaged or corrected by any means.">Hashrate</th>
 				<th class="tooltip is-tooltip-multiline" data-tooltip="Miner address is registered to these user accounts.">Users</th>
 			</tr>
@@ -32,8 +33,9 @@
 		<tbody>
 			@foreach ($miners as $miner)
 				<tr>
-					<td><a href="#" class="miner-details">{{ $miner->getAddress() }}</a></td>
+					<td><a href="#" class="miner-details" data-unpaid-shares="{{ $miner->getUnpaidShares() }}">{{ $miner->getAddress() }}</a></td>
 					<td class="tooltip is-tooltip-multiline is-tooltip-right ips-and-port" data-tooltip="{{ $miner->getIpsAndPort() }}">{{ $miner->getMachinesCount() }}</td>
+					<td>{{ $miner->getUnpaidShares() }}</td>
 					<td>{{ $format->hashrate($miner->getHashrate()) }}</td>
 					<td>
 						@forelse ($miner->getUsers() as $user)
@@ -69,6 +71,25 @@
 									<input class="input is-disabled" type="text" name="address" readonly>
 									<span class="icon is-small is-left">
 										<i class="fa fa-address-card-o"></i>
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="column">
+					<div class="field is-horizontal">
+						<div class="field-label">
+							<label class="label">Unpaid shares</label>
+						</div>
+
+						<div class="field-body">
+							<div class="field">
+								<p class="control has-icons-left has-icons-right">
+									<input class="input is-disabled" type="text" name="unpaid_shares" readonly>
+									<span class="icon is-small is-left">
+										<i class="fa fa-money"></i>
 									</span>
 								</p>
 							</div>
