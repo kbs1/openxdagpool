@@ -9,7 +9,7 @@
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">
-					Payout history
+					Payouts history
 				</h1>
 				<h2 class="subtitle">
 					Coins earned at this pool
