@@ -3,7 +3,7 @@ This software allows you to easily open a Dagger (XDAG) pool with a nice, comfor
 
 # Features
 - detailed pool and network statistics, including graphs (hashrate, active miners, difficulty, ...)
-- address balance checker tool
+- address balance checker and pool payouts tool
 - leaderboard
 - detailed guides on how to set-up miners
 - rich administration interface allowing to customise many aspects of the website
@@ -14,13 +14,12 @@ This software allows you to easily open a Dagger (XDAG) pool with a nice, comfor
 - miner offline / miner back online alerts for registered miners
 
 # Planned features
-- ability to check payouts history for non-registered miners by entering miner's address, this is possible as whole pool's payment history from the beginning of operation is stored in the database
 - ability to approximate earnings based on hashrate
 - ability to record and plot all times  the pool found a block
 - utilize new 'block' command in pool software, currently it is unused
 - mobile friendly design tweaks
 - translations and languages support, support for a simple CMS (setup pages, other pool documents and similar)
-- code refactoring, mainly `PayoutsController`, use repository and presenters for models, other improvements
+- code refactoring, use repository and presenters for models, other improvements
 - add the ability to customise website design a bit, for example by allowing to upload a `favicon.ico`, or change hero color to a different one, or change bulma theme as a whole
 
 # Expected skills
