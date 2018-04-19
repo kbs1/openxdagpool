@@ -35,6 +35,7 @@
 				<div class="notification" id="balanceResult">
 					<button class="delete"></button>
 					<span></span>
+					<p><a href="#">View payouts</a></p>
 				</div>
 
 				<nav class="card">
@@ -155,7 +156,7 @@
 				<nav class="card">
 					<header class="card-header">
 						<p class="card-header-title">
-							Wallet balance
+							Wallet balance and payouts
 						</p>
 					</header>
 
@@ -167,7 +168,7 @@
 										<input class="input is-fullwidth" type="text" name="address" placeholder="Wallet address" maxlength="32" required>
 									</div>
 									<div class="control">
-										<button class="button tooltip" data-tooltip="Balances update every 30 minutes." type="submit">
+										<button class="button tooltip" data-tooltip="Balances update every 30 minutes. Payouts update every 4 hours." type="submit">
 											Show
 										</button>
 									</div>

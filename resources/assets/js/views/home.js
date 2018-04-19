@@ -135,6 +135,13 @@
 
 			$(parent).removeClass('is-success').removeClass('is-warning').addClass(status ? 'is-success' : 'is-warning').show();
 			$('span', parent).text(message);
+
+			if (status) {
+				$('p', parent).show();
+				$('p a', parent).attr('href', '/payouts-graph?' + $('.home-view #balanceCheckForm').serialize());
+			} else {
+				$('p', parent).hide();
+			}
 		});
 
 		return false;
