@@ -168,7 +168,7 @@
 										<input class="input is-fullwidth" type="text" name="address" placeholder="Wallet address" maxlength="32" required>
 									</div>
 									<div class="control">
-										<button class="button tooltip" data-tooltip="Balances update every 30 minutes. Payouts update every 4 hours." type="submit">
+										<button class="button tooltip is-tooltip-multiline" data-tooltip="Balances update every 30 minutes. Payouts update every 4 hours." type="submit">
 											Show
 										</button>
 									</div>
