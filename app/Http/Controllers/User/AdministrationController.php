@@ -7,6 +7,7 @@ use App\Users\User;
 use App\Pool\{DataReader, Formatter};
 use App\Pool\Miners\Parser as MinersParser;
 use App\Pool\Statistics\Parser as StatsParser;
+use App\Pool\State\Parser as StateParser;
 use App\Http\Requests\{UpdateUser, SaveSettings, SendMassEmail};
 use App\Mail\UserMessage;
 
@@ -80,6 +81,7 @@ class AdministrationController extends Controller
 		Setting::set('direct_percent', $request->input('direct_percent'));
 		Setting::set('fund_percent', $request->input('fund_percent'));
 
+		Setting::set('pool_created_at', $request->input('pool_created_at'));
 		Setting::set('pool_name', $request->input('pool_name'));
 		Setting::set('pool_tagline', $request->input('pool_tagline'));
 		Setting::set('pool_tooltip', $request->input('pool_tooltip'));
@@ -152,6 +154,18 @@ class AdministrationController extends Controller
 			'section' => 'miners-by-hashrate',
 			'miners' => $miners,
 			'format' => $format,
+		]);
+	}
+
+	public function poolState(DataReader $reader)
+	{
+		$state_parser = new StateParser($reader->getState());
+
+		return view('user.admin.pool-state', [
+			'section' => 'pool-state',
+			'version' => $state_parser->getPoolVersion(),
+			'state' => $state_parser->getPoolState(),
+			'state_normal' => $state_parser->isNormalPoolState(),
 		]);
 	}
 }

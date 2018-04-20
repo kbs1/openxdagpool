@@ -7,11 +7,12 @@ use Illuminate\Console\Command;
 class DownloadPoolData extends Command
 {
 	protected $signature = 'pool:download-data';
-	protected $description = 'Downloads pool miners, stats and payouts data into the storage folder using wget or cp.';
+	protected $description = 'Downloads pool miners, pool state, pool stats and payouts data into the storage folder using wget or cp.';
 
 	public function handle()
 	{
 		$this->download(env('DOWNLOAD_MINERS'), env('MINERS'));
+		$this->download(env('DOWNLOAD_STATE'), env('STATE'));
 		$this->download(env('DOWNLOAD_STATS'), env('STATS'));
 		$this->download(env('DOWNLOAD_PAYOUTS'), env('PAYOUTS'));
 

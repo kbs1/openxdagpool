@@ -47,6 +47,7 @@ Route::get('/user/admin/mass-email', 'User\AdministrationController@massEmail')-
 Route::post('/user/admin/mass-email', 'User\AdministrationController@sendMassEmail')->name('user.admin.mass-email.send');
 Route::get('/user/admin/miners-by-ip', 'User\AdministrationController@minersByIp')->name('user.admin.miners-by-ip');
 Route::get('/user/admin/miners-by-hashrate', 'User\AdministrationController@minersByHashrate')->name('user.admin.miners-by-hashrate');
+Route::get('/user/admin/pool-state', 'User\AdministrationController@poolState')->name('user.admin.pool-state');
 
 Route::get('/payouts-graph', 'PayoutsController@addressPayoutsGraph')->name('payouts.graph');
 Route::get('/payouts-listing', 'PayoutsController@addressPayoutsListing')->name('payouts.listing');

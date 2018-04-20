@@ -2,12 +2,15 @@
 
 namespace App\Pool;
 
+use Setting;
+use Carbon\Carbon;
+
 class Uptime
 {
 	public function getReadableUptime()
 	{
 		$names = ['y', 'm', 'w', 'd', 'h', 'm', 's'];
-		$parts = $this->parseSystemUptime();
+		$parts = $this->getUptime();
 		$result = [];
 
 		foreach ($parts as $key => $part) {
@@ -24,7 +27,7 @@ class Uptime
 	public function getExactUptime()
 	{
 		$names = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'];
-		$parts = $this->parseSystemUptime();
+		$parts = $this->getUptime();
 		$format = '';
 
 		foreach ($parts as $key => $part)
@@ -42,15 +45,20 @@ class Uptime
 		return '0 seconds';
 	}
 
-	protected function parseSystemUptime()
+	protected function getUptime()
 	{
-		$data = @file_get_contents('/proc/uptime');
+		try {
+			$created_at = Setting::get('pool_created_at');
+			if (!$created_at)
+				$created_at = Carbon::now();
+			else
+				$created_at = Carbon::createFromFormat('Y-m-d', $created_at);
+		} catch (\Exception $ex) {
+			$created_at = Carbon::now();
+		}
 
-		if ($data === false)
-			$data = '0 0';
-
-		$data = explode(' ', $data);
-		$seconds = floor($data[0]) + max(0, (int) env('UPTIME_OFFSET'));
+		$now = Carbon::now();
+		$seconds = $now->diffInSeconds($created_at);
 
 		$years = floor($seconds / 31536000); // approximate years
 		$months = floor(($seconds - $years * 31536000) / 2592000); // approximate months

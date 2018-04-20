@@ -142,6 +142,26 @@
 
 				<div class="field is-horizontal">
 					<div class="field-label">
+						<label class="label">Pool creation date</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip" data-tooltip="Determines 'uptime' displayed on homepage.">
+							<p class="control">
+								<input class="input" type="text" id="pool_created_at" name="pool_created_at" value="{{ old('pool_created_at', Setting::get('pool_created_at', Carbon\Carbon::now()->format('Y-m-d'))) }}">
+							</p>
+
+							@if ($errors->has('pool_created_at'))
+								<p class="help is-danger">
+									{{ $errors->first('pool_created_at') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
 						<label class="label">Pool name</label>
 					</div>
 

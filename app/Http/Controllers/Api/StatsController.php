@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Pool\{DataReader, Config, Uptime, Formatter};
 use App\Pool\Statistics\{Parser as StatisticsParser, Presenter as StatisticsPresenter, Stat as PoolStat};
+use App\Pool\State\Parser as StateParser;
 
 use App\Users\Leaderboard;
 use App\Miners\Miner;
@@ -49,6 +50,15 @@ class StatsController extends Controller
 					$user_stats['user_rank'] = '#' . ($position + 1);
 					break;
 				}
+			}
+
+			// append extra statistics for admin users
+			if ($user->isAdministrator()) {
+				$state_parser = new StateParser($this->reader->getState());
+				$user_stats['is_administrator'] = true;
+				$user_stats['pool_version'] = $state_parser->getPoolVersion();
+				$user_stats['pool_state'] = $state_parser->getPoolState();
+				$user_stats['pool_state_normal'] = $state_parser->isNormalPoolState();
 			}
 		}
 

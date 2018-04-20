@@ -13,7 +13,7 @@ This software allows you to easily open a Dagger (XDAG) pool with a nice, comfor
 - optional registration allows users to manage their miners in one place
 - hashrate history for registered miners
 - miner offline / miner back online e-mail alerts for registered users
-- administrator e-mail alerts, including zero pool hashrate and reference miner offline alert
+- administrator e-mail alerts: zero pool hashrate, abnormal pool daemon state and reference miner offline
 - ability to e-mail active or all pool registered users with important message
 
 # Planned features

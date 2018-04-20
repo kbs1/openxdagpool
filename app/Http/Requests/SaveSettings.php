@@ -31,6 +31,7 @@ class SaveSettings extends FormRequest
 			'direct_percent' => 'required|numeric|min:0|max:100',
 			'fund_percent' => 'required|numeric|min:0|max:100',
 
+			'pool_created_at' => 'required|date',
 			'pool_name' => 'required',
 			'pool_tagline' => 'required',
 			'pool_tooltip' => 'required',

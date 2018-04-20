@@ -32,6 +32,15 @@
 					</div>
 				@endif
 
+				@if (isset($authUser) && $authUser->isAdministrator())
+					<div class="notification is-danger" id="adminPoolStateAlert">
+						<button class="delete"></button>
+						Warning, pool daemon state abnormal. This is admin-only notification.<br>
+						<span id="poolVersion"></span><br>
+						<span id="poolState"></span>
+					</div>
+				@endif
+
 				<div class="notification" id="balanceResult">
 					<button class="delete"></button>
 					<span></span>
