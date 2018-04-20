@@ -34,7 +34,7 @@ class PayoutsController extends UserPayoutsController
 
 		return view('payouts.miner-payouts-listing', [
 			'miner' => $miner,
-			'payouts' => $miner->getPayoutsListing($request->input('page')),
+			'payouts' => $miner->getPayoutsListing($request->input('page'))->appends(['address' => $miner->address]),
 			'payouts_sum' => $miner->payouts()->sum('amount'),
 			'activeTab' => 'miners',
 		]);
