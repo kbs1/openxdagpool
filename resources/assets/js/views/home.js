@@ -84,7 +84,7 @@
 		if (this.loading)
 			return false;
 
-		$('.home-view #balanceCheckForm button').addClass('is-loading');
+		$('.home-view #balanceCheckForm button').addClass('is-loading').removeClass('is-tooltip-multiline');
 		this.loading = true;
 
 		var request = {
@@ -102,7 +102,7 @@
 		var self = this;
 
 		this.ajax(request, function(error, response, body) {
-			$('.home-view #balanceCheckForm button').removeClass('is-loading');
+			$('.home-view #balanceCheckForm button').removeClass('is-loading').addClass('is-tooltip-multiline');
 			self.loading = false;
 
 			if (error)
