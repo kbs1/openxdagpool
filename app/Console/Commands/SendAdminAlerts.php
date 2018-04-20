@@ -25,12 +25,13 @@ class SendAdminAlerts extends Command
 	public function __construct(DataReader $reader)
 	{
 		$this->reader = $reader;
-		$this->users = User::where('active', true)->where('administrator', true)->get();
 		parent::__construct();
 	}
 
 	public function handle()
 	{
+		$this->users = User::where('active', true)->where('administrator', true)->get();
+
 		if (!count($this->users)) {
 			$this->line('No active admin users, not sending admin alerts.');
 			$this->info('SendAdminAlerts completed successfully.');
