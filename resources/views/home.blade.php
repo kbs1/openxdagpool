@@ -112,7 +112,9 @@
 							<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Updates every 4 hours. Click for details.">
 								<div>
 									<p class="heading">Last day</p>
-									<p class="title stat api is-loading" data-stat="blocks_last_day"></p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="blocks_last_day"></a>
+									</p>
 								</div>
 							</div>
 							<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Updates every 4 hours. Approximate value based on last 20 blocks found.">
