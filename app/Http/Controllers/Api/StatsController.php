@@ -81,6 +81,14 @@ class StatsController extends Controller
 			$block_found_every = 'unknown';
 		}
 
+		$today_midnight = new Carbon('today midnight');
+		$last_day = clone $today_midnight;
+		$last_day->subDays(1);
+		$last_week = clone $today_midnight;
+		$last_week->subWeeks(1);
+		$last_month = clone $today_midnight;
+		$last_month->subMonths(1);
+
 		return response()->json([
 			'pool_hashrate' => $this->format->hashrate($stats_parser->getPoolHashrate()),
 			'network_hashrate' => $this->format->hashrate($stats_parser->getNetworkHashrate()),
@@ -89,9 +97,9 @@ class StatsController extends Controller
 			'difficulty' => $stats_presenter->getReadableDifficulty(),
 			'difficulty_exact' => $stats_presenter->getExactDifficulty(),
 			'supply' => $this->format->wholeBalance($stats_parser->getSupply()),
-			'blocks_last_day' => $blocks_last_day = FoundBlock::where('found_at', '>=', Carbon::now()->subDays(1))->count(),
-			'blocks_last_week' => FoundBlock::where('found_at', '>=', Carbon::now()->subDays(7))->count(),
-			'blocks_last_month' => FoundBlock::where('found_at', '>=', Carbon::now()->subMonths(1))->count(),
+			'blocks_last_day' => FoundBlock::where('found_at', '<', $today_midnight)->where('found_at', '>=', $last_day)->count(),
+			'blocks_last_week' => FoundBlock::where('found_at', '<', $today_midnight)->where('found_at', '>=', $last_week)->count(),
+			'blocks_last_month' => FoundBlock::where('found_at', '<', $today_midnight)->where('found_at', '>=', $last_month)->count(),
 			'block_found_every' => $block_found_every,
 
 			'miners' => number_format($pool_stat ? $pool_stat->active_miners : 0, 0, '.', ','),
