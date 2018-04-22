@@ -117,10 +117,12 @@
 									</p>
 								</div>
 							</div>
-							<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Updates every 4 hours. Approximate value based on last 20 blocks found.">
+							<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Updates every 4 hours. Approximate value based on last 20 blocks found. Click for a listing of latest found blocks.">
 								<div>
 									<p class="heading">Block every</p>
-									<p class="title stat api is-loading" data-stat="block_found_every"></p>
+									<p class="title">
+										<a href="{{ route('found-blocks') }}" class="stat api is-loading" data-stat="block_found_every"></a>
+									</p>
 								</div>
 							</div>
 						</nav>

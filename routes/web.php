@@ -18,6 +18,7 @@ Route::get('/leaderboard', 'LeaderboardController@index')->name('leaderboard');
 Route::get('/pages/{page}', 'PagesController@index')->name('pages')->where('page', '(.+)');
 
 Route::get('/stats', 'StatsController@index')->name('stats');
+Route::get('/found-blocks', 'FoundBlocksController@index')->name('found-blocks');
 
 Route::get('/user/miners', 'User\MinersController@index')->name('miners');
 Route::post('/user/miners', 'User\MinersController@create')->name('miners.create');

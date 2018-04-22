@@ -40,6 +40,7 @@
 									<hr class="navbar-divider">
 
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'stats' ? ' is-active' : '' !!}" href="{{ route('stats') }}">Statistics</a>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'found-blocks' ? ' is-active' : '' !!}" href="{{ route('found-blocks') }}">Found blocks</a>
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'leaderboard' ? ' is-active' : '' !!}" href="{{ route('leaderboard') }}">Leaderboard</a>
 								</div>
 							</div>
