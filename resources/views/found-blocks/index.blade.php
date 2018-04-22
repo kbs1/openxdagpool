@@ -48,7 +48,7 @@
 										<td>{{ $block->found_at->format('Y-m-d H:i:s') }}.{{ sprintf("%03d", $block->found_at_milliseconds) }}</td>
 										<td>{{ $block->hash }}</td>
 										<td>{{ number_format($block->payout, 2, '.', ',') }} XDAG</td>
-										<td>{{ number_format($block->fee, 2, '.', ',') }} }} XDAG</td>
+										<td>{{ number_format($block->fee, 2, '.', ',') }} XDAG</td>
 									</tr>
 								@empty
 									<tr>
