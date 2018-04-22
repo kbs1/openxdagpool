@@ -52,7 +52,7 @@ class Uptime
 			if (!$created_at)
 				$created_at = Carbon::now();
 			else
-				$created_at = Carbon::createFromFormat('Y-m-d', $created_at);
+				$created_at = Carbon::createFromFormat('Y-m-d H:i:s', $created_at . '00:00:00');
 		} catch (\Exception $ex) {
 			$created_at = Carbon::now();
 		}
