@@ -10,6 +10,7 @@ use App\Pool\State\Parser as StateParser;
 
 use App\Users\Leaderboard;
 use App\Miners\Miner;
+use App\FoundBlocks\FoundBlock;
 
 use Carbon\Carbon;
 use Auth;
@@ -64,6 +65,22 @@ class StatsController extends Controller
 
 		$pool_stat = PoolStat::orderBy('id', 'desc')->first();
 
+		$last_blocks = FoundBlock::orderBy('id', 'desc')->limit(20)->get();
+		if (count($last_blocks) >= 2) {
+			$found_at_first = $last_blocks->first()->found_at;
+			$found_at_last = $last_blocks->last()->found_at;
+			$diff_seconds = $found_at_last->diffInSeconds($found_at_first);
+
+			$block_found_every = $diff_seconds / count($last_blocks) / 60;
+			if ($block_found_every > 60) {
+				$block_found_every = '~' . round($block_found_every / 60, 2) . ' hours';
+			} else {
+				$block_found_every = '~' . round($block_found_every, 2) . ' minutes';
+			}
+		} else {
+			$block_found_every = 'unknown';
+		}
+
 		return response()->json([
 			'pool_hashrate' => $this->format->hashrate($stats_parser->getPoolHashrate()),
 			'network_hashrate' => $this->format->hashrate($stats_parser->getNetworkHashrate()),
@@ -72,6 +89,10 @@ class StatsController extends Controller
 			'difficulty' => $stats_presenter->getReadableDifficulty(),
 			'difficulty_exact' => $stats_presenter->getExactDifficulty(),
 			'supply' => $this->format->wholeBalance($stats_parser->getSupply()),
+			'blocks_last_day' => $blocks_last_day = FoundBlock::where('found_at', '>=', Carbon::now()->subDays(1))->count(),
+			'blocks_last_week' => FoundBlock::where('found_at', '>=', Carbon::now()->subDays(7))->count(),
+			'blocks_last_month' => FoundBlock::where('found_at', '>=', Carbon::now()->subMonths(1))->count(),
+			'block_found_every' => $block_found_every,
 
 			'miners' => number_format($pool_stat ? $pool_stat->active_miners : 0, 0, '.', ','),
 
@@ -104,9 +125,18 @@ class StatsController extends Controller
 			$active_miners['Active pool miners'][] = $stat->active_miners;
 		}
 
+		$found_blocks = ['x' => [], 'Found blocks' => []];
+		$blocks = FoundBlock::selectRaw('DATE_FORMAT(found_at, "%Y-%m-%d") date, count(*) count')->where('found_at', '>', Carbon::now()->subMonths(1))->groupBy(\DB::raw('DATE_FORMAT(found_at, "%Y-%m-%d")'))->get();
+
+		foreach ($blocks as $block) {
+			$found_blocks['x'][] = $block->date;
+			$found_blocks['Found blocks'][] = $block->count;
+		}
+
 		return response()->json([
 			'pool_hashrate' => $pool_hashrate,
 			'active_miners' => $active_miners,
+			'found_blocks' => $found_blocks,
 			'network_hashrate' => $network_hashrate,
 		]);
 	}

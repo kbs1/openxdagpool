@@ -14,6 +14,11 @@ class DataReader
 		return @fopen($this->getPath('STATS'), 'r');
 	}
 
+	public function getBlocks()
+	{
+		return @fopen($this->getPath('BLOCKS'), 'r');
+	}
+
 	public function getMiners()
 	{
 		return @fopen($this->getPath('MINERS'), 'r');

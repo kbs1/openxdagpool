@@ -13,6 +13,7 @@
 /storage/stats.txt
 /storage/payouts.txt
 /storage/state.txt
+/storage/blocks.txt
 /storage/pooldata
 /storage/settings.json
 Homestead.json

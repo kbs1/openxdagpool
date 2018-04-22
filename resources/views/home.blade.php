@@ -52,6 +52,7 @@
 						<div class="tabs stat-tabs">
 							<ul>
 								<li class="is-active" data-target=".pool-stats"><a>Pool statistics</a></li>
+								<li data-target=".pool-blocks"><a>Found blocks</a></li>
 								<li data-target=".network-stats"><a>Network statistics</a></li>
 								@if (!Auth::guest())
 									<li data-target=".user-stats"><a>{{ Auth::user()->display_nick }}'s statistics</a></li>
@@ -88,6 +89,36 @@
 								<div>
 									<p class="heading">Uptime</p>
 									<p class="title stat api is-loading" data-stat="uptime"></p>
+								</div>
+							</div>
+						</nav>
+						<nav class="level is-mobile pool-blocks inactive-tab-stats">
+							<div class="level-item has-text-centered tooltip" data-tooltip="Click for details.">
+								<div>
+									<p class="heading">Last month</p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="blocks_last_month"></a>
+									</p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered tooltip" data-tooltip="Click for details.">
+								<div>
+									<p class="heading">Last week</p>
+									<p class="title">
+										<a href="{{ route('stats') }}" class="stat api is-loading" data-stat="blocks_last_week"></a>
+									</p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered tooltip" data-tooltip="Click for details.">
+								<div>
+									<p class="heading">Last day</p>
+									<p class="title stat api is-loading" data-stat="blocks_last_day"></p>
+								</div>
+							</div>
+							<div class="level-item has-text-centered tooltip is-tooltip-multiline" data-tooltip="Approximate value based on last 20 blocks found.">
+								<div>
+									<p class="heading">Block every</p>
+									<p class="title stat api is-loading" data-stat="block_found_every"></p>
 								</div>
 							</div>
 						</nav>
