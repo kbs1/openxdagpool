@@ -16,6 +16,11 @@ class FoundBlock extends Model
 		return Carbon::parse($this->found_at->format('Y-m-d H:i:s') . '.' . sprintf('%06d', $this->found_at_milliseconds * 1000)); // Carbon doesn't support setting micro directly, we need to call parse again
 	}
 
+	public function getShortHashAttribute()
+	{
+		return substr($this->hash, 0, 16) . '...' . substr($this->address, -16);
+	}
+
 	/* setters */
 	public function setPreciseFoundAtAttribute(Carbon $value)
 	{
