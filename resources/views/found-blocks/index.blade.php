@@ -21,7 +21,7 @@
 
 @section('content')
 	<div class="columns is-marginless is-centered">
-		<div class="column is-7">
+		<div class="column is-9">
 			<nav class="card">
 				<header class="card-header">
 					<p class="card-header-title">
@@ -47,7 +47,7 @@
 									<tr>
 										<td>{{ $block->found_at->format('Y-m-d H:i:s') }}.{{ sprintf('%03d', $block->found_at_milliseconds) }}</td>
 										<td>
-											<a href="#" class="tooltip is-tooltip-multiline found-block-details" data-tooltip="{{ $block->hash }}" data-found-at="{{ $block->found_at->format('Y-m-d H:i:s') }}.{{ sprintf('%03d', $block->found_at_milliseconds) }}" data-payout="{{ $block->payout }}" data-fee="{{ $block->fee }}" data-res="{{ $block->res }}" data-t="{{ $block->t }}">
+											<a href="https://explorer.xdag.io/block/{{ $block->hash }}" target="_blank" class="tooltip" data-tooltip="Open in block explorer">
 												{{ $block->short_hash }}
 											</a>
 										</td>
@@ -66,101 +66,4 @@
 			</nav>
 		</div>
 	</div>
-
-	<div class="modal" id="foundBlockDetailsModal">
-		<div class="modal-background"></div>
-		<div class="modal-card">
-			<header class="modal-card-head">
-				<p class="modal-card-title">Found block details</p>
-				<a class="delete close-modal" aria-label="close" href="#"></a>
-			</header>
-			<section class="modal-card-body">
-				<div class="column">
-					<div class="field is-horizontal">
-						<div class="field-label">
-							<label class="label">Found at</label>
-						</div>
-
-						<div class="field-body">
-							<div class="field">
-								<p class="control has-icons-left">
-									<input class="input is-disabled" type="text" name="found_at" readonly>
-									<span class="icon is-small is-left">
-										<i class="fa fa-calendar"></i>
-									</span>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="column">
-					<div class="field is-horizontal">
-						<div class="field-label">
-							<label class="label">Hash</label>
-						</div>
-
-						<div class="field-body">
-							<div class="field">
-								<p class="control has-icons-left">
-									<input class="input is-disabled" type="text" name="hash" readonly>
-									<span class="icon is-small is-left">
-										<i class="fa fa-id-card-o"></i>
-									</span>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="column">
-					<div class="field is-horizontal">
-						<div class="field-label">
-							<label class="label">t</label>
-						</div>
-
-						<div class="field-body">
-							<div class="field">
-								<p class="control has-icons-left">
-									<input class="input is-disabled" type="text" name="t" readonly>
-									<span class="icon is-small is-left">
-										<i class="fa fa-bars"></i>
-									</span>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="column">
-					<div class="field is-horizontal">
-						<div class="field-label">
-							<label class="label">res</label>
-						</div>
-
-						<div class="field-body">
-							<div class="field">
-								<p class="control has-icons-left">
-									<input class="input is-disabled" type="text" name="res" readonly>
-									<span class="icon is-small is-left">
-										<i class="fa fa-check"></i>
-									</span>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<footer class="modal-card-foot">
-				<a href="#" class="button is-primary">Open in block explorer</a>
-				<button type="button" class="button close-modal">Close</button>
-			</footer>
-		</div>
-	</div>
-@endsection
-
-@section('scripts')
-	<script>
-		var foundBlocksView = new foundBlocksView();
-	</script>
 @endsection

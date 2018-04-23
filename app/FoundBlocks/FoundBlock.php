@@ -18,7 +18,7 @@ class FoundBlock extends Model
 
 	public function getShortHashAttribute()
 	{
-		return substr($this->hash, 0, 16) . '...' . substr($this->address, -16);
+		return substr($this->hash, 0, 16) . '...' . substr($this->hash, -16);
 	}
 
 	/* setters */
