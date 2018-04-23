@@ -2,12 +2,13 @@
 This software allows you to easily open a Dagger (XDAG) pool with a nice, comfortable UI available to your users.
 
 # Features
-- detailed pool and network statistics, including graphs (hashrate, active miners, difficulty, ...)
+- detailed pool and network statistics, including graphs (hashrate, active miners, difficulty, found blocks, ...)
 - address balance checker tool
 - detailed payouts (exportable) for any pool miner
+- list of found blocks by the pool
 - leaderboard
 - detailed guides on how to set-up miners
-- rich administration interface allowing to customise many aspects of the website
+- rich administration interface allowing to customise many aspects of the website and view admin-related information
 - independent of 3rd party services (all data is exported / queried on local pool software)
 - secure, with clean code and expandability in mind
 - optional registration allows users to manage their miners in one place
@@ -18,8 +19,6 @@ This software allows you to easily open a Dagger (XDAG) pool with a nice, comfor
 
 # Planned features
 - ability to approximate earnings based on hashrate
-- ability to record and plot all times  the pool found a block
-- utilize new 'block' command in pool software, currently it is unused
 - mobile friendly design tweaks
 - translations and languages support, support for a simple CMS (setup pages, other pool documents and similar)
 - code refactoring, use repository and presenters for models, other improvements
