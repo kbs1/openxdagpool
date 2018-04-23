@@ -182,6 +182,26 @@
 
 				<div class="field is-horizontal">
 					<div class="field-label">
+						<label class="label">Header color</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Website header background color.">
+							<p class="control">
+								<input class="input" type="color" name="header_background_color" value="{{ old('header_background_color', Setting::get('header_background_color', '#00D1B2')) }}" required>
+							</p>
+
+							@if ($errors->has('header_background_color'))
+								<p class="help is-danger">
+									{{ $errors->first('header_background_color') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
 						<label class="label">Pool tagline</label>
 					</div>
 

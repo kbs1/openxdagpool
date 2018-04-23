@@ -83,6 +83,7 @@ class AdministrationController extends Controller
 
 		Setting::set('pool_created_at', $request->input('pool_created_at'));
 		Setting::set('pool_name', $request->input('pool_name'));
+		Setting::set('header_background_color', $request->input('header_background_color'));
 		Setting::set('pool_tagline', $request->input('pool_tagline'));
 		Setting::set('pool_tooltip', $request->input('pool_tooltip'));
 

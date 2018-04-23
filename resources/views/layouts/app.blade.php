@@ -7,6 +7,11 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>@yield('title', 'Pool') | {{ Setting::get('pool_name', 'OpenXDAGPool') }}</title>
 		<link href="{{ mix('css/app.css') }}" rel="stylesheet">
+		<style type="text/css">
+			.hero {
+				background-color: {{ $headerBackgroundColor }} !important;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="app">

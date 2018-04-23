@@ -22,7 +22,7 @@ This software allows you to easily open a Dagger (XDAG) pool with a nice, comfor
 - mobile friendly design tweaks
 - translations and languages support, support for a simple CMS (setup pages, other pool documents and similar)
 - code refactoring, use repository and presenters for models, other improvements
-- add the ability to customise website design a bit, for example by allowing to upload a `favicon.ico`, or change hero color to a different one, or change bulma theme as a whole
+- add the ability to customise website design a bit, for example by allowing to upload a `favicon.ico`, or change bulma theme as a whole
 
 # Expected skills
 In order to run the pool you should be fluent in Unix / Linux administration and have basic understanding of computer programming.
