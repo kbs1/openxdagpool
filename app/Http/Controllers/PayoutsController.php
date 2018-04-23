@@ -24,7 +24,6 @@ class PayoutsController extends UserPayoutsController
 			'miner' => $miner,
 			'graph_data' => $this->getGraphData($miner->getDailyPayouts(), $sum),
 			'payouts_sum' => $sum,
-			'activeTab' => 'miners',
 		]);
 	}
 
@@ -36,7 +35,6 @@ class PayoutsController extends UserPayoutsController
 			'miner' => $miner,
 			'payouts' => $miner->getPayoutsListing($request->input('page'))->appends(['address' => $miner->address]),
 			'payouts_sum' => $miner->payouts()->sum('amount'),
-			'activeTab' => 'miners',
 		]);
 	}
 
