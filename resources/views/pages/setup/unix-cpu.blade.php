@@ -82,7 +82,7 @@ EOD</pre>Replace <span class="parameter">4</span> with number of mining threads,
 PIDS="`pidof xdag`"
 
 if [ "$?" -eq 0 ]; then
-	echo "Daemon is running! Stop it before recompiling. PIDs: ${PIDS}"
+	echo "Daemon is running! Stop it before updating. PIDs: ${PIDS}"
 	echo "run ./xdag_console.sh and type 'terminate' to terminate the daemon."
 exit 1
 fi

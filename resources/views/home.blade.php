@@ -242,7 +242,7 @@
 						<p>Replace <span class="parameter">wallet_address</span> with your wallet address.</p>
 						<p>Replace <span class="parameter">platform_id</span> with <code>0</code>, <code>1</code> or <code>2</code>. Try with <code>0</code> first, as this is the most common platform id.</p>
 						<p>Replace <span class="parameter">device_nums</span> with <code>0</code> or <code>0 1 2 3</code> or similar based on number of GPUs you have. Always count up from <code>0</code>.</p>
-						<p><span class="important">Note:</span> if you are using nvidia GPUs, make sure you add <code>-nvidia-fix</code> at the end of the command line to prevent high system CPU usage and increase your hashrate.</p>
+						<p><span class="important">Note:</span> if you are using NVIDIA GPUs, make sure you add <code>-nvidia-fix</code> at the end of the command line to prevent high system CPU usage and increase your hashrate.</p>
 
 						<hr>
 
@@ -250,16 +250,26 @@
 						<pre class="oneline">
 							<span class="parameter">C:\xdag</span>\xdag.exe -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
 						</pre>
-						<p>Replace <span class="parameter">C:\xdag</span> with full path to your xdag installation folder.</p>
+						<p class="offset">Replace <span class="parameter">C:\xdag</span> with full path to your xdag installation folder.</p>
 						<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
 
 						<hr>
 
+						<p>Unix GPU (<a href="{{ route('pages', 'setup/unix-gpu') }}">detailed instructions</a>):</p>
+						<pre class="oneline">
+							./xdag-gpu -G -a <span class="parameter">wallet_address</span> -p {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }} -t 0 -v 2 -opencl-platform <span class="parameter">platform_id</span> -opencl-devices <span class="parameter">device_nums</span>
+						</pre>
+						<p class="offset">Replace <span class="parameter">wallet_address</span> with your wallet address.</p>
+						<p>Replace <span class="parameter">platform_id</span> with <code>0</code>, <code>1</code> or <code>2</code>. Try with <code>0</code> first, as this is the most common platform id.</p>
+						<p>Replace <span class="parameter">device_nums</span> with <code>0</code> or <code>0 1 2 3</code> or similar based on number of GPUs you have. Always count up from <code>0</code>.</p>
+						<p><span class="important">Note:</span> if you are using NVIDIA GPUs, make sure you add <code>-nvidia-fix</code> at the end of the command line to prevent high system CPU usage and increase your hashrate.</p>
+
+						<hr>
 						<p>Unix CPU (<a href="{{ route('pages', 'setup/unix-cpu') }}">detailed instructions</a>):</p>
 						<pre class="oneline">
 							./xdag -d -m <span class="parameter">4</span> {{ Setting::get('pool_domain') }}:{{ Setting::get('pool_port') }}
 						</pre>
-						<p>Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
+						<p class="offset">Replace <span class="parameter">4</span> with number of mining threads, for dedicated mining machines, set this to number of CPU threads.</p>
 					</div>
 				</nav>
 			</div>
