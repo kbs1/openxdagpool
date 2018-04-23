@@ -154,7 +154,7 @@ EOD</pre>
 							<li>Execute: <code>screen ./xdag_miner_run.sh</code>. Once the miner starts running, hold down CTRL and press keys a, then d. This will detach the screen program and return to your shell, with the miner stll running. You can now disconnect from the machine.</li>
 						</ol>
 						<p>Done! Your GPU miner is now running. For usage, see the next usage section.</p>
-						<p><span class="important">Note:</span> if you are using nvidia GPUs, make sure you add <code>-nvidia-fix</code> at the end of the GPU miner command line in step 10 to prevent high system CPU usage and increase your hashrate.</p>
+						<p><span class="important">Note:</span> if you are using NVIDIA GPUs, make sure you add <code>-nvidia-fix</code> at the end of the GPU miner command line in step 10 to prevent high system CPU usage and increase your hashrate.</p>
 					</div>
 				</div>
 			</nav>
