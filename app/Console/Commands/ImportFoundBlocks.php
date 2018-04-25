@@ -48,7 +48,7 @@ class ImportFoundBlocks extends Command
 				'tag' => $pool_block->getTag(),
 				'hash' => $pool_block->getHash(),
 				't' => $pool_block->getT(),
-				'pos' => $pool_block->getPos(),
+				'res' => $pool_block->getRes(),
 				'payout' => $pool_block->getPayout(),
 				'fee' => $pool_block->getFee(),
 				'created_at' => $now = Carbon::now()->format('Y-m-d H:i:s'),
