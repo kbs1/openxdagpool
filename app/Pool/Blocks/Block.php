@@ -6,9 +6,9 @@ use Carbon\Carbon;
 
 class Block
 {
-	protected $found_at, $found_at_milliseconds, $tag, $hash, $t, $res, $payout, $fee;
+	protected $found_at, $found_at_milliseconds, $tag, $hash, $t, $pos, $payout, $fee;
 
-	public function __construct($found_at, $tag, $hash, $t, $res, $payout, $fee)
+	public function __construct($found_at, $tag, $hash, $t, $pos, $payout, $fee)
 	{
 		$found_at = explode('.', $found_at);
 		$this->found_at = $found_at[0];
@@ -16,7 +16,7 @@ class Block
 		$this->tag = $tag;
 		$this->hash = $hash;
 		$this->t = $t;
-		$this->res = $res;
+		$this->pos = $pos;
 		$this->payout = $payout;
 		$this->fee = $fee;
 	}
@@ -41,9 +41,9 @@ class Block
 		return $this->t;
 	}
 
-	public function getRes()
+	public function getPos()
 	{
-		return $this->res;
+		return $this->pos;
 	}
 
 	public function getPayout()

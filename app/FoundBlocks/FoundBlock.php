@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class FoundBlock extends Model
 {
-	protected $fillable = ['found_at', 'found_at_milliseconds', 'tag', 'hash', 't', 'res', 'payout', 'fee'];
+	protected $fillable = ['found_at', 'found_at_milliseconds', 'tag', 'hash', 't', 'pos', 'payout', 'fee'];
 	protected $dates = ['created_at', 'updated_at', 'found_at'];
 
 	/* attributes */

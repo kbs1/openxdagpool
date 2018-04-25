@@ -23,10 +23,10 @@ class Parser extends BaseParser
 				return;
 			$t = $t[1];
 
-			$res = explode('=', $parts[7]);
-			if (count($res) != 2)
+			$pos = explode('=', $parts[7]);
+			if (count($pos) != 2)
 				return;
-			$res = $res[1];
+			$pos = $pos[1];
 
 			if ($fee_percent > 100 || $fee_percent < 0)
 				$fee_percent = 0;
@@ -34,7 +34,7 @@ class Parser extends BaseParser
 			$payout = 1024 * ((100 - $fee_percent) / 100);
 			$fee = 1024 * ($fee_percent / 100);
 
-			$callback(new Block($parts[0] . ' ' . $parts[1], substr(substr($parts[2], 1), 0, -1), $parts[5], $t, $res, $payout, $fee));
+			$callback(new Block($parts[0] . ' ' . $parts[1], substr(substr($parts[2], 1), 0, -1), $parts[5], $t, $pos, $payout, $fee));
 		});
 	}
 }
