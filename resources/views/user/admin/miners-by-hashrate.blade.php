@@ -33,7 +33,7 @@
 		<tbody>
 			@foreach ($miners as $miner)
 				<tr>
-					<td><a href="#" class="miner-details" data-unpaid-shares="{{ $miner->getUnpaidShares() }}">{{ $miner->getAddress() }}</a></td>
+					<td><a href="#" class="miner-details" data-unpaid-shares="{{ $miner->getUnpaidShares() }}" data-in-out-bytes="{{ $miner->getInOutBytes() }}">{{ $miner->getAddress() }}</a></td>
 					<td class="tooltip is-tooltip-multiline is-tooltip-right ips-and-port" data-tooltip="{{ $miner->getIpsAndPort() }}">{{ $miner->getMachinesCount() }}</td>
 					<td>{{ $miner->getUnpaidShares() }}</td>
 					<td>{{ $format->hashrate($miner->getHashrate()) }}</td>
@@ -90,6 +90,25 @@
 									<input class="input is-disabled" type="text" name="unpaid_shares" readonly>
 									<span class="icon is-small is-left">
 										<i class="fa fa-money"></i>
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="column">
+					<div class="field is-horizontal">
+						<div class="field-label">
+							<label class="label">In / out bytes</label>
+						</div>
+
+						<div class="field-body">
+							<div class="field">
+								<p class="control has-icons-left has-icons-right">
+									<input class="input is-disabled" type="text" name="in_out_bytes" readonly>
+									<span class="icon is-small is-left">
+										<i class="fa fa-exchange"></i>
 									</span>
 								</p>
 							</div>

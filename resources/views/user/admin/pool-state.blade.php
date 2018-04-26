@@ -28,12 +28,17 @@
 		</header>
 
 		<div class="card-content">
-			<p>Pool version: {{ $version }}</p>
 			<p>
-				Pool state: {{ $state }}
 				@if (!$state_normal)
-					<strong>(abnormal)</strong>
+					Pool state <strong>(abnormal)</strong>:
+				@else
+					Pool state:
 				@endif
+<pre>{{ $state }}</pre>
+			</p>
+			<p>
+				Stats: <br>
+<pre>{{ $stats }}</pre>
 			</p>
 		</div>
 	</nav>

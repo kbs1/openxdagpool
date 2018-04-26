@@ -13,7 +13,10 @@ class Miner
 		$this->address = $address;
 		$this->status = $status;
 		$this->ips = [$ip];
-		$this->bytes = $bytes;
+
+		$in_out_bytes = explode('/', $bytes);
+		$this->bytes = count($in_out_bytes) != 2 ? '0/0' : $bytes;
+
 		$this->unpaid_shares = $unpaid_shares;
 		$this->hashrate = $hashrate;
 	}
@@ -33,7 +36,7 @@ class Miner
 		return implode(', ', $this->ips);
 	}
 
-	public function getBytesInOut()
+	public function getInOutBytes()
 	{
 		return $this->bytes;
 	}
@@ -61,6 +64,20 @@ class Miner
 	public function addUnpaidShares($amount)
 	{
 		$this->unpaid_shares += $amount;
+	}
+
+	public function addInOutBytes($bytes)
+	{
+		$bytes = explode('/', $bytes);
+
+		if (count($bytes) != 2)
+			return;
+
+		$current_bytes = explode('/', $this->bytes);
+		$current_bytes[0] += $bytes[0];
+		$current_bytes[1] += $bytes[1];
+
+		$this->bytes = $current_bytes[0] . '/' . $current_bytes[1];
 	}
 
 	public function setStatus($status)

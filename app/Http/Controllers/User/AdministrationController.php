@@ -164,9 +164,9 @@ class AdministrationController extends Controller
 
 		return view('user.admin.pool-state', [
 			'section' => 'pool-state',
-			'version' => $state_parser->getPoolVersion(),
 			'state' => $state_parser->getPoolState(),
 			'state_normal' => $state_parser->isNormalPoolState(),
+			'stats' => stream_get_contents($reader->getStatistics()),
 		]);
 	}
 }

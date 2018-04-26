@@ -51,6 +51,7 @@ class Parser extends BaseParser
 					$miner = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 				} else {
 					$miner->addIpAndPort($parts[3]);
+					$miner->addInOutBytes($parts[4]);
 					$miner->addUnpaidShares($parts[5]);
 
 					if ($miner->getStatus() !== 'active' && $parts[2] === 'active')
@@ -67,10 +68,14 @@ class Parser extends BaseParser
 		$miners = [];
 
 		$this->forEachMinerLine(function($parts) use (&$miners) {
+			if ($parts[1] == 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+				return;
+
 			if (!isset($miners[$parts[1]])) {
 				$miners[$parts[1]] = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 			} else {
 				$miners[$parts[1]]->addIpAndPort($parts[3]);
+				$miners[$parts[1]]->addInOutBytes($parts[4]);
 				$miners[$parts[1]]->addUnpaidShares($parts[5]);
 
 				if ($miners[$parts[1]]->getStatus() !== 'active' && $parts[2] === 'active')
@@ -106,6 +111,9 @@ class Parser extends BaseParser
 		$miners = [];
 
 		$this->forEachMinerLine(function($parts) use (&$miners) {
+			if ($parts[1] == 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+				return;
+
 			list($ip, $port) = explode(':', $parts[3]);
 
 			if (!isset($miners[$ip]))
@@ -115,6 +123,7 @@ class Parser extends BaseParser
 				$miners[$ip][$parts[1]] = new Miner($parts[1], $parts[2], $parts[3], $parts[4], $parts[5]);
 			} else {
 				$miners[$ip][$parts[1]]->addIpAndPort($parts[3]);
+				$miners[$ip][$parts[1]]->addInOutBytes($parts[4]);
 				$miners[$ip][$parts[1]]->addUnpaidShares($parts[5]);
 
 				if ($miners[$ip][$parts[1]]->getStatus() !== 'active' && $parts[2] === 'active')
@@ -124,6 +133,7 @@ class Parser extends BaseParser
 
 		foreach ($miners as $ip => $list) {
 			$miners[$ip]['machines'] = $miners[$ip]['unpaid_shares'] = 0;
+			$miners[$ip]['in_out_bytes'] = '0/0';
 			foreach ($list as $address => $miner) {
 				if ($miner->getStatus() == 'free') {
 					unset($miners[$ip][$address]);
@@ -132,9 +142,13 @@ class Parser extends BaseParser
 
 				$miners[$ip]['machines'] += $miner->getMachinesCount();
 				$miners[$ip]['unpaid_shares'] += $miner->getUnpaidShares();
+
+				$bytes = explode('/', $miners[$ip]['in_out_bytes']);
+				$miner_bytes = explode('/', $miner->getInOutBytes());
+				$miners[$ip]['in_out_bytes'] = ($bytes[0] + $miner_bytes[0]) . '/' . ($bytes[1] + $miner_bytes[1]);
 			}
 
-			if (count($miners[$ip]) == 2)
+			if (count($miners[$ip]) == 3)
 				unset($miners[$ip]);
 		}
 

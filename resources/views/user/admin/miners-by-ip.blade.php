@@ -32,9 +32,9 @@
 		<tbody>
 			@foreach ($ips as $ip => $data)
 				<tr>
-					<td><a href="#" class="ip-address-details">{{ $ip }}</a></td>
+					<td><a href="#" class="ip-address-details" data-unpaid-shares="{{ $data['unpaid_shares'] }}" data-in-out-bytes="{{ $data['in_out_bytes'] }}">{{ $ip }}</a></td>
 					<td class="tooltip is-tooltip-multiline is-tooltip-right ip-miners" data-tooltip="@foreach ($data as $key => $miner)
-						@if ($key == 'machines' || $key == 'unpaid_shares')
+						@if ($key == 'machines' || $key == 'unpaid_shares' || $key == 'in_out_bytes')
 							@continue
 						@endif
 						{{ $miner->getAddress() }}:
@@ -50,7 +50,7 @@
 					<td>
 						@php($users = [])
 						@foreach ($data as $key => $miner)
-							@if ($key == 'machines' || $key == 'unpaid_shares')
+							@if ($key == 'machines' || $key == 'unpaid_shares' || $key == 'in_out_bytes')
 								@continue
 							@endif
 							@php($users = array_merge($users, $miner->getUsers()))
@@ -88,6 +88,44 @@
 									<input class="input is-disabled" type="text" name="ip_address" readonly>
 									<span class="icon is-small is-left">
 										<i class="fa fa-server"></i>
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="column">
+					<div class="field is-horizontal">
+						<div class="field-label">
+							<label class="label">Unpaid shares</label>
+						</div>
+
+						<div class="field-body">
+							<div class="field">
+								<p class="control has-icons-left has-icons-right">
+									<input class="input is-disabled" type="text" name="unpaid_shares" readonly>
+									<span class="icon is-small is-left">
+										<i class="fa fa-money"></i>
+									</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="column">
+					<div class="field is-horizontal">
+						<div class="field-label">
+							<label class="label">In / out bytes</label>
+						</div>
+
+						<div class="field-body">
+							<div class="field">
+								<p class="control has-icons-left has-icons-right">
+									<input class="input is-disabled" type="text" name="in_out_bytes" readonly>
+									<span class="icon is-small is-left">
+										<i class="fa fa-exchange"></i>
 									</span>
 								</p>
 							</div>

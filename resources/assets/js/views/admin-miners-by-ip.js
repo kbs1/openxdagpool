@@ -17,7 +17,9 @@
 
 	View.prototype.ipAddressDetails = function()
 	{
-		$('#ipAddressDetailsModal input').val($(this).text());
+		$('#ipAddressDetailsModal input[name=ip_address]').val($(this).text());
+		$('#ipAddressDetailsModal input[name=unpaid_shares]').val($(this).data('unpaidShares'));
+		$('#ipAddressDetailsModal input[name=in_out_bytes]').val($(this).data('inOutBytes'));
 		$('#ipAddressDetailsModal textarea').val($.trim($('.ip-miners', $(this).closest('tr')).data('tooltip').replace(/^\s+/gm, '')));
 		$('#ipAddressDetailsModal').addClass('is-active');
 
