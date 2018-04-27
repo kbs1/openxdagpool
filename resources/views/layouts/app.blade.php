@@ -34,6 +34,7 @@
 
 								<div class="navbar-dropdown">
 									<a class="navbar-item" href="http://xdag.io" target="_blank">XDAG website</a>
+									<a class="navbar-item" href="https://explorer.xdag.io" target="_blank">XDAG explorer</a>
 									<a class="navbar-item" href="https://bitcointalk.org/index.php?topic=2552368" target="_blank">Bitcointalk thread</a>
 
 									<hr class="navbar-divider">
