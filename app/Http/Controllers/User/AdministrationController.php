@@ -167,6 +167,7 @@ class AdministrationController extends Controller
 			'state' => $state_parser->getPoolState(),
 			'state_normal' => $state_parser->isNormalPoolState(),
 			'stats' => stream_get_contents($reader->getStatistics()),
+			'miners' => stream_get_contents($reader->getMiners()),
 		]);
 	}
 }

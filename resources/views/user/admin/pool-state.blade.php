@@ -40,6 +40,10 @@
 				Stats: <br>
 <pre>{{ $stats }}</pre>
 			</p>
+			<p>
+				Miners: <br>
+<pre>{{ $miners }}</pre>
+			</p>
 		</div>
 	</nav>
 @endsection
