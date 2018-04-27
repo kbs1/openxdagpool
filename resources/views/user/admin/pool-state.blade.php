@@ -12,7 +12,7 @@
 					Pool state
 				</h1>
 				<h2 class="subtitle">
-					View pool daemon state and version
+					View pool daemon state other various information
 				</h2>
 			</div>
 		</div>
@@ -23,7 +23,7 @@
 	<nav class="card">
 		<header class="card-header">
 			<p class="card-header-title">
-				Pool state
+				Pool state, version, statistics and miners
 			</p>
 		</header>
 
