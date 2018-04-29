@@ -52,7 +52,7 @@ This giude expects that the pool software with required scripts ([openxdagpool-s
 This installation guide gives an overview on how to get the pool website up and running. It can't go in-depth on every step, however all important details are provided.
 
 Perform the following steps in order to get the website up and running:
-1. set your system timezone to `UTC`, execute `dpkg-reconfigure tzdata` and choose UTC
+1. set your system timezone to `UTC`, execute `dpkg-reconfigure tzdata` and choose `UTC`
 2. install all PHP7.0 requirements, for Ubuntu 16.04, use `apt-get install php7.0-bcmath php7.0-cli php7.0-common php7.0-fpm php7.0-json php7.0-mbstring php7.0-mcrypt php7.0-mysql php7.0-opcache php7.0-readline php7.0-sqlite3 php7.0-xml php7.0-zip`. Next configure `php.ini` to your preference. Set `memory_limit` to at least `256M`, `expose_php` to `Off`, set `error_reporting` to `E_ALL`.
 3. install mysql 5.7 or mariadb. Create new database, for example `openxdagpool`, with `CREATE DATABASE openxdagpool CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;` run as mysql's `root` user. Grant all privileges to a new user: `GRANT ALL ON openxdagpool.* TO openxdagpool@'%' IDENTIFIED BY 'PWD!!!!';`. Choose your own password!
 4. install nginx and set up a PHP FPM pool running as user of your choice.
