@@ -13,7 +13,7 @@ class ReferenceHashrate
 	public function __construct()
 	{
 		$this->miner_address = Setting::get('reference_miner_address');
-		$this->target_hashrate = Setting::get('reference_miner_hashrate') * 1073741824; // convert Gh/s to H/s
+		$this->target_hashrate = Setting::get('reference_miner_hashrate') * 1073741824; // convert Gh/s to h/s
 	}
 
 	public function compute(MinersParser $miners_parser, PoolStat $when)
@@ -47,6 +47,6 @@ class ReferenceHashrate
 
 	public function shouldBeUsed()
 	{
-		return Miner::where('address', $this->miner_address)->exists() && $this->miner_address && $this->target_hashrate > 0;
+		return $this->miner_address && $this->target_hashrate > 0 && Miner::where('address', $this->miner_address)->exists();
 	}
 }

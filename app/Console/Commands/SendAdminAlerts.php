@@ -39,41 +39,64 @@ class SendAdminAlerts extends Command
 		}
 
 		// zero pool hashrate notification
-		if ($this->canSendNotification('zero_hashrate')) {
-			$stats_parser = new StatisticsParser($this->reader->getStatistics());
+		$stats_parser = new StatisticsParser($this->reader->getStatistics());
 
-			if (((float) $stats_parser->getPoolHashrate()) == 0) {
-				$this->sendNotification('zero_hashrate', 'Zero pool hashrate - pool down?', 'there is zero hashrate on our pool, either no one is mining at our pool or the pool crashed. Please check pool\'s status.');
-				$this->info('SendAdminAlerts completed successfully.');
-				return; // do not send any other notifications when pool is down
-			}
+		if (!$this->isNotificationCooldown('zero_hashrate') && ((float) $stats_parser->getPoolHashrate()) == 0) {
+			$this->sendNotification('zero_hashrate', 'Zero pool hashrate - pool down?', 'there is zero hashrate on our pool, either no one is mining at our pool or the pool crashed. Please check pool\'s status.');
+			$this->info('SendAdminAlerts completed successfully.');
+			return; // do not send any other notifications when pool is down
+		} else if ($this->isNotificationCooldown('zero_hashrate') && ((float) $stats_parser->getPoolHashrate()) > 0) {
+			$this->sendNotification('zero_hashrate', 'Pool hashrate back up', 'great news! Pool hashrate is again greater than zero.');
+			$this->cancelNotificationCooldown('zero_hashrate');
 		}
 
 		// abnormal pool daemon state notification
-		if ($this->canSendNotification('pool_state')) {
-			$state_parser = new StateParser($this->reader->getState());
+		$state_parser = new StateParser($this->reader->getState());
 
-			if (!$state_parser->isNormalPoolState())
-				$this->sendNotification('pool_state', 'Abnormal pool daemon state', 'pool daemon is currently in state "' . $state_parser->getPoolState() . '". Outside normal operation, some OpenXDAGPool services might not work correctly. Please check the pool daemon.');
+		if (!$this->isNotificationCooldown('pool_state') && !$state_parser->isNormalPoolState()) {
+			$this->sendNotification('pool_state', 'Abnormal pool daemon state', 'pool daemon is currently in state "' . $state_parser->getPoolState() . '". Outside normal operation, some OpenXDAGPool services might not work correctly. Please check the pool daemon.');
+		} else if ($this->isNotificationCooldown('pool_state') && $state_parser->isNormalPoolState()) {
+			$this->sendNotification('pool_state', 'Pool daemon state switched back to normal', 'pool daemon state is currently normal. Full operation of OpenXDAGPool is restored.');
+			$this->cancelNotificationCooldown('pool_state');
 		}
 
 		// reference miner offline notification
 		$reference = new ReferenceHashrate();
-		if ($reference->shouldBeUsed() && $this->canSendNotification('reference_miner_offline')) {
+
+		if ($reference->shouldBeUsed()) {
 			$miners_parser = new MinersParser($this->reader->getMiners());
 			$pool_miner = $miners_parser->getMiner($miner_address = Setting::get('reference_miner_address'));
+			$is_offline = !$pool_miner || $pool_miner->getStatus() !== 'active';
 
-			if (!$pool_miner || $pool_miner->getStatus() !== 'active')
+			if (!$this->isNotificationCooldown('reference_miner_offline') && $is_offline) {
 				$this->sendNotification('reference_miner_offline', 'Reference miner offline', 'pool reference miner "' . $miner_address . '" is offline, please check it\'s status.');
+			} else if ($this->isNotificationCooldown('reference_miner_offline') && !$is_offline) {
+				$this->sendNotification('reference_miner_offline', 'Reference miner back online', 'pool reference miner "' . $miner_address . '" is back online.');
+				$this->cancelNotificationCooldown('reference_miner_offline');
+			}
+		} else {
+			$this->cancelNotificationCooldown('reference_miner_offline');
 		}
 
 		$this->info('SendAdminAlerts completed successfully.');
 	}
 
-	protected function canSendNotification($name)
+	protected function isNotificationCooldown($name)
 	{
-		$last_date = $this->getLastNotificationDate($name);
-		return $last_date < Carbon::now()->subDays(3);
+		$last_sent_at = Setting::get("alert_{$name}_sent_at");
+
+		if (!$last_sent_at)
+			return false;
+
+		$last_sent_at = Carbon::createFromFormat('Y-m-d H:i:s', $last_sent_at);
+
+		return $last_sent_at->addDays(3) > Carbon::now();
+	}
+
+	protected function cancelNotificationCooldown($name)
+	{
+		Setting::forget("alert_{$name}_sent_at");
+		return Setting::save();
 	}
 
 	protected function sendNotification($name, $subject, $message)
@@ -83,23 +106,9 @@ class SendAdminAlerts extends Command
 			Mail::to($user->email, $user->nick)->send(new UserMessage($user, $subject, $message));
 		}
 
-		$this->setLastNotificationDate($name, Carbon::now());
-	}
+		$last_sent_at = Carbon::now();
+		Setting::set("alert_{$name}_sent_at", $last_sent_at->toDateTimeString());
 
-	protected function getLastNotificationDate($name)
-	{
-		$last_sent_at = Setting::get("alert_{$name}_sent_at");
-		if (!$last_sent_at)
-			$last_sent_at = Carbon::now()->subDays(4);
-		else
-			$last_sent_at = Carbon::createFromFormat('Y-m-d H:i:s', $last_sent_at);
-
-		return $last_sent_at;
-	}
-
-	protected function setLastNotificationDate($name, Carbon $date)
-	{
-		Setting::set("alert_{$name}_sent_at", $date->toDateTimeString());
 		return Setting::save();
 	}
 }
