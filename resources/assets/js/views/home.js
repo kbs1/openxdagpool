@@ -72,10 +72,14 @@
 				$(this).addClass('tooltip').attr('data-tooltip', prefix + (json[$(this).data('stat')] !== null ? json[$(this).data('stat')] : '?'));
 			});
 
-			if (json.is_administrator && !json.pool_state_normal) {
-				$('.home-view #adminPoolStateAlert #poolVersion').text(json.pool_version);
-				$('.home-view #adminPoolStateAlert #poolState').text(json.pool_state);
-				$('.home-view #adminPoolStateAlert').show();
+			if (json.is_administrator) {
+				if (!json.pool_state_normal) {
+					$('.home-view #adminPoolStateAlert #poolVersion').text(json.pool_version);
+					$('.home-view #adminPoolStateAlert #poolState').text(json.pool_state);
+					$('.home-view #adminPoolStateAlert').show();
+				} else {
+					$('.home-view #adminPoolStateAlert').hide();
+				}
 			}
 		});
 	}
