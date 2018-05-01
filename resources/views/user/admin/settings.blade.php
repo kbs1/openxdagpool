@@ -206,9 +206,9 @@
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip" data-tooltip="Tagline on homepage. Describes your pool.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Tagline on homepage. Describes your pool. Leave empty for no tagline.">
 							<p class="control">
-								<input class="input" type="text" name="pool_tagline" value="{{ old('pool_tagline', Setting::get('pool_tagline', 'Reliable mining pool')) }}" required>
+								<input class="input" type="text" name="pool_tagline" value="{{ old('pool_tagline', Setting::get('pool_tagline', 'Reliable mining pool')) }}">
 							</p>
 
 							@if ($errors->has('pool_tagline'))
@@ -222,13 +222,13 @@
 
 				<div class="field is-horizontal">
 					<div class="field-label">
-						<label class="label">Pool tooltip</label>
+						<label class="label">Tagline tooltip</label>
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip is-tooltip-multiline" data-tooltip="Tooltip when users hover over the tagline. Shows additional info, for example location or server settings.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Tooltip when users hover over the tagline. Shows additional info, for example location or server settings. Leave empty for no tooltip.">
 							<p class="control">
-								<input class="input" type="text" name="pool_tooltip" value="{{ old('pool_tooltip', Setting::get('pool_tooltip', '1Gbit/s connection')) }}" required>
+								<input class="input" type="text" name="pool_tooltip" value="{{ old('pool_tooltip', Setting::get('pool_tooltip', '1Gbit/s connection')) }}">
 							</p>
 
 							@if ($errors->has('pool_tooltip'))

@@ -34,8 +34,6 @@ class SaveSettings extends FormRequest
 			'pool_created_at' => 'required|date',
 			'pool_name' => 'required',
 			'header_background_color' => 'required|regex:/^#[a-f0-9]{6}$/siu',
-			'pool_tagline' => 'required',
-			'pool_tooltip' => 'required',
 
 			'pool_domain' => 'required',
 			'pool_port' => 'required|numeric|min:1|max:65535',

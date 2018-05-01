@@ -11,11 +11,17 @@
 				<h1 class="title">
 					{{ Setting::get('pool_name') }}
 				</h1>
-				<h2 class="subtitle">
-					<span class="tooltip" data-tooltip="{{ Setting::get('pool_tooltip') }}">
-						{{ Setting::get('pool_tagline') }}
-					</span>
-				</h2>
+				@if(Setting::get('pool_tagline') !== null)
+					<h2 class="subtitle">
+						@if (Setting::get('pool_tooltip') !== null)
+							<span class="tooltip" data-tooltip="{{ Setting::get('pool_tooltip') }}">
+								{{ Setting::get('pool_tagline') }}
+							</span>
+						@else
+							{{ Setting::get('pool_tagline') }}
+						@endif
+					</h2>
+				@endif
 			</div>
 		</div>
 	</section>
