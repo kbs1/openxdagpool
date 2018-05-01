@@ -139,7 +139,7 @@
 			}
 
 
-			$(parent).removeClass('is-success').removeClass('is-warning').addClass(status ? 'is-success' : 'is-warning').show();
+			$(parent).removeClass('is-success').removeClass('is-warning').removeClass('is-danger').addClass(status ? 'is-success' : 'is-warning').show();
 			$('span', parent).text(message);
 
 			if (status) {
