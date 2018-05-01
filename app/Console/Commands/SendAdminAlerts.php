@@ -39,32 +39,40 @@ class SendAdminAlerts extends Command
 		}
 
 		// zero pool hashrate notification
-		if ($this->canSendNotification('zero_hashrate')) {
-			$stats_parser = new StatisticsParser($this->reader->getStatistics());
+		$stats_parser = new StatisticsParser($this->reader->getStatistics());
 
-			if (((float) $stats_parser->getPoolHashrate()) == 0) {
-				$this->sendNotification('zero_hashrate', 'Zero pool hashrate - pool down?', 'there is zero hashrate on our pool, either no one is mining at our pool or the pool crashed. Please check pool\'s status.');
-				$this->info('SendAdminAlerts completed successfully.');
-				return; // do not send any other notifications when pool is down
-			}
+		if ($this->canSendNotification('zero_hashrate') && ((float) $stats_parser->getPoolHashrate()) == 0) {
+			$this->sendNotification('zero_hashrate', 'Zero pool hashrate - pool down?', 'there is zero hashrate on our pool, either no one is mining at our pool or the pool crashed. Please check pool\'s status.');
+			$this->info('SendAdminAlerts completed successfully.');
+			return; // do not send any other notifications when pool is down
+		} else if (!$this->canSendNotification('zero_hashrate') && ((float) $stats_parser->getPoolHashrate()) > 0) {
+			$this->resetLastNotificationDate('zero_hashrate');
 		}
 
 		// abnormal pool daemon state notification
-		if ($this->canSendNotification('pool_state')) {
-			$state_parser = new StateParser($this->reader->getState());
+		$state_parser = new StateParser($this->reader->getState());
 
-			if (!$state_parser->isNormalPoolState())
-				$this->sendNotification('pool_state', 'Abnormal pool daemon state', 'pool daemon is currently in state "' . $state_parser->getPoolState() . '". Outside normal operation, some OpenXDAGPool services might not work correctly. Please check the pool daemon.');
+		if ($this->canSendNotification('pool_state') && !$state_parser->isNormalPoolState()) {
+			$this->sendNotification('pool_state', 'Abnormal pool daemon state', 'pool daemon is currently in state "' . $state_parser->getPoolState() . '". Outside normal operation, some OpenXDAGPool services might not work correctly. Please check the pool daemon.');
+		} else if (!$this->canSendNotification('pool_state') && $state_parser->isNormalPoolState()) {
+			$this->resetLastNotificationDate('pool_state');
 		}
 
 		// reference miner offline notification
 		$reference = new ReferenceHashrate();
-		if ($reference->shouldBeUsed() && $this->canSendNotification('reference_miner_offline')) {
+
+		if ($reference->shouldBeUsed()) {
 			$miners_parser = new MinersParser($this->reader->getMiners());
 			$pool_miner = $miners_parser->getMiner($miner_address = Setting::get('reference_miner_address'));
+			$is_offline = !$pool_miner || $pool_miner->getStatus() !== 'active';
 
-			if (!$pool_miner || $pool_miner->getStatus() !== 'active')
+			if ($this->canSendNotification('reference_miner_offline') && $is_offline) {
 				$this->sendNotification('reference_miner_offline', 'Reference miner offline', 'pool reference miner "' . $miner_address . '" is offline, please check it\'s status.');
+			} else if (!$this->canSendNotification('reference_miner_offline') && !$is_offline) {
+				$this->resetLastNotificationDate('reference_miner_offline');
+			}
+		} else {
+			$this->resetLastNotificationDate('reference_miner_offline');
 		}
 
 		$this->info('SendAdminAlerts completed successfully.');
@@ -100,6 +108,12 @@ class SendAdminAlerts extends Command
 	protected function setLastNotificationDate($name, Carbon $date)
 	{
 		Setting::set("alert_{$name}_sent_at", $date->toDateTimeString());
+		return Setting::save();
+	}
+
+	protected function resetLastNotificationDate($name)
+	{
+		Setting::forget("alert_{$name}_sent_at");
 		return Setting::save();
 	}
 }
