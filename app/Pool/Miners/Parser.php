@@ -116,6 +116,9 @@ class Parser extends BaseParser
 
 			list($ip, $port) = explode(':', $parts[3]);
 
+			if ($ip === '0.0.0.0' && $port === '0')
+				return;
+
 			if (!isset($miners[$ip]))
 				$miners[$ip] = [];
 
@@ -162,9 +165,12 @@ class Parser extends BaseParser
 		return $miners;
 	}
 
+	// this functions is backwards compatible with pool versions <= 0.2.1
 	protected function forEachMinerLine(callable $callback, $skip = 0)
 	{
-		$this->forEachLine(function($line) use ($callback) {
+		$last_miner = null;
+
+		$this->forEachLine(function($line) use ($callback, &$last_miner) {
 			$parts = preg_split('/\s+/siu', $line);
 
 			if (count($parts) !== 6)
@@ -173,7 +179,24 @@ class Parser extends BaseParser
 			if ($parts[0] === '-1.')
 				return;
 
-			$callback($parts);
+			if ($last_miner && $parts[0][0] === 'C') {
+				$parts[1] = $last_miner[1]; // replace miner's address from last active miner entry
+				$parts[2] = $last_miner[2]; // replace miner's state from last active miner entry
+			} else {
+				$last_miner = $parts; // store currently processed miner entry
+			}
+
+			// in new miners output, IP and IN/OUT information is lost when miner disconnects. Replace with placeholder values.
+			if ($parts[2] !== 'active' && $parts[3] === '-') {
+				$parts[3] = '0.0.0.0:0';
+				$parts[4] = '0/0';
+			}
+
+			// in new miners output, skip the first "active" miner line, and use only "C" lines - miner's connections
+			// this check will succeed only for active miners in new output - we don't replace IP and IN/OUT bytes
+			// in the condition above for miners in other than 'active' state
+			if ($parts[3] !== '-')
+				$callback($parts);
 		}, $skip);
 	}
 }
