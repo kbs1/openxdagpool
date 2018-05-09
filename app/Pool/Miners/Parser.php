@@ -165,7 +165,7 @@ class Parser extends BaseParser
 		return $miners;
 	}
 
-	// this functions is backwards compatible with pool versions <= 0.2.1
+	// this function is backwards compatible with pool versions <= 0.2.1
 	protected function forEachMinerLine(callable $callback, $skip = 0)
 	{
 		$last_miner = null;
@@ -194,7 +194,7 @@ class Parser extends BaseParser
 
 			// in new miners output, skip the first "active" miner line, and use only "C" lines - miner's connections
 			// this check will succeed only for active miners in new output - we don't replace IP and IN/OUT bytes
-			// in the condition above for miners in other than 'active' state
+			// in the condition above for miners in 'active' state
 			if ($parts[3] !== '-')
 				$callback($parts);
 		}, $skip);
