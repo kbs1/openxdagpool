@@ -26,7 +26,7 @@ class Parser extends BaseParser
 
 	public function isNormalPoolState()
 	{
-		return stripos($this->getPoolState(), 'normal operation') !== false;
+		return stripos($this->getPoolState(), 'normal operation') !== false || stripos($this->getPoolState(), 'transfer to complete') !== false;
 	}
 
 	protected function read()
