@@ -39,7 +39,7 @@ class ExclusiveLock
 		} while ($spent < $this->timeout);
 
 		if ($this->file_handle === false)
-			throw new UnableToObtainLockException("Could not obtain exclusive '" . $this->lock_name . "' lock, please try again later.");
+			throw new UnableToObtainLockException("Could not obtain exclusive '" . $this->name . "' lock, please try again later.");
 
 		$this->locked = true;
 	}
