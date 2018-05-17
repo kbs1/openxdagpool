@@ -31,7 +31,7 @@
 								</div>
 							</div>
 
-							<span class="pool-selection-info tooltip is-tooltip-multiline" data-tooltip="Each pool has it's own database and user accounts. Register if you want to use it."><i class="fa fa-info-circle"></i></span>
+							<span class="pool-selection-info tooltip is-tooltip-multiline" data-tooltip="Each pool has it's own database and user accounts. Register to use the pool to the fullest extent."><i class="fa fa-info-circle"></i></span>
 						</div>
 					@endif
 				</h1>
