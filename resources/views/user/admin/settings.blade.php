@@ -146,7 +146,7 @@
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip is-tooltip-multiline" data-tooltip="Semicolon separated list of other pools, if you operate them. Leave empty for no other pools. Format: dropdown_name!link;dropdown_name!link;.... If dropdown_name ends with star, it denotes the current pool.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Semicolon separated list of other pools, if you operate them. Leave empty for no other pools. Format: dropdown_name|link;dropdown_name|link;.... If dropdown_name ends with star, it denotes the current pool.">
 							<p class="control">
 								<input class="input" type="text" id="other_pools" name="other_pools" value="{{ old('other_pools', Setting::get('other_pools', '')) }}">
 							</p>

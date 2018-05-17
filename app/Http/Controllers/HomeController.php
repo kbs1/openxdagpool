@@ -31,7 +31,7 @@ class HomeController extends Controller
 			$other_pools = explode(';', $other_pools);
 			if (count($other_pools) > 1) {
 				foreach ($other_pools as $pool) {
-					$pool = explode('!', $pool);
+					$pool = explode('|', $pool);
 
 					if (count($pool) !== 2)
 						continue;
