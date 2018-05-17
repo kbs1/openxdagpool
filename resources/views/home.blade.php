@@ -10,6 +10,28 @@
 			<div class="container">
 				<h1 class="title">
 					{{ Setting::get('pool_name') }}
+					@if ($pools)
+						<div class="dropdown is-hoverable">
+							<div class="dropdown-trigger">
+								<button class="button tooltip is-tooltip-multiline" data-tooltip="Each pool has it's own database and user accounts. Register if you want to use it." aria-haspopup="true" aria-controls="pool-selection">
+									<span>{{ $current_pool_name }}</span>
+									<span class="icon is-small">
+										<i class="fa fa-angle-down" aria-hidden="true"></i>
+									</span>
+								</button>
+							</div>
+
+							<div class="dropdown-menu" id="pool-selection" role="menu">
+								<div class="dropdown-content">
+									@foreach ($pools as $pool)
+										<a href="{{ $pool['url'] }}" class="dropdown-item{{ $pool['is_current_pool'] ? ' is-active' : '' }}">
+											{{ $pool['name'] }}
+										</a>
+									@endforeach
+								</div>
+							</div>
+						</div>
+					@endif
 				</h1>
 				@if(Setting::get('pool_tagline') !== null)
 					<h2 class="subtitle">

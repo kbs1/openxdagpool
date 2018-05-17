@@ -82,6 +82,7 @@ class AdministrationController extends Controller
 		Setting::set('fund_percent', $request->input('fund_percent'));
 
 		Setting::set('pool_created_at', $request->input('pool_created_at'));
+		Setting::set('other_pools', $request->input('other_pools'));
 		Setting::set('pool_name', $request->input('pool_name'));
 		Setting::set('header_background_color', $request->input('header_background_color'));
 		Setting::set('pool_tagline', $request->input('pool_tagline'));
