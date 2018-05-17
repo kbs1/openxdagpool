@@ -5,7 +5,7 @@
 @endsection
 
 @section('hero')
-	<section class="hero is-primary">
+	<section class="hero is-primary home-hero">
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">
@@ -13,7 +13,7 @@
 					@if ($pools)
 						<div class="dropdown is-hoverable">
 							<div class="dropdown-trigger">
-								<button class="button tooltip is-tooltip-multiline" data-tooltip="Each pool has it's own database and user accounts. Register if you want to use it." aria-haspopup="true" aria-controls="pool-selection">
+								<button class="button" aria-haspopup="true" aria-controls="pool-selection">
 									<span>{{ $current_pool_name }}</span>
 									<span class="icon is-small">
 										<i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -30,6 +30,8 @@
 									@endforeach
 								</div>
 							</div>
+
+							<span class="pool-selection-info tooltip is-tooltip-multiline" data-tooltip="Each pool has it's own database and user accounts. Register if you want to use it."><i class="fa fa-info-circle"></i></span>
 						</div>
 					@endif
 				</h1>

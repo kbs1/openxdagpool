@@ -78,6 +78,20 @@ pre.oneline {
 	}
 }
 
+.home-hero {
+	.pool-selection-info {
+		opacity: 0;
+		font-size: 50%;
+		padding: .5rem 0 0 .5rem;
+		cursor: pointer;
+		transition: opacity .25s ease;
+	}
+
+	.dropdown.is-hoverable:hover .pool-selection-info {
+		opacity: 1;
+	}
+}
+
 .miners-view {
 	.is-disabled {
 		background-color: rgb(245, 245, 245);
