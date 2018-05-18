@@ -58,3 +58,6 @@ Route::get('/payouts-listing/export', 'PayoutsController@exportAddressPayoutsLis
 // API calls, uses the same authentication as web interface
 Route::post('/api/miners', 'Api\MinersController@list')->name('api.miners');
 Route::get('/api/pool/stats', 'Api\StatsController@index')->name('api.stats');
+
+// raw pool daemon outputs
+Route::get('/raw/{file}', 'RawTextFilesController@index')->name('raw');
