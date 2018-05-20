@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Pool\DataReader;
 use App\Pool\Blocks\{Parser as BlocksParser, Block as PoolBlock};
 use App\FoundBlocks\FoundBlock;
+use App\Support\{ExclusiveLock, UnableToObtainLockException};
 
 use Carbon\Carbon;
 
@@ -25,6 +26,15 @@ class ImportFoundBlocks extends Command
 
 	public function handle()
 	{
+		$lock = new ExclusiveLock('blocks', 100);
+
+		try {
+			$lock->obtain();
+		} catch (UnableToObtainLockException $ex) {
+			$this->line('Unable to obtain blocks lock, exiting.');
+			return;
+		}
+
 		$blocks_parser = new BlocksParser($this->reader->getBlocks());
 
 		$latest = FoundBlock::orderBy('id', 'desc')->first();
@@ -72,5 +82,6 @@ class ImportFoundBlocks extends Command
 		}
 
 		$this->info('ImportFoundBlocks completed successfully.');
+		$lock->release();
 	}
 }

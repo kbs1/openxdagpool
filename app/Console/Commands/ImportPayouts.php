@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Pool\DataReader;
 use App\Pool\Payouts\{Parser as PayoutsParser, Payout as PoolPayout};
 use App\Payouts\Payout;
+use App\Support\{ExclusiveLock, UnableToObtainLockException};
 
 use Carbon\Carbon;
 
@@ -25,6 +26,15 @@ class ImportPayouts extends Command
 
 	public function handle()
 	{
+		$lock = new ExclusiveLock('payouts', 100);
+
+		try {
+			$lock->obtain();
+		} catch (UnableToObtainLockException $ex) {
+			$this->line('Unable to obtain payouts lock, exiting.');
+			return;
+		}
+
 		$payouts_parser = new PayoutsParser($this->reader->getPayouts());
 
 		$latest = Payout::where('date_fully_imported', true)->orderBy('id', 'desc')->first();
@@ -83,5 +93,6 @@ class ImportPayouts extends Command
 		}
 
 		$this->info('ImportPayouts completed successfully.');
+		$lock->release();
 	}
 }

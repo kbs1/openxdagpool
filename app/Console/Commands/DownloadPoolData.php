@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+use App\Support\{ExclusiveLock, UnableToObtainLockException};
+
 class DownloadPoolData extends Command
 {
 	protected $signature = 'pool:download-data';
@@ -14,8 +16,24 @@ class DownloadPoolData extends Command
 		$this->download(env('DOWNLOAD_MINERS'), env('MINERS'));
 		$this->download(env('DOWNLOAD_STATE'), env('STATE'));
 		$this->download(env('DOWNLOAD_STATS'), env('STATS'));
-		$this->download(env('DOWNLOAD_BLOCKS'), env('BLOCKS'));
-		$this->download(env('DOWNLOAD_PAYOUTS'), env('PAYOUTS'));
+
+		try {
+			$lock = new ExclusiveLock('blocks', 0);
+			$lock->obtain();
+			$this->download(env('DOWNLOAD_BLOCKS'), env('BLOCKS'));
+			$lock->release();
+		} catch (UnableToObtainLockException $ex) {
+			// don't download new blocks data while blocks import is still in progress
+		}
+
+		try {
+			$lock = new ExclusiveLock('payouts', 0);
+			$lock->obtain();
+			$this->download(env('DOWNLOAD_PAYOUTS'), env('PAYOUTS'));
+			$lock->release();
+		} catch (UnableToObtainLockException $ex) {
+			// don't download new payouts data while payouts import is still in progress
+		}
 
 		$this->info('DownloadPoolData completed successfully.');
 	}
