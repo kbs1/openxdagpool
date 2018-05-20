@@ -182,6 +182,8 @@ class Parser extends BaseParser
 			if ($last_miner && $parts[0][0] === 'C') {
 				$parts[1] = $last_miner[1]; // replace miner's address from last active miner entry
 				$parts[2] = $last_miner[2]; // replace miner's state from last active miner entry
+				$parts[5] = $last_miner[5]; // replace miner's unpaid shares with value from last active miner entry
+				$last_miner[5] = 0; // replace unpaid shares only for first connection, treat all other connections as zero unpaid shares (sum => vallue from last active miner entry)
 			} else {
 				$last_miner = $parts; // store currently processed miner entry
 			}
