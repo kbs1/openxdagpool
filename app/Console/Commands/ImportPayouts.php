@@ -92,6 +92,12 @@ class ImportPayouts extends Command
 			Payout::insert($insert);
 		}
 
+		// delete fully imported payouts with zero amount
+		// we could not import payouts with zero amount instead of deleting them later,
+		// but previous versions imported all payouts, so this way we will keep every installation
+		// clean without manual intervention
+		\DB::table('payouts')->where('date_fully_imported', true)->where('amount', 0)->delete();
+
 		$this->info('ImportPayouts completed successfully.');
 		$lock->release();
 	}
