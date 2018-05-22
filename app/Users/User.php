@@ -93,6 +93,11 @@ class User extends Authenticatable
 		return $this->miners()->sum('hashrate');
 	}
 
+	public function getAverageHashrateSum()
+	{
+		return $this->miners()->sum('average_hashrate');
+	}
+
 	public function getDailyHashrate()
 	{
 		$miner_ids = $this->miners->pluck('id');

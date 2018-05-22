@@ -7,6 +7,11 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>@yield('title', 'Pool') | {{ Setting::get('pool_name', 'OpenXDAGPool') }}</title>
 		<link href="{{ mix('css/app.css') }}" rel="stylesheet">
+		<style type="text/css">
+			.hero {
+				background-color: {{ $headerBackgroundColor }} !important;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="app">
@@ -28,18 +33,21 @@
 								<a class="navbar-link" href="{{ route('stats') }}">Resources</a>
 
 								<div class="navbar-dropdown">
-									<a class="navbar-item" href="http://xdag.org" target="_blank">XDAG website</a>
+									<a class="navbar-item" href="http://xdag.io" target="_blank">XDAG website</a>
+									<a class="navbar-item" href="https://explorer.xdag.io" target="_blank">XDAG explorer</a>
 									<a class="navbar-item" href="https://bitcointalk.org/index.php?topic=2552368" target="_blank">Bitcointalk thread</a>
 
 									<hr class="navbar-divider">
 
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.windows-gpu' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/windows-gpu') }}">Windows GPU miner setup</a>
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.windows-cpu' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/windows-cpu') }}">Windows CPU miner setup</a>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.unix-gpu' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/unix-gpu') }}">Unix GPU miner setup</a>
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'setup.unix-cpu' ? ' is-active' : '' !!}" href="{{ route('pages', 'setup/unix-cpu') }}">Unix CPU miner setup</a>
 
 									<hr class="navbar-divider">
 
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'stats' ? ' is-active' : '' !!}" href="{{ route('stats') }}">Statistics</a>
+									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'found-blocks' ? ' is-active' : '' !!}" href="{{ route('found-blocks') }}">Found blocks</a>
 									<a class="navbar-item{!! isset($activeTab) && $activeTab == 'leaderboard' ? ' is-active' : '' !!}" href="{{ route('leaderboard') }}">Leaderboard</a>
 								</div>
 							</div>

@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Pool\{DataReader, BalancesChecker};
 use App\Pool\Miners\Parser as MinersParser;
 use App\Pool\Statistics\Stat as PoolStat;
+use App\Miners\ReferenceHashrate;
 
 use App\Miners\Miner;
 use Carbon\Carbon;
@@ -32,13 +33,21 @@ class SaveMinerStats extends Command
 			return;
 
 		$miners_parser = new MinersParser($this->reader->getMiners());
+		$reference = new ReferenceHashrate();
+		$reference->compute($miners_parser, $stat);
 
 		Miner::unguard();
 		foreach (Miner::all() as $miner) {
 			$balance = $miner->balance;
 
 			if (!$miner->balance_updated_at || $miner->balance_updated_at <= Carbon::now()->subMinutes(30)) {
-				$balance = (float) $this->balances->getBalance($miner->address);
+				$balance = $this->balances->getBalance($miner->address);
+
+				if ($balance === null)
+					$balance = $miner->balance; // don't update balance to zero if we are currently unable to obtain it
+				else
+					$balance = (float) $balance;
+
 				$miner->balance_updated_at = Carbon::now();
 			}
 
@@ -48,6 +57,7 @@ class SaveMinerStats extends Command
 					'ip_and_port' => null,
 					'machines_count' => 0,
 					'hashrate' => 0,
+					'average_hashrate' => 0,
 					'unpaid_shares' => 0,
 					'balance' => $balance,
 					'earned' => $miner->payouts()->sum('amount'),
@@ -81,7 +91,8 @@ class SaveMinerStats extends Command
 				'status' => $pool_miner->getStatus(),
 				'ip_and_port' => $pool_miner->getIpsAndPort(),
 				'machines_count' => $pool_miner->getMachinesCount(),
-				'hashrate' => $hashrate = $miner->getEstimatedHashrate($stat),
+				'hashrate' => $hashrate = $miner->getEstimatedHashrate($stat, $pool_miner->getStatus() === 'active'),
+				'average_hashrate' => $pool_miner->getStatus() === 'active' ? $miner->getAverageHashrate($stat) : $hashrate,
 				'unpaid_shares' => $pool_miner->getUnpaidShares(),
 				'balance' => $balance,
 				'earned' => $miner->payouts()->sum('amount'),

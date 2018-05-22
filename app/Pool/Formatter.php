@@ -21,9 +21,12 @@ class Formatter
 
 	public function hashrate($rate)
 	{
-		$size = [' h/s', ' Kh/s', ' Mh/s', ' Gh/s', ' Th/s', ' Ph/s', ' Eh/s', ' Zh/s', ' Yh/s'];
-		$factor = floor((strlen(intval($rate)) - 1) / 3);
+		$units = ['h/s', 'Kh/s', 'Mh/s', 'Gh/s', 'Th/s', 'Ph/s', 'Eh/s', 'Zh/s', 'Yh/s'];
+		$unit = intval(log(abs(intval($rate)), 1024));
 
-		return floatval(sprintf("%.2f", $rate / pow(1000, $factor))) . @$size[$factor];
+		if (array_key_exists($unit, $units))
+			return sprintf('%.2f %s', $rate / pow(1024, $unit), $units[$unit]);
+
+		return $rate;
 	}
 }

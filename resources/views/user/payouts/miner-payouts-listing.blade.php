@@ -9,7 +9,7 @@
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">
-					Payout history
+					Payouts history
 				</h1>
 				<h2 class="subtitle">
 					Coins earned at this pool
@@ -45,7 +45,7 @@
 					</a>
 				</div>
 				<hr>
-				<p><span class="important">Note:</span> Payouts update approximately every 4 hours. Payouts are sent immediately when they are ready.</p>
+				<p><span class="important">Note:</span> Payouts update approximately every 4 hours. Times are listed in UTC. Payouts are sent immediately when they are ready.</p>
 			</div>
 		</div>
 	</div>

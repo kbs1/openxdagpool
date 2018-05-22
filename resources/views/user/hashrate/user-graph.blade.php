@@ -34,7 +34,8 @@
 
 				<div id="graph"></div>
 
-				<h5 class="title is-5">Current hashrate: {{ $hashrate }}</h5>
+				<h5 class="title is-5 is-pulled-right tooltip" data-tooltip="Averaged over last 4 hours.">Average hashrate: {{ $average_hashrate }}</h5>
+				<h5 class="title is-5">Current hashrate: {{ $current_hashrate }}</h5>
 
 				<hr>
 				<p><span class="important">Note:</span> Hash rates update every 5 minutes. Hash rate calculation is purely informational, it does not represent 'what the pool sees', or your real mining speed. It is a statistical approximation, displayed for informational purposes only. The reading should start matching your real speed over a longer period of time (usually 6 hours). You are always mining at full speed reported by typing <code>stats</code> into your CPU miner console or by observing the speed that your GPU miner shows. Displayed hash rate does not affect payouts at all.</p>

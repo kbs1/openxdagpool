@@ -69,12 +69,26 @@ pre.oneline {
 }
 
 .home-view {
-	#balanceResult {
+	#balanceResult, #adminPoolStateAlert {
 		display: none;
 	}
 
 	p.offset {
 		margin-top: 15px;
+	}
+}
+
+.home-hero {
+	.pool-selection-info {
+		opacity: 0;
+		font-size: 50%;
+		padding: .5rem 0 0 .5rem;
+		cursor: pointer;
+		transition: opacity .1s ease;
+	}
+
+	.dropdown.is-hoverable:hover .pool-selection-info {
+		opacity: 1;
 	}
 }
 
@@ -90,4 +104,8 @@ pre.oneline {
 
 .payouts-listing-view .links {
 	margin-top: 20px;
+}
+
+.admin-view .miners-grouped .tooltip:hover::after {
+	white-space: pre-line;
 }

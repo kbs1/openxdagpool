@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 
 use App\Pool\{DataReader, Config, Uptime, Formatter};
 use App\Pool\Statistics\{Parser as StatisticsParser, Presenter as StatisticsPresenter, Stat as PoolStat};
+use App\Pool\State\Parser as StateParser;
 
-use App\Users\User;
+use App\Users\Leaderboard;
 use App\Miners\Miner;
+use App\FoundBlocks\FoundBlock;
 
 use Carbon\Carbon;
 use Auth;
@@ -25,15 +27,14 @@ class StatsController extends Controller
 		$this->format = $format;
 	}
 
-	public function index()
+	public function index(Leaderboard $leaderboard)
 	{
 		$stats_presenter = new StatisticsPresenter($stats_parser = new StatisticsParser($this->reader->getStatistics()));
 		$pool_hashrate = (float) $stats_parser->getPoolHashrate();
 		$user_stats = [];
 
 		if ($user = Auth::user()) {
-			$user_hashrate_exact = $user->miners->sum('hashrate');
-			$user_hashrate = str_pad($user_hashrate_exact, 100, '0', STR_PAD_LEFT) . '-' . str_pad($user->id, 10, '0', STR_PAD_LEFT);
+			$user_hashrate_exact = $user->miners->sum('average_hashrate');
 
 			$user_stats = [
 				'user_hashrate' => $this->format->hashrate($user_hashrate_exact),
@@ -42,19 +43,51 @@ class StatsController extends Controller
 				'user_balance_exact' => $this->format->fullBalance($user_balance),
 				'user_earnings' => $this->format->balance($user_earnings = $user->miners->sum('earned')),
 				'user_earnings_exact' => $this->format->fullBalance($user_earnings),
-				'user_rank' => '#1',
+				'user_rank' => 'N/A',
 			];
 
-			$hashrates = [$user_hashrate_exact];
+			foreach ($leaderboard->get() as $position => $entry) {
+				if ($entry['user']->id === $user->id) {
+					$user_stats['user_rank'] = '#' . ($position + 1);
+					break;
+				}
+			}
 
-			foreach (User::where('exclude_from_leaderboard', false)->where('id', '!=', $user->id)->with('miners')->get() as $user)
-				$hashrates[] = str_pad($user->miners->sum('hashrate'), 100, '0', STR_PAD_LEFT) . '-' . str_pad($user->id, 10, '0', STR_PAD_LEFT);
-
-			rsort($hashrates);
-			$user_stats['user_rank'] = '#' . (array_search($user_hashrate_exact, $hashrates) + 1);
+			// append extra statistics for admin users
+			if ($user->isAdministrator()) {
+				$state_parser = new StateParser($this->reader->getState());
+				$user_stats['is_administrator'] = true;
+				$user_stats['pool_version'] = $state_parser->getPoolVersion();
+				$user_stats['pool_state'] = $state_parser->getPoolState();
+				$user_stats['pool_state_normal'] = $state_parser->isNormalPoolState();
+			}
 		}
 
 		$pool_stat = PoolStat::orderBy('id', 'desc')->first();
+
+		$last_blocks = FoundBlock::orderBy('id', 'desc')->where('found_at', '>', Carbon::now()->subDays(3))->limit(20)->get();
+		if (count($last_blocks) >= 2) {
+			$found_at_first = $last_blocks->first()->found_at;
+			$found_at_last = $last_blocks->last()->found_at;
+			$diff_seconds = $found_at_last->diffInSeconds($found_at_first);
+
+			$block_found_every = $diff_seconds / count($last_blocks) / 60;
+			if ($block_found_every > 60) {
+				$block_found_every = '~' . round($block_found_every / 60, 2) . ' hours';
+			} else {
+				$block_found_every = '~' . round($block_found_every, 2) . ' minutes';
+			}
+		} else {
+			$block_found_every = 'unknown';
+		}
+
+		$today_midnight = new Carbon('today midnight');
+		$last_day = clone $today_midnight;
+		$last_day->subDays(1);
+		$last_week = clone $today_midnight;
+		$last_week->subWeeks(1);
+		$last_month = clone $today_midnight;
+		$last_month->subMonths(1);
 
 		return response()->json([
 			'pool_hashrate' => $this->format->hashrate($stats_parser->getPoolHashrate()),
@@ -64,6 +97,10 @@ class StatsController extends Controller
 			'difficulty' => $stats_presenter->getReadableDifficulty(),
 			'difficulty_exact' => $stats_presenter->getExactDifficulty(),
 			'supply' => $this->format->wholeBalance($stats_parser->getSupply()),
+			'blocks_last_day' => FoundBlock::where('found_at', '<', $today_midnight)->where('found_at', '>=', $last_day)->count(),
+			'blocks_last_week' => FoundBlock::where('found_at', '<', $today_midnight)->where('found_at', '>=', $last_week)->count(),
+			'blocks_last_month' => FoundBlock::where('found_at', '<', $today_midnight)->where('found_at', '>=', $last_month)->count(),
+			'block_found_every' => $block_found_every,
 
 			'miners' => number_format($pool_stat ? $pool_stat->active_miners : 0, 0, '.', ','),
 
@@ -90,15 +127,24 @@ class StatsController extends Controller
 			$active_miners['x'][] = $datetime;
 			$network_hashrate['x'][] = $datetime;
 
-			$pool_hashrate['Pool hashrate (Gh/s)'][] = $stat->pool_hashrate / 1000000000;
-			$network_hashrate['Network hashrate (Gh/s)'][] = $stat->network_hashrate / 1000000000;
+			$pool_hashrate['Pool hashrate (Gh/s)'][] = $stat->pool_hashrate / 1024 / 1024 / 1024;
+			$network_hashrate['Network hashrate (Gh/s)'][] = $stat->network_hashrate / 1024 / 1024 / 1024;
 
 			$active_miners['Active pool miners'][] = $stat->active_miners;
+		}
+
+		$found_blocks = ['x' => [], 'Found blocks' => []];
+		$blocks = FoundBlock::selectRaw('DATE_FORMAT(found_at, "%Y-%m-%d") date, count(*) count')->where('found_at', '>', Carbon::now()->subMonths(1))->groupBy(\DB::raw('DATE_FORMAT(found_at, "%Y-%m-%d")'))->get();
+
+		foreach ($blocks as $block) {
+			$found_blocks['x'][] = $block->date;
+			$found_blocks['Found blocks'][] = $block->count;
 		}
 
 		return response()->json([
 			'pool_hashrate' => $pool_hashrate,
 			'active_miners' => $active_miners,
+			'found_blocks' => $found_blocks,
 			'network_hashrate' => $network_hashrate,
 		]);
 	}

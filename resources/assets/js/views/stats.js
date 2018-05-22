@@ -9,6 +9,7 @@
 
 		this.pool_hashrate_chart = null;
 		this.active_miners_chart = null;
+		this.found_blocks_chart = null;
 		this.network_hashrate_chart = null;
 
 		this.ajax = require('ajax-request');
@@ -62,17 +63,18 @@
 				return self.unableToLoadGraphsData();
 			}
 
-			if (!json.pool_hashrate || !json.network_hashrate || !json.active_miners)
+			if (!json.pool_hashrate || !json.network_hashrate || !json.active_miners || !json.found_blocks)
 				return self.unableToLoadGraphsData();
 
 			var load = self.loadChart.bind(self);
 			load('pool_hashrate_chart', 'pool-hashrate', json.pool_hashrate);
 			load('active_miners_chart', 'active-miners', json.active_miners);
+			load('found_blocks_chart', 'found-blocks', json.found_blocks, '%Y-%m-%d', 'bar');
 			load('network_hashrate_chart', 'network-hashrate', json.network_hashrate);
 		});
 	}
 
-	View.prototype.loadChart = function(property, selector, json)
+	View.prototype.loadChart = function(property, selector, json, xformat, chart_type)
 	{
 		$('.stats-view .chart-container.' + selector + ' .api').removeClass('is-loading');
 
@@ -82,14 +84,14 @@
 				data: {
 					json: json,
 					x: 'x',
-					xFormat: '%Y-%m-%d %H:%M',
-					//type: 'bar'
+					xFormat: typeof xformat == 'undefined' ? '%Y-%m-%d %H:%M' : xformat,
+					type: typeof chart_type == 'undefined' ? 'line' : 'bar'
 				},
 				axis: {
 					x: {
 						type: 'timeseries',
 						tick: {
-							format: '%Y-%m-%d %H:%M'
+							format: typeof xformat == 'undefined' ? '%Y-%m-%d %H:%M' : xformat
 						}
 					}
 				}
@@ -124,6 +126,7 @@
 
 		ev.data.pool_hashrate_chart.resize();
 		ev.data.active_miners_chart.resize();
+		ev.data.found_blocks_chart.resize();
 		ev.data.network_hashrate_chart.resize();
 	}
 

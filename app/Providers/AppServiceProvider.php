@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
 			$view->with('authUser', $user);
 			$view->with('contactEmail', Setting::get('contact_email'));
+			$view->with('headerBackgroundColor', Setting::get('header_background_color', '#00D1B2'));
 		});
 	}
 }

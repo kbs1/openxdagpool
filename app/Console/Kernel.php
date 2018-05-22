@@ -16,9 +16,11 @@ class Kernel extends ConsoleKernel
 		Commands\DownloadPoolData::class,
 		Commands\PoolCron::class,
 		Commands\ImportPayouts::class,
+		Commands\ImportFoundBlocks::class,
 		Commands\SaveMinerStats::class,
 		Commands\SavePoolStats::class,
 		Commands\SendMinerAlerts::class,
+		Commands\SendAdminAlerts::class,
 		Commands\RemoveInactiveMinersHistory::class,
 	];
 
@@ -31,6 +33,7 @@ class Kernel extends ConsoleKernel
 	protected function schedule(Schedule $schedule)
 	{
 		$schedule->command('payouts:import')->cron('45 */3 * * *')->withoutOverlapping();
+		$schedule->command('blocks:import')->cron('45 */3 * * *')->withoutOverlapping();
 		$schedule->command('pool:cron')->everyFiveMinutes()->withoutOverlapping();
 	}
 

@@ -4,8 +4,17 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Users\User;
-use App\Pool\Formatter;
-use App\Http\Requests\{UpdateUser, SaveSettings};
+use App\Pool\{DataReader, Formatter};
+use App\Pool\Miners\Parser as MinersParser;
+use App\Pool\Statistics\Parser as StatsParser;
+use App\Pool\State\Parser as StateParser;
+use App\Http\Requests\{UpdateUser, SaveSettings, SendMassEmail};
+use App\Mail\UserMessage;
+
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Setting;
 
 class AdministrationController extends Controller
@@ -61,6 +70,7 @@ class AdministrationController extends Controller
 	{
 		return view('user.admin.settings', [
 			'section' => 'settings',
+			'coefficient' => Setting::get('reference_miner_coefficient'),
 		]);
 	}
 
@@ -71,7 +81,10 @@ class AdministrationController extends Controller
 		Setting::set('direct_percent', $request->input('direct_percent'));
 		Setting::set('fund_percent', $request->input('fund_percent'));
 
+		Setting::set('pool_created_at', $request->input('pool_created_at'));
+		Setting::set('other_pools', $request->input('other_pools'));
 		Setting::set('pool_name', $request->input('pool_name'));
+		Setting::set('header_background_color', $request->input('header_background_color'));
 		Setting::set('pool_tagline', $request->input('pool_tagline'));
 		Setting::set('pool_tooltip', $request->input('pool_tooltip'));
 
@@ -84,8 +97,78 @@ class AdministrationController extends Controller
 		Setting::set('important_message_until', $request->input('important_message_until'));
 		Setting::set('pool_news_html', $request->input('pool_news_html'));
 
+		Setting::set('reference_miner_address', $request->input('reference_miner_address'));
+		Setting::set('reference_miner_hashrate', $request->input('reference_miner_hashrate'));
+
 		Setting::save();
 
 		return redirect()->back()->with('success', 'Settings successfuly updated.');
+	}
+
+	public function massEmail()
+	{
+		return view('user.admin.mass-email', [
+			'section' => 'mass-email',
+		]);
+	}
+
+	public function sendMassEmail(SendMassEmail $request)
+	{
+		if ($request->input('active'))
+			$users = User::where('active', true)->whereHas('miners', function ($query) {
+				$query->where('status', 'active');
+			})->get();
+		else
+			$users = User::where('active', true)->get();
+
+		foreach ($users as $user)
+			Mail::to($user->email, $user->nick)->send(new UserMessage($user, $request->input('subject'), $request->input('content')));
+
+		return redirect()->back()->with('success', 'E-mail successfully sent to ' . count($users) . ' users.');
+	}
+
+	public function minersByIp(Request $request, DataReader $reader, Formatter $format)
+	{
+		$miners_parser = new MinersParser($reader->getMiners());
+		$stats_parser = new StatsParser($reader->getStatistics());
+		$ips = new Collection($miners_parser->getMinersByIp());
+		$page = $request->input('page', 1);
+		$ips = new LengthAwarePaginator($ips->forPage($page, 20), count($ips), 20, $page, ['path' => route('user.admin.miners-by-ip')]);
+
+		return view('user.admin.miners-by-ip', [
+			'section' => 'miners-by-ip',
+			'ips' => $ips,
+			'format' => $format,
+			'pool_unpaid_shares' => $miners_parser->getTotalUnpaidShares(),
+			'pool_hashrate' => $stats_parser->getPoolHashrate(),
+		]);
+	}
+
+	public function minersByHashrate(Request $request, DataReader $reader, Formatter $format)
+	{
+		$miners_parser = new MinersParser($reader->getMiners());
+		$stats_parser = new StatsParser($reader->getStatistics());
+		$miners = new Collection($miners_parser->getMinersByHashrate($stats_parser->getPoolHashrate()));
+		$page = $request->input('page', 1);
+		$miners = new LengthAwarePaginator($miners->forPage($page, 20), count($miners), 20, $page, ['path' => route('user.admin.miners-by-hashrate')]);
+
+		return view('user.admin.miners-by-hashrate', [
+			'section' => 'miners-by-hashrate',
+			'miners' => $miners,
+			'format' => $format,
+		]);
+	}
+
+	public function poolState(DataReader $reader)
+	{
+		$state_parser = new StateParser($reader->getState());
+
+		return view('user.admin.pool-state', [
+			'section' => 'pool-state',
+			'state' => $state_parser->getPoolState(),
+			'state_normal' => $state_parser->isNormalPoolState(),
+			'stats' => stream_get_contents($reader->getStatistics()),
+			'miners' => stream_get_contents($reader->getMiners()),
+		]);
 	}
 }

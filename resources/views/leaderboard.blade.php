@@ -41,7 +41,7 @@
 				@if (isset($authUser) && $authUser->isAdministrator())
 					<div class="notification is-info">
 						<button class="delete"></button>
-						You are an administrator, all user nicks are visible. Log out to see the leaderboard as other users.
+						You are an administrator, all user nicks and all users are visible. Log out to see the leaderboard as other users.
 					</div>
 				@endif
 
@@ -63,7 +63,7 @@
 									@php ($myself_rank = $index + 1)
 									@php ($myself_hashrate = $item['hashrate'])
 								@endif
-								@if (!$shown_full && !$shown_myself && isset($authUser) && !$authUser->exclude_from_leaderboard)
+								@if (!$shown_full && !$shown_myself && isset($authUser) && (!$authUser->exclude_from_leaderboard || $authUser->isAdministrator()))
 									@php ($shown_full = true)
 									<tr>
 										<td>...</td>

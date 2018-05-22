@@ -30,6 +30,7 @@
 								<li class="is-active" data-target="all"><a>All</a></li>
 								<li data-target=".pool-hashrate"><a>Pool hashrate</a></li>
 								<li data-target=".active-miners"><a>Active miners</a></li>
+								<li data-target=".found-blocks"><a>Found blocks</a></li>
 								<li data-target=".network-hashrate"><a>Network hashrate</a></li>
 							</ul>
 						</div>
@@ -40,6 +41,9 @@
 							<div class="chart api is-loading"></div>
 						</div>
 						<div class="content chart-container not-first active-miners">
+							<div class="chart api is-loading"></div>
+						</div>
+						<div class="content chart-container not-first found-blocks">
 							<div class="chart api is-loading"></div>
 						</div>
 						<div class="content chart-container not-first network-hashrate">

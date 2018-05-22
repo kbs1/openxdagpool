@@ -142,6 +142,46 @@
 
 				<div class="field is-horizontal">
 					<div class="field-label">
+						<label class="label">Other pools</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Semicolon separated list of other pools, if you operate them. Leave empty for no other pools. Format: dropdown_name|link;dropdown_name|link;.... If dropdown_name ends with star, it denotes the current pool.">
+							<p class="control">
+								<input class="input" type="text" id="other_pools" name="other_pools" value="{{ old('other_pools', Setting::get('other_pools', '')) }}">
+							</p>
+
+							@if ($errors->has('other_pools'))
+								<p class="help is-danger">
+									{{ $errors->first('other_pools') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
+						<label class="label">Pool creation date</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip" data-tooltip="Determines 'uptime' displayed on homepage.">
+							<p class="control">
+								<input class="input" type="text" id="pool_created_at" name="pool_created_at" value="{{ old('pool_created_at', Setting::get('pool_created_at', Carbon\Carbon::now()->format('Y-m-d'))) }}">
+							</p>
+
+							@if ($errors->has('pool_created_at'))
+								<p class="help is-danger">
+									{{ $errors->first('pool_created_at') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
 						<label class="label">Pool name</label>
 					</div>
 
@@ -162,13 +202,33 @@
 
 				<div class="field is-horizontal">
 					<div class="field-label">
+						<label class="label">Header color</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Website header background color.">
+							<p class="control">
+								<input class="input" type="color" name="header_background_color" value="{{ old('header_background_color', Setting::get('header_background_color', '#00D1B2')) }}" required>
+							</p>
+
+							@if ($errors->has('header_background_color'))
+								<p class="help is-danger">
+									{{ $errors->first('header_background_color') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
 						<label class="label">Pool tagline</label>
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip" data-tooltip="Tagline on homepage. Describes your pool.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Tagline on homepage. Describes your pool. Leave empty for no tagline.">
 							<p class="control">
-								<input class="input" type="text" name="pool_tagline" value="{{ old('pool_tagline', Setting::get('pool_tagline', 'Reliable mining pool')) }}" required>
+								<input class="input" type="text" name="pool_tagline" value="{{ old('pool_tagline', Setting::get('pool_tagline', 'Reliable mining pool')) }}">
 							</p>
 
 							@if ($errors->has('pool_tagline'))
@@ -182,13 +242,13 @@
 
 				<div class="field is-horizontal">
 					<div class="field-label">
-						<label class="label">Pool tooltip</label>
+						<label class="label">Tagline tooltip</label>
 					</div>
 
 					<div class="field-body">
-						<div class="field tooltip is-tooltip-multiline" data-tooltip="Tooltip when users hover over the tagline. Shows additional info, for example location or server settings.">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="Tooltip when users hover over the tagline. Shows additional info, for example location or server settings. Leave empty for no tooltip.">
 							<p class="control">
-								<input class="input" type="text" name="pool_tooltip" value="{{ old('pool_tooltip', Setting::get('pool_tooltip', '1Gbit/s connection')) }}" required>
+								<input class="input" type="text" name="pool_tooltip" value="{{ old('pool_tooltip', Setting::get('pool_tooltip', '1Gbit/s connection')) }}">
 							</p>
 
 							@if ($errors->has('pool_tooltip'))
@@ -335,6 +395,53 @@
 								<p class="help is-danger">
 									{{ $errors->first('pool_news_html') }}
 								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<p>Reference miner settings.</p>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
+						<label class="label">Miner address</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip is-tooltip-multiline" data-tooltip="If you know a reference miner connected to this pool and it's hashrate, enter the details here. Reference miner must be registerd and active to be used. This setting will be used to augment every other pool miner's hashrate to correct levels whenever necessary.">
+							<p class="control">
+								<input class="input" type="text" name="reference_miner_address" maxlength="32" value="{{ old('reference_miner_address', Setting::get('reference_miner_address')) }}">
+							</p>
+
+							@if ($errors->has('reference_miner_address'))
+								<p class="help is-danger">
+									{{ $errors->first('reference_miner_address') }}
+								</p>
+							@endif
+						</div>
+					</div>
+				</div>
+
+				<div class="field is-horizontal">
+					<div class="field-label">
+						<label class="label">Miner hashrate (Gh/s)</label>
+					</div>
+
+					<div class="field-body">
+						<div class="field tooltip" data-tooltip="Enter referene miner's hashrate in Gh/s.">
+							<p class="control">
+								<input class="input" type="number" min="0.00" step="0.01" name="reference_miner_hashrate" value="{{ old('reference_miner_hashrate', Setting::get('reference_miner_hashrate')) }}">
+							</p>
+
+							@if ($errors->has('reference_miner_hashrate'))
+								<p class="help is-danger">
+									{{ $errors->first('reference_miner_hashrate') }}
+								</p>
+							@endif
+							@if ($coefficient)
+								<p class="help">Currently used coefficient: {{ $coefficient }}</p>
 							@endif
 						</div>
 					</div>

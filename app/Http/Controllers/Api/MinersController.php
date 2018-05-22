@@ -29,7 +29,7 @@ class MinersController extends Controller
 			$result[$miner->uuid] = [
 				'status' => $miner->status,
 				'ip_and_port' => $miner->ip_and_port,
-				'hashrate' => $this->format->hashrate($miner->hashrate),
+				'average_hashrate' => $this->format->hashrate($miner->average_hashrate),
 				'unpaid_shares' => $miner->unpaid_shares,
 				'balance' => $this->format->balance($miner->balance),
 				'balance_exact' => $this->format->fullBalance($miner->balance),

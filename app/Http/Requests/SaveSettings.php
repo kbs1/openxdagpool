@@ -31,9 +31,9 @@ class SaveSettings extends FormRequest
 			'direct_percent' => 'required|numeric|min:0|max:100',
 			'fund_percent' => 'required|numeric|min:0|max:100',
 
+			'pool_created_at' => 'required|date',
 			'pool_name' => 'required',
-			'pool_tagline' => 'required',
-			'pool_tooltip' => 'required',
+			'header_background_color' => 'required|regex:/^#[a-f0-9]{6}$/siu',
 
 			'pool_domain' => 'required',
 			'pool_port' => 'required|numeric|min:1|max:65535',
@@ -41,6 +41,9 @@ class SaveSettings extends FormRequest
 
 			'contact_email' => 'required|email',
 			'important_message_until' => 'nullable|date',
+
+			'reference_miner_address' => 'nullable|regex:/^[a-z0-9\/+]{32}$/siu|not_in:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+			'reference_miner_hashrate' => 'nullable|numeric|min:0',
 		];
 	}
 }

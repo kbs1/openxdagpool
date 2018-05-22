@@ -4,9 +4,19 @@ namespace App\Pool;
 
 class DataReader
 {
+	public function getState()
+	{
+		return @fopen($this->getPath('STATE'), 'r');
+	}
+
 	public function getStatistics()
 	{
 		return @fopen($this->getPath('STATS'), 'r');
+	}
+
+	public function getBlocks()
+	{
+		return @fopen($this->getPath('BLOCKS'), 'r');
 	}
 
 	public function getMiners()

@@ -44,21 +44,39 @@ class Miner extends Model
 	}
 
 	/* methods */
-	public function getEstimatedHashrate(PoolStat $when = null)
+	public function getAverageHashrate(PoolStat $when = null)
 	{
 		$when = $when ?? PoolStat::orderBy('id', 'desc')->first();
 
 		if (!$when)
-			return $miner->hashrate;
+			return $this->hashrate;
+
+		$from = clone $when->created_at;
+		$to = clone $when->created_at;
+
+		$from->subHours(4);
+
+		return (float) MinerStat::selectRaw('avg(hashrate) hashrate')->where('miner_id', $this->id)->where('created_at', '>=', $from)->where('created_at', '<=', $to)->pluck('hashrate')->first();
+	}
+
+	public function getEstimatedHashrate(PoolStat $when = null, $augment = true)
+	{
+		$when = $when ?? PoolStat::orderBy('id', 'desc')->first();
+
+		if (!$when)
+			return $this->hashrate;
+
+		$reference = new ReferenceHashrate();
+		$coefficient = $augment ? $reference->getCoefficient() : 1;
 
 		$algo = env('HASHRATE_ALGORITHM', 'realtime');
 
 		if ($algo == 'averaging2')
-			return $this->getAveragingHashrate_2($when);
+			return $this->getAveragingHashrate_2($when) * $coefficient;
 		else if ($algo == 'averaging1')
-			return $this->getAveragingHashrate_1($when);
+			return $this->getAveragingHashrate_1($when) * $coefficient;
 
-		return $this->getRealtimeHashrate($when);
+		return $this->getRealtimeHashrate($when) * $coefficient;
 	}
 
 	// produces results that jump up and down with pool hashrate estimation from the daemon, but usually low hashrate (40% of miner speed or so... based on luck factor)
@@ -146,7 +164,6 @@ class Miner extends Model
 		if (is_nan($proportion) || is_infinite($proportion))
 			return $this->hashrate;
 
-		// change this avg to MAX, helps when extremely powerful miner is connected
 		$pool_hashrate = (float) PoolStat::selectRaw('avg(pool_hashrate) value')->where('created_at', '>=', $from)->where('created_at', '<=', $to)->where('pool_hashrate', '>', 0)->pluck('value')->first();
 
 		return $proportion * $pool_hashrate;
@@ -184,6 +201,6 @@ class Miner extends Model
 
 	public function getLatestHashrate()
 	{
-		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:00") date')->where('created_at', '>=', Carbon::now()->subDays(3))->where('miner_id', $this->id)->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
+		return MinerStat::selectRaw('avg(hashrate) hashrate, DATE_FORMAT(created_at, "%Y-%m-%d %H:00") date')->where('miner_id', $this->id)->where('created_at', '>=', Carbon::now()->subDays(3))->groupBy('date')->orderBy('date')->get();
 	}
 }

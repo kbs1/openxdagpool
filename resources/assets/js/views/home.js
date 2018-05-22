@@ -71,6 +71,16 @@
 				var prefix = $(this).data('stat-prefix') ? $(this).data('stat-prefix') : '';
 				$(this).addClass('tooltip').attr('data-tooltip', prefix + (json[$(this).data('stat')] !== null ? json[$(this).data('stat')] : '?'));
 			});
+
+			if (json.is_administrator) {
+				if (!json.pool_state_normal) {
+					$('.home-view #adminPoolStateAlert #poolVersion').text(json.pool_version);
+					$('.home-view #adminPoolStateAlert #poolState').text(json.pool_state);
+					$('.home-view #adminPoolStateAlert').show();
+				} else {
+					$('.home-view #adminPoolStateAlert').hide();
+				}
+			}
 		});
 	}
 
@@ -84,7 +94,7 @@
 		if (this.loading)
 			return false;
 
-		$('.home-view #balanceCheckForm button').addClass('is-loading');
+		$('.home-view #balanceCheckForm button').addClass('is-loading').removeClass('is-tooltip-multiline');
 		this.loading = true;
 
 		var request = {
@@ -102,7 +112,7 @@
 		var self = this;
 
 		this.ajax(request, function(error, response, body) {
-			$('.home-view #balanceCheckForm button').removeClass('is-loading');
+			$('.home-view #balanceCheckForm button').removeClass('is-loading').addClass('is-tooltip-multiline');
 			self.loading = false;
 
 			if (error)
@@ -133,8 +143,15 @@
 			}
 
 
-			$(parent).removeClass('is-success').removeClass('is-warning').addClass(status ? 'is-success' : 'is-warning').show();
+			$(parent).removeClass('is-success').removeClass('is-warning').removeClass('is-danger').addClass(status ? 'is-success' : 'is-warning').show();
 			$('span', parent).text(message);
+
+			if (status) {
+				$('p', parent).show();
+				$('p a', parent).attr('href', '/payouts-graph?' + $('.home-view #balanceCheckForm').serialize());
+			} else {
+				$('p', parent).hide();
+			}
 		});
 
 		return false;

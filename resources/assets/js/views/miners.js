@@ -76,7 +76,7 @@
 				$('.api', tr).removeClass('is-loading');
 
 				$('.miner-status', tr).text(miner.status);
-				$('.miner-hashrate', tr).text(miner.hashrate);
+				$('.miner-average-hashrate', tr).text(miner.average_hashrate);
 				$('.miner-unpaid-shares', tr).text(miner.unpaid_shares);
 				$('.miner-balance', tr).text(miner.balance).addClass('tooltip').attr('data-tooltip', 'Exact balance: ' + miner.balance_exact + ', Earned: ' + miner.earned_exact);
 

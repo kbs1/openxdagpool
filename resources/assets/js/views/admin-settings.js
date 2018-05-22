@@ -17,7 +17,7 @@
 
 	View.prototype.initDatePickers = function()
 	{
-		$('#important_message_until').datepicker({
+		$('#important_message_until, #pool_created_at').datepicker({
 			dateFormat: 'yy-mm-dd'
 		});
 	}
