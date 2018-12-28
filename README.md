@@ -1,3 +1,6 @@
+# Deprecated
+Please use [XDagger/openxdagpool](https://github.com/XDagger/openxdagpool), development continues there.
+
 # OpenXDAGPool
 This software allows you to easily open a Dagger (XDAG) pool with a nice, comfortable UI available to your users.
 
